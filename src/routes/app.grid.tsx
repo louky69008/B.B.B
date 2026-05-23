@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 import { useSubscription } from "@/hooks/use-subscription";
-import { SlidersHorizontal, Star, Droplet, Heart, MessageSquare, User, Crown } from "lucide-react";
+import { SlidersHorizontal, Star, Droplet, Heart, MessageSquare, User, Crown, X } from "lucide-react";
 
 export const Route = createFileRoute("/app/grid")({ component: Grid });
 
@@ -21,8 +23,17 @@ function isOnline(p: Profile) {
 }
 
 function Grid() {
+  const { user } = useAuth();
   const { config } = useSubscription();
   const limit = config.profileLimit === -1 ? 600 : config.profileLimit;
+
+  const [onlineOnly, setOnlineOnly] = useState(false);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [showAgeSheet, setShowAgeSheet] = useState(false);
+  const [showFiltersSheet, setShowFiltersSheet] = useState(false);
+  const [ageMin, setAgeMin] = useState(18);
+  const [ageMax, setAgeMax] = useState(75);
+  const [ageActive, setAgeActive] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["profiles-grid", limit],
@@ -38,6 +49,30 @@ function Grid() {
     refetchInterval: 30_000,
   });
 
+  // Favorites = mutual matches OR profiles I liked
+  const { data: likedIds } = useQuery({
+    queryKey: ["my-likes", user?.id],
+    enabled: !!user?.id,
+    queryFn: async () => {
+      const { data } = await supabase.from("likes").select("liked_id").eq("liker_id", user!.id);
+      return new Set((data ?? []).map((r) => r.liked_id as string));
+    },
+  });
+
+  const filtered = useMemo(() => {
+    if (!data) return [];
+    return data.filter((p) => {
+      if (onlineOnly && !isOnline(p)) return false;
+      if (favoritesOnly && !likedIds?.has(p.id)) return false;
+      if (ageActive && p.age != null && (p.age < ageMin || p.age > ageMax)) return false;
+      return true;
+    });
+  }, [data, onlineOnly, favoritesOnly, ageActive, ageMin, ageMax, likedIds]);
+
+  const pillBase = "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border";
+  const pillOff = "bg-neutral-900 text-white border-neutral-700";
+  const pillOn = "bg-yellow-400 text-black border-yellow-400";
+
   return (
     <main className="min-h-screen w-full flex justify-center bg-black">
       <div className="relative w-full max-w-[420px] min-h-screen bg-black pb-20">
@@ -48,26 +83,40 @@ function Grid() {
 
         {/* Filters */}
         <div className="flex gap-2 px-3 py-3 overflow-x-auto no-scrollbar">
-          <button className="shrink-0 flex items-center rounded-full p-1.5 border bg-neutral-900 text-white border-neutral-700">
+          <button
+            onClick={() => setShowFiltersSheet(true)}
+            className={`shrink-0 flex items-center rounded-full p-1.5 border ${pillOff}`}
+            aria-label="Filtres avancés"
+          >
             <SlidersHorizontal className="w-3.5 h-3.5" />
           </button>
-          <button className="shrink-0 flex items-center rounded-full p-1.5 border bg-neutral-900 text-white border-neutral-700">
+          <button
+            onClick={() => setFavoritesOnly((v) => !v)}
+            className={`shrink-0 flex items-center rounded-full p-1.5 border ${favoritesOnly ? pillOn : pillOff}`}
+            aria-label="Favoris"
+          >
             <Star className="w-3.5 h-3.5" />
           </button>
-          <button className="shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border bg-white text-black border-white">
+          <button
+            onClick={() => setOnlineOnly((v) => !v)}
+            className={`${pillBase} ${onlineOnly ? pillOn : "bg-white text-black border-white"}`}
+          >
             En ligne
           </button>
-          <button className="shrink-0 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-medium border bg-neutral-900 text-white border-neutral-700">
+          <button className={`${pillBase} flex items-center gap-1.5 ${pillOff}`}>
             <Droplet className="w-3.5 h-3.5" /> Right Now
           </button>
-          <button className="shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border bg-neutral-900 text-white border-neutral-700">
-            Âge
+          <button
+            onClick={() => setShowAgeSheet(true)}
+            className={`${pillBase} ${ageActive ? pillOn : pillOff}`}
+          >
+            {ageActive ? `Âge ${ageMin}-${ageMax}` : "Âge"}
           </button>
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-3 gap-px bg-black">
-          {data?.map((p) => {
+          {filtered.map((p) => {
             const online = isOnline(p);
             return (
               <Link key={p.id} to="/app/profile/$id" params={{ id: p.id }}
@@ -89,6 +138,12 @@ function Grid() {
           })}
         </div>
 
+        {filtered.length === 0 && data && (
+          <p className="text-center text-neutral-500 text-sm mt-8 px-6">
+            Aucun profil ne correspond à ces filtres.
+          </p>
+        )}
+
         {/* Limit reached banner */}
         {config.profileLimit !== -1 && data && data.length >= config.profileLimit && (
           <div className="mt-3 mx-3 rounded-2xl border border-yellow-400/40 bg-yellow-400/10 p-4 text-center">
@@ -97,6 +152,61 @@ function Grid() {
             <Link to="/app/subscribe" className="inline-block mt-3 px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold">
               Voir les offres
             </Link>
+          </div>
+        )}
+
+        {/* Age bottom sheet */}
+        {showAgeSheet && (
+          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/70" onClick={() => setShowAgeSheet(false)}>
+            <div className="w-full max-w-[420px] bg-neutral-950 border-t border-neutral-800 rounded-t-3xl p-5 space-y-4" onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-between items-center">
+                <h3 className="text-white font-semibold">Âge</h3>
+                <button onClick={() => setShowAgeSheet(false)}><X className="w-5 h-5 text-neutral-400" /></button>
+              </div>
+              <div className="flex gap-3">
+                <label className="flex-1 text-xs text-neutral-400">
+                  Min: <span className="text-white font-semibold">{ageMin}</span>
+                  <input type="range" min={18} max={99} value={ageMin}
+                    onChange={(e) => setAgeMin(Math.min(+e.target.value, ageMax))}
+                    className="w-full accent-yellow-400" />
+                </label>
+                <label className="flex-1 text-xs text-neutral-400">
+                  Max: <span className="text-white font-semibold">{ageMax}</span>
+                  <input type="range" min={18} max={99} value={ageMax}
+                    onChange={(e) => setAgeMax(Math.max(+e.target.value, ageMin))}
+                    className="w-full accent-yellow-400" />
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => { setAgeActive(false); setShowAgeSheet(false); }}
+                  className="flex-1 py-2.5 rounded-full border border-neutral-700 text-white text-sm">
+                  Réinitialiser
+                </button>
+                <button onClick={() => { setAgeActive(true); setShowAgeSheet(false); }}
+                  className="flex-1 py-2.5 rounded-full bg-yellow-400 text-black text-sm font-semibold">
+                  Appliquer
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Advanced filters placeholder sheet */}
+        {showFiltersSheet && (
+          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/70" onClick={() => setShowFiltersSheet(false)}>
+            <div className="w-full max-w-[420px] bg-neutral-950 border-t border-neutral-800 rounded-t-3xl p-5 space-y-4" onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-between items-center">
+                <h3 className="text-white font-semibold">Filtres</h3>
+                <button onClick={() => setShowFiltersSheet(false)}><X className="w-5 h-5 text-neutral-400" /></button>
+              </div>
+              <p className="text-sm text-neutral-400">
+                Filtres avancés (identité de genre, ville, distance, mots-clés…) — à préciser avec toi avant implémentation.
+              </p>
+              <Link to="/app/subscribe" onClick={() => setShowFiltersSheet(false)}
+                className="block text-center py-2.5 rounded-full bg-yellow-400 text-black text-sm font-semibold">
+                Débloquer tous les filtres (Premium)
+              </Link>
+            </div>
           </div>
         )}
 
