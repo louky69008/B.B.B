@@ -15,7 +15,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("age, city, photo_url, gender_identity")
+        .select("age, city, gender_identity, terms_accepted_at")
         .eq("id", user!.id)
         .maybeSingle();
       return data;
@@ -33,8 +33,8 @@ export function RequireAuth({ children }: { children: ReactNode }) {
       !profile ||
       !profile.age ||
       !profile.city ||
-      !profile.photo_url ||
-      !profile.gender_identity;
+      !profile.gender_identity ||
+      !profile.terms_accepted_at;
     if (incomplete && pathname !== "/app/onboarding") {
       navigate({ to: "/app/onboarding" });
     }
