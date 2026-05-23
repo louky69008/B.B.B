@@ -75,7 +75,10 @@ const HOTSPOTS: Hotspot[] = [
 
 function Landing() {
   const [open, setOpen] = useState<HotspotKey | null>(null);
+  const { user } = useAuth();
+  const authedTarget = "/app/grid" as const;
   const active = HOTSPOTS.find((h) => h.key === open) ?? null;
+
 
   return (
     <main
