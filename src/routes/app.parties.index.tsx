@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { BottomNav } from "@/components/bottom-nav";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import { useState } from "react";
 import { ArrowLeft, Plus, MapPin, Users, Calendar, Euro } from "lucide-react";
 
 export const Route = createFileRoute("/app/parties/")({ component: PartiesList });
@@ -19,6 +21,9 @@ type Party = {
 };
 
 function PartiesList() {
+  const { user } = useAuth();
+  const [tab, setTab] = useState<"search" | "host">("search");
+
   const { data } = useQuery({
     queryKey: ["parties"],
     queryFn: async () => {
@@ -31,6 +36,9 @@ function PartiesList() {
       return data as Party[];
     },
   });
+
+  const hostParties = data?.filter((p) => p.host_id === user?.id) ?? [];
+  const list = tab === "host" ? hostParties : (data ?? []);
 
   return (
     <main className="min-h-screen bg-black text-white flex justify-center">
@@ -50,14 +58,51 @@ function PartiesList() {
           </div>
         </div>
 
+        <div className="px-4 pt-4">
+          <div className="grid grid-cols-2 gap-1 p-1 rounded-full bg-neutral-900 border border-neutral-800">
+            <button
+              onClick={() => setTab("search")}
+              className={`h-9 rounded-full text-sm font-semibold transition ${
+                tab === "search" ? "bg-yellow-400 text-black" : "text-neutral-400"
+              }`}
+            >
+              🔍 Je cherche
+            </button>
+            <button
+              onClick={() => setTab("host")}
+              className={`h-9 rounded-full text-sm font-semibold transition ${
+                tab === "host" ? "bg-yellow-400 text-black" : "text-neutral-400"
+              }`}
+            >
+              🏠 Je suis hôte
+            </button>
+          </div>
+          <p className="text-[11px] text-neutral-500 mt-2 px-1">
+            {tab === "search"
+              ? "Toutes les soirées appart' à venir. Les hôtes peuvent aussi venir papoter ici."
+              : "Les soirées appart' que tu organises."}
+          </p>
+        </div>
+
         <div className="p-4 space-y-3">
-          {data?.length === 0 && (
+          {list.length === 0 && (
             <div className="text-center text-neutral-500 mt-12">
-              <p>Aucune soirée appart' à venir.</p>
-              <p className="text-sm mt-2">Sois le premier à en organiser une !</p>
+              {tab === "host" ? (
+                <>
+                  <p>Tu n'organises aucune soirée appart'.</p>
+                  <Link to="/app/parties/new" className="inline-block mt-3 px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold">
+                    Organiser ma soirée
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <p>Aucune soirée appart' à venir.</p>
+                  <p className="text-sm mt-2">Sois le premier à en organiser une !</p>
+                </>
+              )}
             </div>
           )}
-          {data?.map((p) => (
+          {list.map((p) => (
             <Link key={p.id} to="/app/parties/$id" params={{ id: p.id }}
               className="block rounded-2xl border border-neutral-800 bg-neutral-900/60 p-4">
               <div className="flex items-start justify-between gap-3">
@@ -70,16 +115,20 @@ function PartiesList() {
                   {p.status === "open" ? "Ouvert" : p.status === "full" ? "Complet" : "Terminé"}
                 </span>
               </div>
+              <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-yellow-400/15 border border-yellow-400/30 px-2.5 py-1 text-xs font-semibold text-yellow-200">
+                <Calendar className="size-3.5" />
+                {new Date(p.starts_at).toLocaleString("fr-FR", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+              </div>
               <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-neutral-400">
-                <span className="flex items-center gap-1"><Calendar className="size-3" />
-                  {new Date(p.starts_at).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}
-                </span>
                 <span className="flex items-center gap-1"><MapPin className="size-3" />{p.city}</span>
                 <span className="flex items-center gap-1"><Users className="size-3" />{p.max_participants} max</span>
                 {p.is_paid && p.price_cents && (
                   <span className="flex items-center gap-1 text-yellow-400">
                     <Euro className="size-3" />{(p.price_cents / 100).toFixed(2)}
                   </span>
+                )}
+                {p.host_id === user?.id && (
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300">Hôte</span>
                 )}
               </div>
             </Link>
