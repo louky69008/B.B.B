@@ -54,48 +54,95 @@ function Landing() {
           />
         ))}
 
+        {/* Graffitis décor qui dépassent */}
+        <span
+          className="spray-tag absolute select-none pointer-events-none hidden md:block"
+          style={{ top: "10%", left: "3%", fontSize: 56, transform: "rotate(-14deg)", lineHeight: 0.9 }}
+        >
+          FUCK<br/>NORMAL
+        </span>
+        <span
+          className="spray-tag absolute select-none pointer-events-none hidden md:block"
+          style={{ bottom: "10%", right: "3%", fontSize: 50, transform: "rotate(8deg)", color: "var(--neon-cyan)", lineHeight: 0.9 }}
+        >
+          NO<br/>RULES
+        </span>
+        <span
+          className="absolute font-display font-black uppercase select-none pointer-events-none hidden lg:block"
+          style={{
+            top: "20%", right: "6%", fontSize: 140, transform: "rotate(-90deg)",
+            color: "transparent", WebkitTextStroke: "1px rgba(0,240,255,0.25)", letterSpacing: "0.1em",
+          }}
+        >
+          24/7
+        </span>
+
+        {/* Tape graffiti */}
+        <div className="tape hidden md:block" style={{ top: 28, left: "12%", transform: "rotate(-8deg)" }}>
+          ░ live.feed :: 2026 ░
+        </div>
+        <div className="tape hidden md:block" style={{ bottom: 36, left: "8%", transform: "rotate(4deg)", background: "rgba(255,45,146,0.2)", borderColor: "rgba(255,45,146,0.6)", color: "var(--neon-magenta)" }}>
+          ▌ no algorithm ▐
+        </div>
+
         <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
           <span className="neon-tag mx-auto">{t("no_shareholders")}</span>
 
-          {/* cercle néon avec logo */}
+          {/* cercle néon CLIGNOTANT + glitch sur le logo */}
           <div className="mx-auto mt-12 mb-10 flex items-center justify-center">
             <div
-              className="relative flex items-center justify-center rounded-full"
-              style={{
-                width: 320, height: 320,
-                border: "2px solid var(--neon-magenta)",
-                boxShadow: "0 0 60px rgba(255,0,160,0.6), inset 0 0 60px rgba(255,0,160,0.2)",
-              }}
+              className="neon-frame relative flex items-center justify-center rounded-full"
+              style={{ width: 340, height: 340 }}
             >
               <div
                 className="absolute inset-6 rounded-full"
-                style={{ border: "1px solid var(--neon-cyan)", boxShadow: "0 0 30px rgba(0,229,255,0.4)" }}
+                style={{ border: "1px dashed rgba(0,240,255,0.5)", boxShadow: "0 0 30px rgba(0,240,255,0.4)" }}
               />
-              <h1 className="font-display text-5xl font-black uppercase tracking-[0.05em] neon-glow-magenta text-[color:var(--neon-magenta)]">
+              <span className="sticker absolute -top-4 -right-6 z-20">★ 18+ only</span>
+              <span className="sticker sticker-cyan absolute -bottom-3 -left-8 z-20" style={{ transform: "rotate(6deg)" }}>queer · trans · allies</span>
+
+              <h1
+                className="font-display text-6xl font-black uppercase tracking-[0.02em] glitch"
+                data-text={t("app_name")}
+              >
                 {t("app_name")}
               </h1>
             </div>
           </div>
 
-          <p className="font-display text-lg uppercase tracking-[0.3em] text-[color:var(--neon-lime)] neon-glow-lime">
+          <p className="font-display text-xl uppercase tracking-[0.3em] text-[color:var(--neon-lime)] neon-glow-lime flicker">
             Connect. Match. Dance.
           </p>
 
-          <p className="mx-auto mt-8 max-w-md font-mono text-sm leading-relaxed text-[#A0A0A0]">
+          <p className="mx-auto mt-8 max-w-md font-mono text-sm leading-relaxed text-[#cfc8e8]">
             {t("landing_sub")}
           </p>
 
-          <div className="mt-12 flex justify-center">
-            <Link to="/auth" className="neon-btn">
-              → Enter the club
+          {/* CTA tag spray rotaté qui dépasse */}
+          <div className="relative mt-14 flex justify-center">
+            <span
+              className="spray-tag absolute select-none pointer-events-none"
+              style={{ top: -34, left: "50%", transform: "translateX(-50%) rotate(-6deg)", fontSize: 24, color: "var(--neon-lime)" }}
+            >
+              ↓ entrée libre ↓
+            </span>
+            <Link to="/auth" className="neon-btn" style={{ transform: "rotate(-2deg)" }}>
+              → Enter the club ←
             </Link>
+            <span
+              className="absolute font-display select-none pointer-events-none"
+              style={{ bottom: -34, right: "20%", fontSize: 13, color: "var(--neon-cyan)", transform: "rotate(4deg)", letterSpacing: "0.2em" }}
+            >
+              ▒ no_algorithm.exe ▒
+            </span>
           </div>
 
-          <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.3em] text-[#666]">
+          <p className="mt-14 font-mono text-[10px] uppercase tracking-[0.3em] text-[#666]">
             {t("tagline")}
           </p>
         </div>
       </section>
+
 
       {/* STATS strip brutalist */}
       <section className="border-y border-white/10 bg-black/40">
