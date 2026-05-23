@@ -15,12 +15,24 @@ function NewParty() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
+  const [practices, setPractices] = useState<string[]>([]);
+  const [fullChill, setFullChill] = useState(false);
   const [f, setF] = useState({
     title: "", description: "", address: "", access_code: "", floor: "",
     city: "", starts_at: "", max_participants: "10",
     is_paid: false, price: "", rules: "", warnings: "",
   });
   const set = (k: keyof typeof f, v: any) => setF((p) => ({ ...p, [k]: v }));
+
+  const PRACTICE_OPTIONS = [
+    "Safe", "Capote", "BBK", "Sous PrEP", "TasP/U=U",
+    "Suce", "Branle", "Actif", "Passif", "Versa",
+    "Kiss", "Massage", "Naked party", "Sling", "Group",
+    "Poppers OK", "Sans poppers", "Sans chems",
+  ];
+
+  const togglePractice = (p: string) =>
+    setPractices((cur) => (cur.includes(p) ? cur.filter((x) => x !== p) : [...cur, p]));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +52,8 @@ function NewParty() {
       price_cents: f.is_paid && f.price ? Math.round(Number(f.price) * 100) : null,
       rules: f.rules.trim(),
       warnings: f.warnings.trim(),
+      practices: fullChill ? [] : practices,
+      full_chill_out: fullChill,
     }).select("id").single();
     setBusy(false);
     if (error) { toast.error(error.message); return; }
