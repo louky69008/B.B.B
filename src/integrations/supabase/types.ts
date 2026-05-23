@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      banned_devices: {
+        Row: {
+          created_at: string
+          device_fingerprint: string
+          id: string
+          reason: string | null
+          related_user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          device_fingerprint: string
+          id?: string
+          reason?: string | null
+          related_user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          device_fingerprint?: string
+          id?: string
+          reason?: string | null
+          related_user_id?: string | null
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -408,6 +432,98 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reports: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          reporter_id: string
+          resolution_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          target_id: string | null
+          target_kind: string
+          target_user_id: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          reporter_id: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          target_id?: string | null
+          target_kind: string
+          target_user_id?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          reporter_id?: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          target_id?: string | null
+          target_kind?: string
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
+      sanctions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          issued_by: string | null
+          kind: string
+          lifted_at: string | null
+          reason: string
+          related_report_id: string | null
+          starts_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          issued_by?: string | null
+          kind: string
+          lifted_at?: string | null
+          reason?: string
+          related_report_id?: string | null
+          starts_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          issued_by?: string | null
+          kind?: string
+          lifted_at?: string | null
+          reason?: string
+          related_report_id?: string | null
+          starts_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sanctions_related_report_id_fkey"
+            columns: ["related_report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscriptions: {
         Row: {
