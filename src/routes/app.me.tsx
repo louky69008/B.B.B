@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { ArrowLeft, X, Crown, LogOut } from "lucide-react";
 import { PhotoUpload } from "@/components/photo-upload";
+import { DeleteAccountButton } from "@/components/delete-account-button";
 
 export const Route = createFileRoute("/app/me")({ component: Me });
 
@@ -204,6 +205,15 @@ function Me() {
           <button onClick={save} className="w-full h-12 rounded-full bg-yellow-400 text-black font-bold">
             Enregistrer
           </button>
+
+          <div className="pt-6 mt-4 border-t border-neutral-800">
+            <h2 className="text-xs uppercase tracking-wider text-neutral-500 mb-2">Zone sensible</h2>
+            <p className="text-xs text-neutral-400 mb-3">
+              La suppression efface immédiatement et définitivement ton compte, ton profil, tes photos,
+              tes conversations et tes likes. Aucune récupération possible.
+            </p>
+            <DeleteAccountButton />
+          </div>
         </div>
       </div>
     <BottomNav />
