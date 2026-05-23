@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
-import { Heart } from "lucide-react";
+
 
 export const Route = createFileRoute("/app/grid")({ component: Grid });
 
@@ -44,40 +44,62 @@ function Grid() {
   });
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6">
-      <h1 className="mb-4 text-2xl font-bold">{t("nav_grid")}</h1>
-      {isLoading && <p className="text-muted-foreground">…</p>}
-      <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6">
+    <main className="mx-auto max-w-6xl px-6 py-10">
+      <div className="mb-10">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[color:var(--neon-cyan)]">
+          // grid.live
+        </span>
+        <h1 className="font-display mt-3 text-4xl font-black uppercase tracking-tight">{t("nav_grid")}</h1>
+      </div>
+      {isLoading && <p className="font-mono text-xs uppercase tracking-widest text-[#666]">// loading...</p>}
+      <div className="grid grid-cols-2 gap-px bg-white/10 md:grid-cols-4 lg:grid-cols-5">
         {data?.map((p) => {
           const s = statusOf(p, t);
+          const badges = ["DJ", "Voguer", "Latex", "Kink", "Bear", "Twink"];
+          const badge = badges[p.id.charCodeAt(0) % badges.length];
           return (
             <Link
               key={p.id}
               to="/app/profile/$id"
               params={{ id: p.id }}
-              className="group relative aspect-square overflow-hidden rounded-xl border border-border bg-card transition-transform hover:scale-[1.02]"
+              className="group relative aspect-square overflow-hidden bg-black"
             >
               {p.photo_url ? (
-                <img src={p.photo_url} alt={p.pseudo} className="size-full object-cover" />
+                <img src={p.photo_url} alt={p.pseudo} className="photo-bw size-full object-cover" />
               ) : (
-                <div className="flex size-full items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20">
-                  <Heart className="size-8 text-primary/60" fill="currentColor" />
+                <div className="flex size-full items-center justify-center bg-gradient-to-br from-[color:var(--neon-magenta)]/20 to-[color:var(--neon-cyan)]/20">
+                  <span className="font-display text-3xl text-[color:var(--neon-magenta)] neon-glow-magenta">
+                    {p.pseudo[0]?.toUpperCase()}
+                  </span>
                 </div>
               )}
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-                <div className="flex items-center gap-1.5">
-                  <span className={`size-2 rounded-full ${s.dot}`} />
-                  <span className="truncate text-xs font-medium text-white">{p.pseudo}</span>
-                </div>
-                {p.age && <p className="text-[10px] text-white/70">{p.age} ans{p.city ? ` · ${p.city}` : ""}</p>}
+              {/* pseudo top-left mono */}
+              <div className="absolute left-2 top-2 flex items-center gap-1.5">
+                <span className={`size-1.5 rounded-full ${s.dot} ${s.label === t("online") ? "pulse-dot" : ""}`} />
+                <span className="font-mono text-[10px] uppercase tracking-wider text-white">{p.pseudo}</span>
               </div>
+              {/* badge */}
+              <span className="absolute right-2 top-2 border border-[color:var(--neon-lime)] bg-black/60 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-[color:var(--neon-lime)]">
+                {badge}
+              </span>
+              {/* age bottom-right cyan */}
+              {p.age && (
+                <span className="absolute bottom-2 right-2 font-mono text-[10px] font-bold text-[color:var(--neon-cyan)] neon-glow-cyan">
+                  {p.age}
+                </span>
+              )}
+              {/* hover scan line */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--neon-magenta)]/30 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             </Link>
           );
         })}
       </div>
       {data && data.length === 0 && (
-        <p className="mt-12 text-center text-muted-foreground">Aucun profil pour l'instant. Sois le premier !</p>
+        <p className="mt-16 text-center font-mono text-xs uppercase tracking-[0.2em] text-[#666]">
+          // no_signal :: be the first
+        </p>
       )}
     </main>
   );
 }
+
