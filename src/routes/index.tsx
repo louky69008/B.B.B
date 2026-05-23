@@ -8,172 +8,109 @@ function Landing() {
 
   return (
     <main className="relative overflow-hidden">
-      {/* halos globaux derrière toute la page */}
+      {/* fond profond + halos doux */}
       <div
         className="pointer-events-none fixed inset-0 -z-20"
         style={{
           background:
-            "radial-gradient(900px 600px at 80% 10%, rgba(255,45,146,0.35), transparent 60%), radial-gradient(800px 500px at 10% 30%, rgba(0,240,255,0.25), transparent 60%), radial-gradient(700px 500px at 50% 90%, rgba(198,255,61,0.12), transparent 60%)",
+            "radial-gradient(900px 600px at 80% 10%, rgba(255,45,146,0.28), transparent 65%), radial-gradient(800px 500px at 10% 30%, rgba(0,240,255,0.22), transparent 65%)",
         }}
       />
-      {/* HERO — cercle néon central, halo cyan, particules */}
-      <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden">
+      {/* perspective floor lines */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10"
+        style={{
+          height: "55vh",
+          background:
+            "linear-gradient(transparent, rgba(0,240,255,0.04)), repeating-linear-gradient(0deg, transparent 0, transparent 60px, rgba(0,240,255,0.08) 60px, rgba(0,240,255,0.08) 61px)",
+          maskImage: "linear-gradient(transparent, black)",
+          transform: "perspective(800px) rotateX(60deg)",
+          transformOrigin: "bottom",
+        }}
+      />
 
-        {/* grille néon */}
-        <div className="neon-grid pointer-events-none absolute inset-0 -z-10 opacity-50" />
+      {/* HERO */}
+      <section className="relative min-h-[92vh] flex items-center justify-center">
+        <div className="relative z-10 mx-auto max-w-2xl px-6 text-center py-20">
 
-        {/* halo magenta central */}
-        <div
-          className="neon-halo -z-10"
-          style={{ width: 600, height: 600, top: "10%", left: "50%", transform: "translateX(-50%)" }}
-        />
-        {/* halo cyan diffus */}
-        <div
-          className="neon-halo -z-10"
-          style={{
-            width: 800, height: 800, top: "5%", left: "50%", transform: "translateX(-50%)",
-            background: "radial-gradient(circle, var(--neon-cyan) 0%, transparent 65%)",
-            opacity: 0.25, filter: "blur(60px)",
-          }}
-        />
-
-        {/* particules stroboscope */}
-        {[...Array(20)].map((_, i) => (
-          <span
-            key={i}
-            className="particle pointer-events-none absolute -z-10 rounded-full"
-            style={{
-              width: 3 + Math.random() * 4,
-              height: 3 + Math.random() * 4,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              background: i % 3 === 0 ? "var(--neon-lime)" : i % 3 === 1 ? "var(--neon-cyan)" : "var(--neon-magenta)",
-              boxShadow: `0 0 8px currentColor`,
-              animationDelay: `${Math.random() * 6}s`,
-            }}
-          />
-        ))}
-
-        {/* Graffitis décor qui dépassent */}
-        <span
-          className="spray-tag absolute select-none pointer-events-none hidden md:block"
-          style={{ top: "10%", left: "3%", fontSize: 56, transform: "rotate(-14deg)", lineHeight: 0.9 }}
-        >
-          FUCK<br/>NORMAL
-        </span>
-        <span
-          className="spray-tag absolute select-none pointer-events-none hidden md:block"
-          style={{ bottom: "10%", right: "3%", fontSize: 50, transform: "rotate(8deg)", color: "var(--neon-cyan)", lineHeight: 0.9 }}
-        >
-          NO<br/>RULES
-        </span>
-        <span
-          className="absolute font-display font-black uppercase select-none pointer-events-none hidden lg:block"
-          style={{
-            top: "20%", right: "6%", fontSize: 140, transform: "rotate(-90deg)",
-            color: "transparent", WebkitTextStroke: "1px rgba(0,240,255,0.25)", letterSpacing: "0.1em",
-          }}
-        >
-          24/7
-        </span>
-
-        {/* Tape graffiti */}
-        <div className="tape hidden md:block" style={{ top: 28, left: "12%", transform: "rotate(-8deg)" }}>
-          ░ live.feed :: 2026 ░
-        </div>
-        <div className="tape hidden md:block" style={{ bottom: 36, left: "8%", transform: "rotate(4deg)", background: "rgba(255,45,146,0.2)", borderColor: "rgba(255,45,146,0.6)", color: "var(--neon-magenta)" }}>
-          ▌ no algorithm ▐
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-          <span className="neon-tag mx-auto">{t("no_shareholders")}</span>
-
-          {/* cercle néon CLIGNOTANT + glitch sur le logo */}
-          <div className="mx-auto mt-12 mb-10 flex items-center justify-center">
+          {/* Cercle néon avec logo */}
+          <div className="mx-auto mb-12 flex items-center justify-center">
             <div
-              className="neon-frame relative flex items-center justify-center rounded-full"
-              style={{ width: 340, height: 340 }}
+              className="relative flex items-center justify-center rounded-full"
+              style={{
+                width: 360, height: 360,
+                border: "2px solid var(--neon-magenta)",
+                boxShadow:
+                  "0 0 40px rgba(255,45,146,0.6), 0 0 80px rgba(255,45,146,0.25), inset 0 0 40px rgba(255,45,146,0.15)",
+              }}
             >
               <div
-                className="absolute inset-6 rounded-full"
-                style={{ border: "1px dashed rgba(0,240,255,0.5)", boxShadow: "0 0 30px rgba(0,240,255,0.4)" }}
+                className="absolute inset-5 rounded-full"
+                style={{
+                  border: "2px solid var(--neon-cyan)",
+                  boxShadow: "0 0 30px rgba(0,240,255,0.5), inset 0 0 20px rgba(0,240,255,0.15)",
+                }}
               />
-              <span className="sticker absolute -top-4 -right-6 z-20">★ 18+ only</span>
-              <span className="sticker sticker-cyan absolute -bottom-3 -left-8 z-20" style={{ transform: "rotate(6deg)" }}>queer · trans · allies</span>
-
               <h1
-                className="font-display text-6xl font-black uppercase tracking-[0.02em] glitch"
-                data-text={t("app_name")}
+                className="font-display text-6xl font-black uppercase tracking-[0.02em] text-[color:var(--neon-magenta)]"
+                style={{
+                  textShadow:
+                    "0 0 8px rgba(255,45,146,0.9), 0 0 24px rgba(255,45,146,0.7), 0 0 48px rgba(255,45,146,0.4)",
+                }}
               >
                 {t("app_name")}
               </h1>
             </div>
           </div>
 
-          <p className="font-display text-xl uppercase tracking-[0.3em] text-[color:var(--neon-lime)] neon-glow-lime flicker">
+          {/* Tagline lime */}
+          <p
+            className="font-display text-2xl uppercase tracking-[0.35em] text-[color:var(--neon-lime)]"
+            style={{ textShadow: "0 0 16px rgba(198,255,61,0.7), 0 0 32px rgba(198,255,61,0.3)" }}
+          >
             Connect. Match. Dance.
           </p>
 
-          <p className="mx-auto mt-8 max-w-md font-mono text-sm leading-relaxed text-[#cfc8e8]">
+          {/* Sous-titre */}
+          <p className="mx-auto mt-10 max-w-md font-mono text-sm leading-relaxed text-[#cfc8e8]">
             {t("landing_sub")}
           </p>
 
-          {/* CTA tag spray rotaté qui dépasse */}
-          <div className="relative mt-14 flex justify-center">
-            <span
-              className="spray-tag absolute select-none pointer-events-none"
-              style={{ top: -34, left: "50%", transform: "translateX(-50%) rotate(-6deg)", fontSize: 24, color: "var(--neon-lime)" }}
+          {/* CTA outline néon */}
+          <div className="mt-12 flex justify-center">
+            <Link
+              to="/auth"
+              className="font-display inline-flex items-center gap-3 px-10 py-4 text-sm font-bold uppercase tracking-[0.25em] text-[color:var(--neon-cyan)] transition-all"
+              style={{
+                border: "2px solid var(--neon-magenta)",
+                boxShadow:
+                  "0 0 20px rgba(255,45,146,0.6), inset 0 0 20px rgba(255,45,146,0.15)",
+                textShadow: "0 0 10px rgba(0,240,255,0.9), 0 0 20px rgba(0,240,255,0.5)",
+              }}
             >
-              ↓ entrée libre ↓
-            </span>
-            <Link to="/auth" className="neon-btn" style={{ transform: "rotate(-2deg)" }}>
-              → Enter the club ←
+              → Enter the club
             </Link>
-            <span
-              className="absolute font-display select-none pointer-events-none"
-              style={{ bottom: -34, right: "20%", fontSize: 13, color: "var(--neon-cyan)", transform: "rotate(4deg)", letterSpacing: "0.2em" }}
-            >
-              ▒ no_algorithm.exe ▒
-            </span>
           </div>
 
-          <p className="mt-14 font-mono text-[10px] uppercase tracking-[0.3em] text-[#666]">
+          <p className="mt-10 font-mono text-[10px] uppercase tracking-[0.3em] text-[#888]">
             {t("tagline")}
           </p>
         </div>
       </section>
 
-
-      {/* STATS strip brutalist */}
-      <section className="border-y border-white/10 bg-black/40">
-        <div className="mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4">
-          {[
-            { n: "100%", l: "Open source" },
-            { n: "0", l: "Investors" },
-            { n: "24/7", l: "Human mod" },
-            { n: "∞", l: "Genders" },
-          ].map((s, i) => (
-            <div key={i} className="border-r border-white/10 p-8 last:border-r-0">
-              <div className="font-display text-4xl font-black tracking-tight text-[color:var(--neon-cyan)] neon-glow-cyan">{s.n}</div>
-              <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[#888]">{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* PRICING brutalist */}
-      <section>
+      {/* PRICING — sobre */}
+      <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="mb-12">
+          <div className="mb-12 text-center">
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[color:var(--neon-cyan)]">
-              // 02 — Access tiers
+              // access tiers
             </span>
-            <h2 className="font-display mt-4 text-5xl font-black uppercase tracking-tight">
+            <h2 className="font-display mt-4 text-4xl font-black uppercase tracking-tight">
               {t("pricing_title")}
             </h2>
           </div>
 
-          <div className="grid gap-0 md:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-4">
             {[
               { name: t("plan_free"), price: t("plan_free_price"), desc: t("plan_free_desc"), highlight: false },
               { name: t("plan_basic"), price: t("plan_basic_price"), desc: t("plan_basic_desc"), highlight: false },
@@ -182,27 +119,29 @@ function Landing() {
             ].map((p, i) => (
               <div
                 key={p.name}
-                className={`relative border border-white/10 p-7 md:-ml-px transition-all ${
-                  p.highlight
-                    ? "bg-[color:var(--neon-magenta)]/10 border-[color:var(--neon-magenta)]"
-                    : "bg-white/[0.02] hover:border-[color:var(--neon-cyan)] hover:bg-[color:var(--neon-cyan)]/5"
-                }`}
-                style={p.highlight ? { boxShadow: "0 0 32px rgba(255,0,160,0.25)" } : undefined}
+                className="relative p-6 transition-all"
+                style={{
+                  border: `2px solid ${p.highlight ? "var(--neon-magenta)" : "rgba(0,240,255,0.35)"}`,
+                  boxShadow: p.highlight
+                    ? "0 0 24px rgba(255,45,146,0.5), inset 0 0 16px rgba(255,45,146,0.1)"
+                    : "0 0 16px rgba(0,240,255,0.2), inset 0 0 12px rgba(0,240,255,0.05)",
+                  background: "rgba(13,8,28,0.4)",
+                }}
               >
-                {p.highlight && (
-                  <span className="absolute -top-3 left-6 bg-[color:var(--neon-lime)] px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-black">
-                    ★ TOP
-                  </span>
-                )}
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#666]">0{i + 1} / 04</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#888]">0{i + 1} / 04</div>
                 <h3 className="font-display mt-3 text-lg font-bold uppercase tracking-wide">{p.name}</h3>
-                <p className="font-display mt-5 text-3xl font-black tracking-tight text-[color:var(--neon-magenta)] neon-glow-magenta">{p.price}</p>
-                <p className="mt-5 font-mono text-xs leading-relaxed text-[#A0A0A0]">{p.desc}</p>
+                <p
+                  className="font-display mt-5 text-3xl font-black tracking-tight text-[color:var(--neon-magenta)]"
+                  style={{ textShadow: "0 0 18px rgba(255,45,146,0.6)" }}
+                >
+                  {p.price}
+                </p>
+                <p className="mt-4 font-mono text-xs leading-relaxed text-[#cfc8e8]">{p.desc}</p>
               </div>
             ))}
           </div>
 
-          <p className="mt-12 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-[#666]">
+          <p className="mt-12 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-[#888]">
             ◆ Pas de hausse de prix sans préavis 3 mois ◆
           </p>
         </div>
