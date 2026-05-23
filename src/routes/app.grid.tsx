@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,6 +24,7 @@ function isOnline(p: Profile) {
 
 function Grid() {
   const { user } = useAuth();
+  const navigate = useNavigate({ from: "/app/grid" });
   const { config } = useSubscription();
   const limit = config.profileLimit === -1 ? 600 : config.profileLimit;
 
@@ -119,8 +120,8 @@ function Grid() {
           {filtered.map((p) => {
             const online = isOnline(p);
             return (
-              <Link key={p.id} to="/app/profile/$id" params={{ id: p.id }}
-                className="relative aspect-square overflow-hidden bg-neutral-900">
+              <button key={p.id} type="button" onClick={() => navigate({ to: "/app/profile/$id", params: { id: p.id } })}
+                className="relative aspect-square overflow-hidden bg-neutral-900 text-left cursor-pointer">
                 {p.photo_url ? (
                   <img src={p.photo_url} alt={p.pseudo} className="w-full h-full object-cover" />
                 ) : (
@@ -133,7 +134,7 @@ function Grid() {
                   {online && <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />}
                   <span className="text-white text-[11px] font-medium truncate max-w-[80px]">{p.pseudo}</span>
                 </div>
-              </Link>
+              </button>
             );
           })}
         </div>
