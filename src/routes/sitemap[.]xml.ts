@@ -28,6 +28,11 @@ export const Route = createFileRoute("/sitemap.xml")({
             changefreq: "weekly" as const,
             priority: "0.8",
           })),
+          ...POSTS.map((p) => ({
+            path: `/blog/${p.slug}`,
+            changefreq: "monthly" as const,
+            priority: "0.6",
+          })),
         ];
 
         const urls = entries.map((e) =>
