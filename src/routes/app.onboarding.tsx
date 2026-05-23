@@ -213,6 +213,7 @@ function Onboarding() {
       pseudo: form.pseudo.trim(),
       gender_identity: form.gender_identity,
       pronouns: form.pronouns,
+      orientation: form.orientation,
       age: Number(form.age),
       city: form.city.trim(),
       photo_url: form.photo_url.trim(),
