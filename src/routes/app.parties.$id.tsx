@@ -112,6 +112,7 @@ function PartyDetail() {
 function RequestAccessCard({ partyId, existing, hostId }: { partyId: string; existing: any; hostId: string }) {
   const { user } = useAuth();
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -131,7 +132,7 @@ function RequestAccessCard({ partyId, existing, hostId }: { partyId: string; exi
   }
 
   const send = async () => {
-    if (!user) return;
+    if (!user) { toast.info("Crée un compte pour demander à rejoindre"); navigate({ to: "/auth" }); return; }
     setBusy(true);
     const { error } = await supabase.from("party_requests").insert({
       party_id: partyId, requester_id: user.id, message: msg.trim(),
