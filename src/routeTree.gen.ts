@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTransRouteImport } from './routes/app.trans'
 import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppMeRouteImport } from './routes/app.me'
@@ -37,6 +38,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppTransRoute = AppTransRouteImport.update({
+  id: '/trans',
+  path: '/trans',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppSubscribeRoute = AppSubscribeRouteImport.update({
   id: '/subscribe',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/app/me': typeof AppMeRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
+  '/app/trans': typeof AppTransRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
   '/app/parties/new': typeof AppPartiesNewRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/app/me': typeof AppMeRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
+  '/app/trans': typeof AppTransRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
   '/app/parties/new': typeof AppPartiesNewRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/app/me': typeof AppMeRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
+  '/app/trans': typeof AppTransRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
   '/app/parties/new': typeof AppPartiesNewRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/app/me'
     | '/app/onboarding'
     | '/app/subscribe'
+    | '/app/trans'
     | '/app/chat/$id'
     | '/app/parties/$id'
     | '/app/parties/new'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/app/me'
     | '/app/onboarding'
     | '/app/subscribe'
+    | '/app/trans'
     | '/app/chat/$id'
     | '/app/parties/$id'
     | '/app/parties/new'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/app/me'
     | '/app/onboarding'
     | '/app/subscribe'
+    | '/app/trans'
     | '/app/chat/$id'
     | '/app/parties/$id'
     | '/app/parties/new'
@@ -211,6 +223,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/trans': {
+      id: '/app/trans'
+      path: '/trans'
+      fullPath: '/app/trans'
+      preLoaderRoute: typeof AppTransRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/subscribe': {
       id: '/app/subscribe'
@@ -302,6 +321,7 @@ interface AppRouteChildren {
   AppMeRoute: typeof AppMeRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppSubscribeRoute: typeof AppSubscribeRoute
+  AppTransRoute: typeof AppTransRoute
   AppPartiesIdRoute: typeof AppPartiesIdRoute
   AppPartiesNewRoute: typeof AppPartiesNewRoute
   AppProfileIdRoute: typeof AppProfileIdRoute
@@ -314,6 +334,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMeRoute: AppMeRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppSubscribeRoute: AppSubscribeRoute,
+  AppTransRoute: AppTransRoute,
   AppPartiesIdRoute: AppPartiesIdRoute,
   AppPartiesNewRoute: AppPartiesNewRoute,
   AppProfileIdRoute: AppProfileIdRoute,
@@ -330,3 +351,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
