@@ -34,6 +34,7 @@ function Grid() {
 
   const [onlineOnly, setOnlineOnly] = useState(false);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [hotNow, setHotNow] = useState(false);
   const [showAgeSheet, setShowAgeSheet] = useState(false);
   const [showFiltersSheet, setShowFiltersSheet] = useState(false);
   const [ageMin, setAgeMin] = useState(18);
@@ -71,12 +72,13 @@ function Grid() {
     return data.filter((p) => {
       if (onlineOnly && !isOnline(p)) return false;
       if (favoritesOnly && !likedIds?.has(p.id)) return false;
+      if (hotNow && !isOnline(p)) return false;
       if (ageActive && p.age != null && (p.age < ageMin || p.age > ageMax)) return false;
       if (identityFilter === "trans" && !TRANS.has(p.gender_identity ?? "")) return false;
       if (identityFilter === "cis" && p.gender_identity !== "homme_cis") return false;
       return true;
     });
-  }, [data, onlineOnly, favoritesOnly, ageActive, ageMin, ageMax, likedIds, identityFilter]);
+  }, [data, onlineOnly, favoritesOnly, hotNow, ageActive, ageMin, ageMax, likedIds, identityFilter]);
 
   const pillBase = "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border";
   const pillOff = "bg-neutral-900 text-white border-neutral-700";
@@ -121,7 +123,10 @@ function Grid() {
           >
             En ligne
           </button>
-          <button className={`${pillBase} flex items-center gap-1.5 ${pillOff}`}>
+          <button
+            onClick={() => setHotNow((v) => !v)}
+            className={`${pillBase} flex items-center gap-1.5 ${hotNow ? "bg-gradient-to-r from-pink-500 to-orange-400 text-white border-transparent" : pillOff}`}
+          >
             <Droplet className="w-3.5 h-3.5" /> Cho now !
           </button>
           <button
