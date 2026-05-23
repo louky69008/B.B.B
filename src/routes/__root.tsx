@@ -12,6 +12,7 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { NotificationsProvider } from "@/hooks/use-notifications";
 import { I18nProvider } from "@/lib/i18n";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { AgeGate } from "@/components/age-gate";
 
 import appCss from "../styles.css?url";
@@ -90,6 +91,7 @@ function RootComponent() {
           <NotificationsProvider>
             <Header />
             <Outlet />
+            <Footer />
             <Toaster />
             <AgeGate />
           </NotificationsProvider>
