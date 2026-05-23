@@ -88,7 +88,13 @@ function Landing() {
           "radial-gradient(circle at 30% 10%, #2a0a3a 0%, #0a0014 55%, #000 100%)",
       }}
     >
-      <div className="relative w-full max-w-[390px] min-h-screen overflow-hidden bg-black">
+      <div
+        className="relative w-full max-w-[390px] min-h-screen overflow-hidden"
+        style={{
+          background:
+            "linear-gradient(180deg, #2a0a3a 0%, #1a0530 35%, #0a0014 100%)",
+        }}
+      >
         {/* Status bar */}
         <div className="flex justify-between items-center px-7 pt-3 pb-1 text-white text-[15px] font-semibold relative z-20">
           <span>9:41</span>
