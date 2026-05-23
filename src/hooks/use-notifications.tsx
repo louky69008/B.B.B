@@ -22,6 +22,7 @@ const setSeen = (kind: string, id: string, ts = Date.now()) =>
 export function NotificationsProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const { pathname } = useLocation();
+  const playSound = useMessageSound();
   const [counts, setCounts] = useState<Counts>({ messages: 0, parties: 0 });
   const [tick, setTick] = useState(0);
   const refresh = () => setTick((n) => n + 1);
