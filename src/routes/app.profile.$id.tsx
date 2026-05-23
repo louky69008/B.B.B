@@ -6,6 +6,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { Heart, MessageCircle, ArrowLeft, ChevronLeft, ChevronRight, Circle } from "lucide-react";
 import { toast } from "sonner";
 import { ReportButton } from "@/components/report-button";
+import { ProtectedPhoto } from "@/components/protected-photo";
+
 
 export const Route = createFileRoute("/app/profile/$id")({ component: ProfileDetail });
 
