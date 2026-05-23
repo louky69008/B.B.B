@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Direction 1 — Neon Underground</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070710; --bg2:#0e0a1f; --ink:#f5f3ff;
+    --magenta:#ff2d92; --cyan:#00f0ff; --lime:#c6ff3d;
+    --grid:rgba(255,45,146,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+  .mono{font-family:'JetBrains Mono',monospace}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);background:rgba(7,7,16,.6);border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .logo{font-weight:700;letter-spacing:-.02em;font-size:22px}
+  .logo span{color:var(--magenta)}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:#bdb7d8}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:0;font-weight:600;font-size:14px;border:1px solid var(--magenta);background:var(--magenta);color:#0a0118;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:transform .15s}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--cyan)}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:rgba(255,255,255,.2)}
+
+  /* hero */
+  .hero{position:relative;padding:80px 0 120px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(900px 500px at 80% -10%,rgba(255,45,146,.25),transparent 60%),
+    radial-gradient(700px 400px at 0% 50%,rgba(0,240,255,.18),transparent 60%);
+    pointer-events:none}
+  .hero::after{content:"";position:absolute;inset:0;background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:48px 48px;mask-image:linear-gradient(180deg,black,transparent 80%);opacity:.5}
+  .hero-inner{position:relative;z-index:1}
+  .tag{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid var(--cyan);color:var(--cyan);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  .tag::before{content:"";width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:0 0 12px var(--cyan)}
+  h1.display{font-size:clamp(48px,8vw,108px);line-height:.92;letter-spacing:-.04em;font-weight:700;margin:28px 0 24px}
+  h1.display em{font-style:normal;color:var(--magenta);text-shadow:0 0 30px rgba(255,45,146,.5)}
+  h1.display u{text-decoration:none;border-bottom:6px solid var(--lime);padding-bottom:4px}
+  .lead{max-width:580px;font-size:18px;color:#cfc8e8;line-height:1.5}
+  .cta-row{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:80px;border:1px solid rgba(255,255,255,.1)}
+  .stat{padding:24px;border-right:1px solid rgba(255,255,255,.1)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-size:36px;font-weight:700;letter-spacing:-.03em}
+  .stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#9b94bf;margin-top:6px}
+
+  /* pricing strip */
+  .pricing{padding:80px 0;border-top:1px solid rgba(255,255,255,.06)}
+  .h2{font-size:40px;font-weight:700;letter-spacing:-.03em;margin-bottom:8px}
+  .sub{color:#9b94bf;margin-bottom:40px}
+  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .plan{padding:28px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02);position:relative}
+  .plan.hot{border-color:var(--magenta);background:linear-gradient(180deg,rgba(255,45,146,.12),transparent)}
+  .plan.hot::before{content:"POPULAIRE";position:absolute;top:-1px;right:-1px;background:var(--magenta);color:#0a0118;font-size:10px;padding:6px 10px;letter-spacing:.15em;font-weight:700}
+  .plan h3{font-size:14px;text-transform:uppercase;letter-spacing:.18em;color:#bdb7d8}
+  .plan .p{font-size:32px;font-weight:700;margin:14px 0 8px}
+  .plan .d{font-size:13px;color:#9b94bf;line-height:1.5}
+
+  /* grid */
+  .grid-section{padding:80px 0;border-top:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,transparent,rgba(255,45,146,.04))}
+  .grid-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{padding:8px 14px;border:1px solid rgba(255,255,255,.15);font-size:12px;font-family:'JetBrains Mono',monospace;color:#cfc8e8;cursor:pointer}
+  .chip.on{background:var(--cyan);border-color:var(--cyan);color:#001318}
+  .pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+  .card{position:relative;aspect-ratio:1/1;overflow:hidden;background:#1a1430}
+  .card img{width:100%;height:100%;object-fit:cover;filter:saturate(1.1) contrast(1.05)}
+  .card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.85))}
+  .card .meta{position:absolute;left:8px;right:8px;bottom:8px;z-index:1;display:flex;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:600}
+  .dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 8px currentColor}
+  .on .dot{background:var(--lime);color:var(--lime)}
+  .rec .dot{background:#ffb800;color:#ffb800}
+  .off .dot{background:#666}
+  .card .age{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);padding:3px 8px;font-size:11px;font-family:'JetBrains Mono',monospace;z-index:1}
+  .card.trans{outline:2px solid var(--cyan);outline-offset:-2px}
+  .badge-trans{position:absolute;top:8px;right:8px;background:var(--cyan);color:#001318;font-size:9px;font-weight:700;padding:3px 6px;letter-spacing:.1em;z-index:1}
+
+  footer{padding:60px 0;text-align:center;color:#6e6790;font-size:13px;border-top:1px solid rgba(255,255,255,.06)}
+  @media(max-width:900px){.plans,.stats{grid-template-columns:repeat(2,1fr)}.pgrid{grid-template-columns:repeat(3,1fr)}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-row">
+  <div class="logo">PRISM<span>//</span>CONNECT</div>
+  <div class="nav-links mono"><a>SOIRÉES</a><a>COMMUNAUTÉ</a><a>TARIFS</a><a>MANIFESTE</a></div>
+  <a class="btn">REJOINDRE →</a>
+</div></nav>
+
+<section class="hero"><div class="wrap hero-inner">
+  <span class="tag mono">v1.0 · sans actionnaires</span>
+  <h1 class="display">Pas un<br>marché de la viande.<br>Une <em>communauté</em> <u>queer</u>.</h1>
+  <p class="lead">Rencontres pour hommes gay, bi, trans et alliés. Tarifs transparents. Modération humaine. Version gratuite réellement utilisable — pas un teaser.</p>
+  <div class="cta-row">
+    <a class="btn">CRÉER MON PROFIL</a>
+    <a class="btn ghost">VOIR LES TARIFS</a>
+  </div>
+  <div class="stats mono">
+    <div class="stat"><div class="n">0€</div><div class="l">pour commencer</div></div>
+    <div class="stat"><div class="n">30</div><div class="l">profils gratuits</div></div>
+    <div class="stat"><div class="n">24/7</div><div class="l">modération humaine</div></div>
+    <div class="stat"><div class="n">13</div><div class="l">langues bientôt</div></div>
+  </div>
+</div></section>
+
+<section class="pricing"><div class="wrap">
+  <div class="h2">Prix qui ne bougent pas.</div>
+  <div class="sub mono">Engagement public : aucun changement sans préavis de 3 mois.</div>
+  <div class="plans">
+    <div class="plan"><h3>Basic Lite</h3><div class="p">Gratuit</div><div class="d">30 profils · filtre en ligne · pubs non intrusives</div></div>
+    <div class="plan"><h3>Basic</h3><div class="p">4,99€<span style="font-size:14px;color:#9b94bf">/mois</span></div><div class="d">Profils illimités · 3 filtres · sans pub</div></div>
+    <div class="plan hot"><h3>Premium</h3><div class="p">9,99€<span style="font-size:14px;color:#9b94bf">/mois</span></div><div class="d">Filtres avancés · Boost mensuel · Voir qui m'a vu</div></div>
+    <div class="plan"><h3>Ultra</h3><div class="p">14,99€<span style="font-size:14px;color:#9b94bf">/mois</span></div><div class="d">Mode discret · Visio sécurisée · Soirées prioritaires</div></div>
+  </div>
+</div></section>
+
+<section class="grid-section"><div class="wrap">
+  <div class="grid-head">
+    <div>
+      <div class="h2">Près de toi.</div>
+      <div class="sub mono">42 profils actifs · Paris 11e · rayon 5km</div>
+    </div>
+    <div class="filters">
+      <div class="chip on">● EN LIGNE</div>
+      <div class="chip">RÉCEMMENT</div>
+      <div class="chip">TRANS / NB</div>
+      <div class="chip">SOIRÉES</div>
+    </div>
+  </div>
+  <div class="pgrid">
+    <!-- 24 cards -->
+    <div class="card on"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400"><div class="age mono">27</div><div class="meta"><span class="dot"></span>Liam · 1km</div></div>
+    <div class="card on trans"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400"><div class="badge-trans mono">TRANS</div><div class="age mono">31</div><div class="meta"><span class="dot"></span>Ash · 800m</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"><div class="age mono">24</div><div class="meta"><span class="dot"></span>Théo · 1.2km</div></div>
+    <div class="card rec"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400"><div class="age mono">29</div><div class="meta"><span class="dot"></span>Mateo · 2km</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400"><div class="age mono">33</div><div class="meta"><span class="dot"></span>Karim · 1.5km</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400"><div class="age mono">26</div><div class="meta"><span class="dot"></span>Noé · 900m</div></div>
+    <div class="card off"><img src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=400"><div class="age mono">38</div><div class="meta"><span class="dot"></span>Yann · 3km</div></div>
+    <div class="card on trans"><img src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=400"><div class="badge-trans mono">NB</div><div class="age mono">28</div><div class="meta"><span class="dot"></span>Sam · 600m</div></div>
+    <div class="card rec"><img src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=400"><div class="age mono">35</div><div class="meta"><span class="dot"></span>Lucas · 2.4km</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?w=400"><div class="age mono">22</div><div class="meta"><span class="dot"></span>Eli · 700m</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1542178243-bc20204b769f?w=400"><div class="age mono">41</div><div class="meta"><span class="dot"></span>Marc · 1.8km</div></div>
+    <div class="card off"><img src="https://images.unsplash.com/photo-1521119989659-a83eee488004?w=400"><div class="age mono">30</div><div class="meta"><span class="dot"></span>Hugo · 4km</div></div>
+    <div class="card on trans"><img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=400"><div class="badge-trans mono">TRANS</div><div class="age mono">25</div><div class="meta"><span class="dot"></span>River · 1.1km</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1480429370139-e0132c086e2a?w=400"><div class="age mono">36</div><div class="meta"><span class="dot"></span>Tom · 2.1km</div></div>
+    <div class="card rec"><img src="https://images.unsplash.com/photo-1500048993953-d23a436266cf?w=400"><div class="age mono">27</div><div class="meta"><span class="dot"></span>Adrien · 3km</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400"><div class="age mono">32</div><div class="meta"><span class="dot"></span>Bastien · 900m</div></div>
+    <div class="card on"><img src="https://images.unsplash.com/photo-1485875437342-9b39470b3d95?w=400"><div class="age mono">29</div><div class="meta"><span class="dot"></span>Felix · 1.4km</div></div>
+    <div class="card off"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400"><div class="age mono">45</div><div class="meta"><span class="dot"></span>Olivier · 5km</div></div>
+  </div>
+</div></section>
+
+<footer>PRISM//CONNECT · communauté avant rentabilité · 2026</footer>
+</body></html>

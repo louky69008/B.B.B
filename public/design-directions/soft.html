@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Direction 2 — Soft Pride</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff8f3; --ink:#2a1f3d; --ink2:#6b5d80;
+    --c1:#ff7aa2; --c2:#ffb86b; --c3:#a8e6cf; --c4:#9d7bff; --c5:#7ec5ff;
+    --card:#ffffff; --line:#f0e5dd;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Figtree',sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.dis{font-family:'Outfit',sans-serif;letter-spacing:-.02em}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  nav{position:sticky;top:0;z-index:10;background:rgba(255,248,243,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Outfit';font-weight:800;font-size:22px}
+  .logo-mark{width:32px;height:32px;border-radius:12px;background:linear-gradient(135deg,var(--c1),var(--c4))}
+  .nav-links{display:flex;gap:30px;font-size:15px;color:var(--ink2);font-weight:500}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:600;font-size:15px;background:var(--ink);color:#fff;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.soft{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn.pride{background:linear-gradient(90deg,var(--c1),var(--c4));color:#fff}
+
+  .hero{padding:80px 0 60px;position:relative;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;z-index:0}
+  .b1{width:380px;height:380px;background:var(--c1);top:-80px;right:-60px}
+  .b2{width:320px;height:320px;background:var(--c3);bottom:-100px;left:-80px}
+  .b3{width:260px;height:260px;background:var(--c2);top:120px;left:40%}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;background:#fff;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink2);box-shadow:0 4px 20px rgba(42,31,61,.06)}
+  .eyebrow .pride-dot{display:inline-flex;gap:3px}
+  .eyebrow .pride-dot i{width:8px;height:8px;border-radius:50%;display:inline-block}
+  h1.dis{font-size:clamp(44px,6.5vw,82px);line-height:1.02;font-weight:800;margin:22px 0 22px}
+  .grad{background:linear-gradient(90deg,var(--c1),var(--c4),var(--c5));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:18px;color:var(--ink2);max-width:520px;line-height:1.55}
+  .cta-row{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+  .trust{display:flex;align-items:center;gap:14px;margin-top:36px}
+  .faces{display:flex}
+  .faces img{width:36px;height:36px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px;object-fit:cover}
+  .trust span{font-size:13px;color:var(--ink2)}
+
+  .hero-card{background:#fff;border-radius:32px;padding:18px;box-shadow:0 20px 60px rgba(42,31,61,.12);position:relative}
+  .hero-card .ph{aspect-ratio:4/5;border-radius:22px;overflow:hidden;background:#eee}
+  .hero-card .ph img{width:100%;height:100%;object-fit:cover}
+  .hero-card .row{display:flex;align-items:center;justify-content:space-between;padding:16px 6px 4px}
+  .hero-card .nm{font-family:'Outfit';font-weight:700;font-size:18px}
+  .hero-card .pron{font-size:12px;color:var(--ink2);background:var(--bg);padding:3px 8px;border-radius:999px;margin-left:6px}
+  .liked{position:absolute;top:30px;right:30px;background:#fff;border-radius:999px;padding:8px 14px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;box-shadow:0 8px 20px rgba(42,31,61,.1)}
+  .heart{width:14px;height:14px;background:var(--c1);clip-path:path('M7 12s-5-3.5-5-7a3 3 0 0 1 5-2 3 3 0 0 1 5 2c0 3.5-5 7-5 7Z')}
+
+  .pricing{padding:90px 0}
+  .pricing h2{font-size:42px;font-weight:800;text-align:center}
+  .pricing .sub{text-align:center;color:var(--ink2);margin:10px 0 50px}
+  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .plan{background:#fff;border-radius:24px;padding:28px;border:1px solid var(--line)}
+  .plan.hot{background:linear-gradient(180deg,#fff,#fff5f8);border-color:var(--c1);position:relative}
+  .plan.hot .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--c1);color:#fff;font-size:11px;padding:6px 12px;border-radius:999px;font-weight:600;letter-spacing:.05em}
+  .plan h3{font-size:16px;color:var(--ink2);font-weight:600}
+  .plan .p{font-size:34px;font-weight:800;margin:14px 0 6px;font-family:'Outfit'}
+  .plan .d{font-size:14px;color:var(--ink2);line-height:1.55}
+
+  .grid-section{padding:80px 0;background:#fff;border-top:1px solid var(--line)}
+  .gh{display:flex;align-items:end;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:16px}
+  .gh h2{font-size:36px;font-weight:800}
+  .gh p{color:var(--ink2);margin-top:6px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .pc{background:#fff;border-radius:20px;overflow:hidden;border:1px solid var(--line);position:relative;transition:transform .2s,box-shadow .2s}
+  .pc:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(42,31,61,.1)}
+  .pc .img{aspect-ratio:4/5;background:#eee;overflow:hidden;position:relative}
+  .pc .img img{width:100%;height:100%;object-fit:cover}
+  .pc .info{padding:14px}
+  .pc .info .l1{display:flex;align-items:center;gap:8px}
+  .pc .nm{font-family:'Outfit';font-weight:700;font-size:16px}
+  .pc .age{color:var(--ink2);font-size:14px}
+  .pc .pron{font-size:11px;background:var(--bg);padding:2px 8px;border-radius:999px;color:var(--ink2);margin-left:auto}
+  .pc .l2{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;color:var(--ink2)}
+  .status{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);padding:5px 10px;border-radius:999px;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600}
+  .status .d{width:8px;height:8px;border-radius:50%}
+  .on .d{background:#3ec78a}
+  .rec .d{background:#ffa83c}
+  .off .d{background:#b8b0c4}
+  .like-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--c1)}
+  .trans-tag{display:inline-block;background:linear-gradient(90deg,var(--c5),var(--c1),#fff,var(--c1),var(--c5));font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;color:var(--ink);margin-left:6px}
+
+  footer{padding:60px 0;text-align:center;color:var(--ink2);font-size:14px}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.plans{grid-template-columns:repeat(2,1fr)}.pgrid{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-row">
+  <div class="logo"><div class="logo-mark"></div>Prism Connect</div>
+  <div class="nav-links"><a>Soirées</a><a>Communauté</a><a>Tarifs</a><a>Notre histoire</a></div>
+  <a class="btn">Rejoindre →</a>
+</div></nav>
+
+<section class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="pride-dot"><i style="background:#ff5a5a"></i><i style="background:#ffa83c"></i><i style="background:#ffd84d"></i><i style="background:#3ec78a"></i><i style="background:#5aa9ff"></i><i style="background:#9d7bff"></i></span> Une app fière, pas un marché</div>
+      <h1 class="dis">Trouve les <span class="grad">tiens</span>.<br>Sans te perdre.</h1>
+      <p class="lead">Rencontres queer pensées avec soin. Pour les hommes gay, bi, trans et leurs alliés. Modération bienveillante, prix doux, vraie gratuité.</p>
+      <div class="cta-row">
+        <a class="btn pride">Créer mon profil</a>
+        <a class="btn soft">Découvrir les soirées</a>
+      </div>
+      <div class="trust">
+        <div class="faces">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80">
+          <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=80">
+          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80">
+        </div>
+        <span>+12 000 personnes ont rejoint en bêta</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="ph"><img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600"></div>
+      <div class="row"><div><span class="nm">Ash</span><span class="pron">iel</span></div><div style="color:var(--ink2);font-size:14px">28 · 800m</div></div>
+      <div class="liked"><div class="heart"></div> 24 likes</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing"><div class="wrap">
+  <h2>Des tarifs honnêtes, garantis 3 mois.</h2>
+  <div class="sub">Quatre formules. Aucune fonctionnalité essentielle derrière un paywall.</div>
+  <div class="plans">
+    <div class="plan"><h3>Basic Lite</h3><div class="p">Gratuit</div><div class="d">30 profils · filtre en ligne · pubs douces</div></div>
+    <div class="plan"><h3>Basic</h3><div class="p">4,99€</div><div class="d">Illimité · 3 filtres · zéro pub</div></div>
+    <div class="plan hot"><span class="tag">LE PLUS CHOISI</span><h3>Premium</h3><div class="p">9,99€</div><div class="d">Filtres avancés · boost mensuel · vus par</div></div>
+    <div class="plan"><h3>Ultra</h3><div class="p">14,99€</div><div class="d">Mode discret · visio · soirées prioritaires</div></div>
+  </div>
+</div></section>
+
+<section class="grid-section"><div class="wrap">
+  <div class="gh">
+    <div><h2>Autour de toi</h2><p>42 personnes en ligne · Paris 11e</p></div>
+    <div class="filters"><div class="chip on">En ligne</div><div class="chip">Récent</div><div class="chip">Trans &amp; NB</div><div class="chip">Soirées</div></div>
+  </div>
+  <div class="pgrid">
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500"></div><div class="info"><div class="l1"><span class="nm">Liam</span><span class="age">27</span><span class="pron">il</span></div><div class="l2">📍 1km · ❤ Café, vinyles</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500"></div><div class="info"><div class="l1"><span class="nm">Ash</span><span class="age">31</span><span class="pron">iel</span><span class="trans-tag">Trans</span></div><div class="l2">📍 800m · ❤ Cinéma, poésie</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500"></div><div class="info"><div class="l1"><span class="nm">Théo</span><span class="age">24</span><span class="pron">il</span></div><div class="l2">📍 1.2km · ❤ Sport, expos</div></div></div>
+    <div class="pc"><div class="img"><span class="status rec"><span class="d"></span>il y a 12 min</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500"></div><div class="info"><div class="l1"><span class="nm">Mateo</span><span class="age">29</span><span class="pron">il</span></div><div class="l2">📍 2km · ❤ Voyages</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500"></div><div class="info"><div class="l1"><span class="nm">Karim</span><span class="age">33</span><span class="pron">il</span></div><div class="l2">📍 1.5km · ❤ Cuisine</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500"></div><div class="info"><div class="l1"><span class="nm">Noé</span><span class="age">26</span><span class="pron">il</span></div><div class="l2">📍 900m · ❤ Musique</div></div></div>
+    <div class="pc"><div class="img"><span class="status off"><span class="d"></span>hier</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=500"></div><div class="info"><div class="l1"><span class="nm">Yann</span><span class="age">38</span><span class="pron">il</span></div><div class="l2">📍 3km · ❤ Rando</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=500"></div><div class="info"><div class="l1"><span class="nm">Sam</span><span class="age">28</span><span class="pron">iel</span><span class="trans-tag">NB</span></div><div class="l2">📍 600m · ❤ Lecture</div></div></div>
+    <div class="pc"><div class="img"><span class="status rec"><span class="d"></span>il y a 28 min</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=500"></div><div class="info"><div class="l1"><span class="nm">Lucas</span><span class="age">35</span><span class="pron">il</span></div><div class="l2">📍 2.4km · ❤ Théâtre</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?w=500"></div><div class="info"><div class="l1"><span class="nm">Eli</span><span class="age">22</span><span class="pron">il</span></div><div class="l2">📍 700m · ❤ Skate</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=500"></div><div class="info"><div class="l1"><span class="nm">River</span><span class="age">25</span><span class="pron">iel</span><span class="trans-tag">Trans</span></div><div class="l2">📍 1.1km · ❤ Art</div></div></div>
+    <div class="pc"><div class="img"><span class="status on"><span class="d"></span>en ligne</span><span class="like-btn">♡</span><img src="https://images.unsplash.com/photo-1542178243-bc20204b769f?w=500"></div><div class="info"><div class="l1"><span class="nm">Marc</span><span class="age">41</span><span class="pron">il</span></div><div class="l2">📍 1.8km · ❤ Jazz</div></div></div>
+  </div>
+</div></section>
+
+<footer>Prism Connect — fait avec soin par une équipe queer · 2026</footer>
+</body></html>
