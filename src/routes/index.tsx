@@ -174,6 +174,45 @@ function Landing() {
             </button>
           ))}
 
+          {/* Neon rounded arrows pointing to each hotspot */}
+          {[
+            { top: "26%", left: "10%", color: "#5bcefa", flip: false },   // → trans
+            { top: "34%", left: "74%", color: "#ff2d92", flip: true },    // → appart
+            { top: "58%", left: "10%", color: "#8a2dff", flip: false },   // → chat
+            { top: "66%", left: "74%", color: "#2dd4ff", flip: true },    // → kyc
+          ].map((a, i) => (
+            <div
+              key={`arrow-${i}`}
+              className="absolute pointer-events-none"
+              style={{
+                top: a.top,
+                left: a.left,
+                animation: `fadeArrow 2.4s ease-in-out infinite`,
+                animationDelay: `${i * 0.6}s`,
+              }}
+            >
+              <svg
+                width="44"
+                height="44"
+                viewBox="0 0 48 48"
+                fill="none"
+                style={{ filter: `drop-shadow(0 0 10px ${a.color})` }}
+              >
+                {!a.flip ? (
+                  <>
+                    <path d="M8 40 Q8 8 40 8" stroke={a.color} strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                    <path d="M34 2 L40 8 L34 14" stroke={a.color} strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                  </>
+                ) : (
+                  <>
+                    <path d="M40 40 Q40 8 8 8" stroke={a.color} strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                    <path d="M14 2 L8 8 L14 14" stroke={a.color} strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                  </>
+                )}
+              </svg>
+            </div>
+          ))}
+
           {/* Fade transition */}
           <div
             className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
