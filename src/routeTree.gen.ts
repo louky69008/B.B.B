@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
 import { Route as AppMeRouteImport } from './routes/app.me'
 import { Route as AppGridRouteImport } from './routes/app.grid'
 import { Route as AppChatRouteImport } from './routes/app.chat'
@@ -32,6 +33,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppSubscribeRoute = AppSubscribeRouteImport.update({
+  id: '/subscribe',
+  path: '/subscribe',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppMeRoute = AppMeRouteImport.update({
   id: '/me',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
   '/app/me': typeof AppMeRoute
+  '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
   '/app/me': typeof AppMeRoute
+  '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
   '/app/me': typeof AppMeRoute
+  '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/app/chat'
     | '/app/grid'
     | '/app/me'
+    | '/app/subscribe'
     | '/app/chat/$id'
     | '/app/profile/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/app/chat'
     | '/app/grid'
     | '/app/me'
+    | '/app/subscribe'
     | '/app/chat/$id'
     | '/app/profile/$id'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/app/chat'
     | '/app/grid'
     | '/app/me'
+    | '/app/subscribe'
     | '/app/chat/$id'
     | '/app/profile/$id'
   fileRoutesById: FileRoutesById
@@ -151,6 +163,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/subscribe': {
+      id: '/app/subscribe'
+      path: '/subscribe'
+      fullPath: '/app/subscribe'
+      preLoaderRoute: typeof AppSubscribeRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/me': {
       id: '/app/me'
@@ -205,6 +224,7 @@ interface AppRouteChildren {
   AppChatRoute: typeof AppChatRouteWithChildren
   AppGridRoute: typeof AppGridRoute
   AppMeRoute: typeof AppMeRoute
+  AppSubscribeRoute: typeof AppSubscribeRoute
   AppProfileIdRoute: typeof AppProfileIdRoute
 }
 
@@ -212,6 +232,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppChatRoute: AppChatRouteWithChildren,
   AppGridRoute: AppGridRoute,
   AppMeRoute: AppMeRoute,
+  AppSubscribeRoute: AppSubscribeRoute,
   AppProfileIdRoute: AppProfileIdRoute,
 }
 
