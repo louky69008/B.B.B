@@ -97,8 +97,8 @@ function Onboarding() {
     },
     {
       title: "Ta photo",
-      subtitle: "Choisis une photo depuis ton appareil. Tu pourras en ajouter d'autres ensuite.",
-      valid: () => form.photo_url.startsWith("http"),
+      subtitle: "Choisis une photo depuis ton appareil (optionnel). Tu pourras en ajouter d'autres ensuite.",
+      valid: () => true,
       body: (
         <div className="space-y-3 flex flex-col items-center">
           {form.photo_url ? (
