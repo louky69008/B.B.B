@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroNeon from "@/assets/hero-neon.jpg";
-import { Heart, Search, MessageCircle, User } from "lucide-react";
+import { Heart, PartyPopper, MessageCircle, User } from "lucide-react";
 
 export const Route = createFileRoute("/")({ component: Landing });
 
