@@ -7,6 +7,7 @@ import { useSubscription } from "@/hooks/use-subscription";
 import { SlidersHorizontal, Star, Droplet, X, User } from "lucide-react";
 import { BottomNav } from "@/components/bottom-nav";
 import { ProtectedPhoto } from "@/components/protected-photo";
+import { useBlockedIds } from "@/hooks/use-blocks";
 
 
 export const Route = createFileRoute("/app/grid")({ component: Grid });
@@ -66,10 +67,13 @@ function Grid() {
     },
   });
 
+  const { data: blockedIds } = useBlockedIds();
+
   const filtered = useMemo(() => {
     if (!data) return [];
     const TRANS = new Set(["femme_trans", "homme_trans", "non_binaire", "genderfluid", "agender"]);
     return data.filter((p) => {
+      if (blockedIds?.has(p.id)) return false;
       if (onlineOnly && !isOnline(p)) return false;
       if (favoritesOnly && !likedIds?.has(p.id)) return false;
       if (hotNow && !isOnline(p)) return false;
@@ -78,7 +82,7 @@ function Grid() {
       if (identityFilter === "cis" && p.gender_identity !== "homme_cis") return false;
       return true;
     });
-  }, [data, onlineOnly, favoritesOnly, hotNow, ageActive, ageMin, ageMax, likedIds, identityFilter]);
+  }, [data, onlineOnly, favoritesOnly, hotNow, ageActive, ageMin, ageMax, likedIds, identityFilter, blockedIds]);
 
   const pillBase = "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border";
   const pillOff = "bg-neutral-900 text-white border-neutral-700";

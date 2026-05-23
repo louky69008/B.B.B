@@ -4,11 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowLeft, EyeOff, Heart, MessageSquare } from "lucide-react";
+import { useBlockedIds } from "@/hooks/use-blocks";
 
 export const Route = createFileRoute("/app/chat")({ component: ChatList });
 
 function ChatList() {
   const { user } = useAuth();
+  const { data: blockedIds } = useBlockedIds();
 
   const { data: convs } = useQuery({
     queryKey: ["conversations", user?.id],
@@ -60,7 +62,7 @@ function ChatList() {
         )}
 
         <ul>
-          {convs?.map((c) => {
+          {convs?.filter((c) => c.other && !blockedIds?.has(c.other.id)).map((c) => {
             const anon = c.other?.anonymous_mode;
             return (
               <li key={c.id}>
