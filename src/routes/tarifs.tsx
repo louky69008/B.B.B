@@ -7,9 +7,9 @@ export const Route = createFileRoute("/tarifs")({
   head: () => ({
     meta: [
       { title: "Tarifs — B.B.B & cie" },
-      { name: "description", content: "Gratuit pour toujours, ou Premium pour matchs illimités, badge vérifié et accès soirées privées. Tous les tarifs B.B.B & cie." },
+      { name: "description", content: "5 abonnements : Basic Lite, Basic Mensuel, Premium, Ultra et Pass 24h. Choisis le plan qui te correspond sur B.B.B & cie." },
       { property: "og:title", content: "Tarifs — B.B.B & cie" },
-      { property: "og:description", content: "Gratuit ou Premium : choisis ton accès." },
+      { property: "og:description", content: "5 abonnements : Basic Lite, Basic Mensuel, Premium, Ultra et Pass 24h." },
       { property: "og:url", content: URL },
       { property: "og:type", content: "website" },
     ],
@@ -20,27 +20,43 @@ export const Route = createFileRoute("/tarifs")({
 
 const plans = [
   {
-    name: "Gratuit",
-    price: "0€",
-    period: "pour toujours",
-    features: ["Profil basique", "Swipe & match limité", "Accès soirées appart'", "Chat à 10 messages/j"],
-    cta: "Commencer",
+    name: "Basic Lite",
+    price: "4,99 €",
+    period: "/ mois",
+    features: ["Jusqu'à 100 profils", "Sans publicité", "Swipe & match", "Chat"],
+    cta: "Choisir Basic Lite",
     accent: false,
   },
   {
-    name: "Premium",
-    price: "9,99€",
+    name: "Basic Mensuel",
+    price: "12,99 €",
     period: "/ mois",
-    features: ["Matchs illimités", "Messages illimités", "Badge vérifié KYC", "Soirées privées", "Voir qui vous a liké", "Boost hebdomadaire"],
-    cta: "Passer Premium",
+    features: ["Jusqu'à 300 profils", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Mise en avant"],
+    cta: "Choisir Mensuel",
     accent: true,
   },
   {
-    name: "Ultra",
-    price: "19,99€",
+    name: "Premium",
+    price: "19,99 €",
     period: "/ mois",
-    features: ["Tout Premium", "Mode incognito", "Filtres avancés", "Support prioritaire", "Accès soirées VIP"],
+    features: ["Jusqu'à 600 profils", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Mode invisible"],
+    cta: "Passer Premium",
+    accent: false,
+  },
+  {
+    name: "Ultra",
+    price: "29,99 €",
+    period: "/ mois",
+    features: ["Profils illimités", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Mode invisible", "Filigrane anti-réutilisation"],
     cta: "Devenir Ultra",
+    accent: false,
+  },
+  {
+    name: "Pass 24h",
+    price: "2,99 €",
+    period: "/ 24h",
+    features: ["Jusqu'à 200 profils", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Accès 24h non renouvelable"],
+    cta: "Acheter 24h",
     accent: false,
   },
 ];
@@ -52,10 +68,10 @@ function PricingPage() {
         Tarifs
       </h1>
       <p className="mt-4 text-center text-[#bdb7d8]">
-        Gratuit pour toujours. Premium pour aller plus loin.
+        5 formules pour matcher à ton rythme.
       </p>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {plans.map((p) => (
           <div
             key={p.name}
