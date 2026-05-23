@@ -331,7 +331,7 @@ function Landing() {
 
               <Link
                 key={label}
-                to={to}
+                to={to as "/auth"}
                 className="flex flex-col items-center gap-1 px-3 py-1"
               >
                 <Icon
