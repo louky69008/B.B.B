@@ -16,22 +16,22 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/70 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2 font-semibold">
-          <Heart className="size-5 text-primary" fill="currentColor" />
-          <span>{t("app_name")}</span>
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        <Link to="/" className="flex items-center gap-2 text-xl font-bold tracking-tight">
+          <Heart className="size-5 text-[color:var(--neon-magenta)]" fill="currentColor" />
+          <span>{t("app_name").split("").map((c, i) => i === 0 ? <span key={i} className="text-[color:var(--neon-magenta)]">{c}</span> : c)}</span>
         </Link>
         <nav className="flex items-center gap-1">
           {user ? (
             <>
-              <Link to="/app/grid" className="rounded-md px-3 py-1.5 text-sm hover:bg-accent/20">
+              <Link to="/app/grid" className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]">
                 {t("nav_grid")}
               </Link>
-              <Link to="/app/chat" className="rounded-md px-3 py-1.5 text-sm hover:bg-accent/20">
+              <Link to="/app/chat" className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]">
                 {t("nav_chat")}
               </Link>
-              <Link to="/app/me" className="rounded-md px-3 py-1.5 text-sm hover:bg-accent/20">
+              <Link to="/app/me" className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]">
                 {t("nav_me")}
               </Link>
               <Button variant="ghost" size="icon" onClick={logout} title={t("logout")}>
@@ -39,18 +39,19 @@ export function Header() {
               </Button>
             </>
           ) : (
-            <Link to="/auth">
-              <Button size="sm">{t("cta_login")}</Button>
+            <Link to="/auth" className="neon-btn">
+              {t("cta_login")}
             </Link>
           )}
           <button
             onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-            className="ml-2 rounded-md border border-border px-2 py-1 text-xs uppercase text-muted-foreground hover:text-foreground"
+            className="ml-3 border border-white/20 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#9b94bf] hover:border-[color:var(--neon-cyan)] hover:text-[color:var(--neon-cyan)]"
           >
             {lang}
           </button>
         </nav>
       </div>
     </header>
+
   );
 }
