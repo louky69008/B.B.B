@@ -25,6 +25,7 @@ import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 import { Route as AppPartiesNewRouteImport } from './routes/app.parties.new'
 import { Route as AppPartiesIdRouteImport } from './routes/app.parties.$id'
 import { Route as AppChatIdRouteImport } from './routes/app.chat.$id'
+import { Route as ApiPublicRevenuecatRouteImport } from './routes/api.public.revenuecat'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -106,6 +107,11 @@ const AppChatIdRoute = AppChatIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AppChatRoute,
 } as any)
+const ApiPublicRevenuecatRoute = ApiPublicRevenuecatRouteImport.update({
+  id: '/api/public/revenuecat',
+  path: '/api/public/revenuecat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
   '/app/parties/new': typeof AppPartiesNewRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
   '/app/parties/new': typeof AppPartiesNewRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
   '/app/parties/new': typeof AppPartiesNewRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/api/public/revenuecat'
     | '/app/chat/$id'
     | '/app/parties/$id'
     | '/app/parties/new'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/api/public/revenuecat'
     | '/app/chat/$id'
     | '/app/parties/$id'
     | '/app/parties/new'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/api/public/revenuecat'
     | '/app/chat/$id'
     | '/app/parties/$id'
     | '/app/parties/new'
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicRevenuecatRoute: typeof ApiPublicRevenuecatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatIdRouteImport
       parentRoute: typeof AppChatRoute
     }
+    '/api/public/revenuecat': {
+      id: '/api/public/revenuecat'
+      path: '/api/public/revenuecat'
+      fullPath: '/api/public/revenuecat'
+      preLoaderRoute: typeof ApiPublicRevenuecatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -389,6 +409,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicRevenuecatRoute: ApiPublicRevenuecatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
