@@ -179,9 +179,16 @@ function ProfileDetail() {
               <div className="grid grid-cols-3 gap-1">
                 {allPhotos.map((url, i) => (
                   <button key={i} onClick={() => setPhotoIdx(i)} className={`aspect-square overflow-hidden rounded-lg ${i === photoIdx ? "ring-2 ring-yellow-400" : ""}`}>
-                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <ProtectedPhoto
+                      src={url}
+                      ownerId={profile.id}
+                      ownerPseudo={profile.pseudo}
+                      watermarkDensity={120}
+                      className="w-full h-full"
+                    />
                   </button>
                 ))}
+
               </div>
             </div>
           )}
