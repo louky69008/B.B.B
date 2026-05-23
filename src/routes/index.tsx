@@ -83,29 +83,30 @@ function Landing() {
 
   return (
     <main
-      className="min-h-screen w-full flex justify-center items-start"
+      className="min-h-screen w-full flex justify-center items-start md:py-10"
       style={{
         backgroundImage: `url(${heroJungle})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed",
         backgroundRepeat: "no-repeat",
         backgroundColor: "#0a0014",
       }}
     >
       <div
-        className="relative w-full max-w-[390px] min-h-screen overflow-hidden"
+        className="relative w-full max-w-[390px] md:max-w-[440px] min-h-screen md:min-h-0 overflow-hidden md:rounded-[2.5rem] md:border md:border-white/10 md:shadow-[0_30px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,45,146,0.25)]"
         style={{
           background:
             "linear-gradient(180deg, #2a0a3a 0%, #1a0530 35%, #0a0014 100%)",
         }}
       >
-        {/* Status bar */}
-        <div className="flex justify-between items-center px-7 pt-3 pb-1 text-white text-[15px] font-semibold relative z-20">
+        {/* Status bar (fake iOS chrome — mobile only) */}
+        <div className="md:hidden flex justify-between items-center px-7 pt-3 pb-1 text-white text-[15px] font-semibold relative z-20">
           <span>9:41</span>
           <span className="text-xs">●●● 📶 🔋</span>
         </div>
-        {/* Dynamic island */}
-        <div className="flex justify-center -mt-1 relative z-20">
+        {/* Dynamic island (mobile only) */}
+        <div className="md:hidden flex justify-center -mt-1 relative z-20">
           <div className="w-28 h-7 bg-black rounded-full" />
         </div>
 
