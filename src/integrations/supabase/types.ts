@@ -167,6 +167,168 @@ export type Database = {
           },
         ]
       }
+      parties: {
+        Row: {
+          access_code: string | null
+          address: string
+          city: string
+          created_at: string
+          description: string
+          floor: string | null
+          host_id: string
+          id: string
+          is_paid: boolean
+          max_participants: number
+          price_cents: number | null
+          rules: string | null
+          starts_at: string
+          status: string
+          title: string
+          updated_at: string
+          warnings: string | null
+        }
+        Insert: {
+          access_code?: string | null
+          address: string
+          city: string
+          created_at?: string
+          description?: string
+          floor?: string | null
+          host_id: string
+          id?: string
+          is_paid?: boolean
+          max_participants?: number
+          price_cents?: number | null
+          rules?: string | null
+          starts_at: string
+          status?: string
+          title: string
+          updated_at?: string
+          warnings?: string | null
+        }
+        Update: {
+          access_code?: string | null
+          address?: string
+          city?: string
+          created_at?: string
+          description?: string
+          floor?: string | null
+          host_id?: string
+          id?: string
+          is_paid?: boolean
+          max_participants?: number
+          price_cents?: number | null
+          rules?: string | null
+          starts_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          warnings?: string | null
+        }
+        Relationships: []
+      }
+      party_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          party_id: string
+          photo_url: string | null
+          sender_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          party_id: string
+          photo_url?: string | null
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          party_id?: string
+          photo_url?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "party_messages_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      party_participants: {
+        Row: {
+          id: string
+          joined_at: string
+          party_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          party_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          party_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "party_participants_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      party_requests: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          party_id: string
+          requester_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          party_id: string
+          requester_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          party_id?: string
+          requester_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "party_requests_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profile_photos: {
         Row: {
           created_at: string
