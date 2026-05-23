@@ -53,7 +53,7 @@ function Me() {
   const save = async () => {
     const { error } = await supabase.from("profiles").update({
       pseudo: form.pseudo, bio: form.bio, gender_identity: form.gender_identity,
-      pronouns: form.pronouns, age: form.age ? Number(form.age) : null,
+      pronouns: form.pronouns, orientation: form.orientation, age: form.age ? Number(form.age) : null,
       city: form.city, photo_url: form.photo_url,
       hide_status: form.hide_status, anonymous_mode: form.anonymous_mode,
     }).eq("id", user!.id);
