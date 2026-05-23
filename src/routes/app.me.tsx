@@ -16,8 +16,9 @@ import { PhotoUpload } from "@/components/photo-upload";
 
 export const Route = createFileRoute("/app/me")({ component: Me });
 
-const GENDERS = ["homme_cis", "femme_trans", "homme_trans", "non_binaire", "genderfluid", "agender", "autre"];
-const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "autre"];
+const GENDERS = ["homme_cis", "femme_trans", "homme_trans", "travesti", "drag", "non_binaire", "genderfluid", "genderqueer", "agender", "two_spirit", "intersexe", "autre"];
+const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "il/elle", "autre"];
+const ORIENTATIONS = ["gay", "homosexuel", "bi", "pan", "queer", "hetero_curieux", "hetero", "demisexuel", "asexuel", "fluide", "autre"];
 
 function Me() {
   const { user } = useAuth();
