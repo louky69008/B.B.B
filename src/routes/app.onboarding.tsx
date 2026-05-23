@@ -181,6 +181,7 @@ function Onboarding() {
 
   const finish = async () => {
     if (!user) return;
+    if (!acceptedTerms) { toast.error("Tu dois accepter les règles d'utilisation."); setStep(0); return; }
     setBusy(true);
     const { error } = await supabase.from("profiles").update({
       pseudo: form.pseudo.trim(),
@@ -190,6 +191,8 @@ function Onboarding() {
       city: form.city.trim(),
       photo_url: form.photo_url.trim(),
       bio: form.bio.trim() || null,
+      terms_accepted_at: new Date().toISOString(),
+      terms_version: TERMS_VERSION,
     }).eq("id", user.id);
     setBusy(false);
     if (error) { toast.error(error.message); return; }
