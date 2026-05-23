@@ -53,6 +53,7 @@ function Onboarding() {
     pseudo: "",
     gender_identity: "homme_cis",
     pronouns: "il/lui",
+    orientation: "gay",
     age: "",
     city: "",
     photo_url: "",
