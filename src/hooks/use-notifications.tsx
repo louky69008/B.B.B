@@ -108,6 +108,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
         const m: any = payload.new;
         if (m.sender_id === user.id) return;
         if (!pathname.includes(`/app/parties/${m.party_id}`)) {
+          playSound();
           toast("🎉 Soirée appart'", { description: "Nouveau message dans le tchat de groupe" });
         }
         refresh();
