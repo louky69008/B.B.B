@@ -10,7 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { ArrowLeft, Plus, X, Crown, LogOut } from "lucide-react";
+import { ArrowLeft, X, Crown, LogOut } from "lucide-react";
+import { PhotoUpload } from "@/components/photo-upload";
 
 export const Route = createFileRoute("/app/me")({ component: Me });
 
