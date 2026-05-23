@@ -8,8 +8,17 @@ function Landing() {
 
   return (
     <main className="relative overflow-hidden">
+      {/* halos globaux derrière toute la page */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-20"
+        style={{
+          background:
+            "radial-gradient(900px 600px at 80% 10%, rgba(255,45,146,0.35), transparent 60%), radial-gradient(800px 500px at 10% 30%, rgba(0,240,255,0.25), transparent 60%), radial-gradient(700px 500px at 50% 90%, rgba(198,255,61,0.12), transparent 60%)",
+        }}
+      />
       {/* HERO — cercle néon central, halo cyan, particules */}
       <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden">
+
         {/* grille néon */}
         <div className="neon-grid pointer-events-none absolute inset-0 -z-10 opacity-50" />
 
