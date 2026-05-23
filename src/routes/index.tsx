@@ -52,13 +52,14 @@ function Landing() {
         >
           <div className="flex justify-around items-center py-2 pb-6">
             {[
-              { icon: Heart, label: "Match", active: true },
-              { icon: Search, label: "Explore" },
-              { icon: MessageCircle, label: "Chat" },
-              { icon: User, label: "Me" },
-            ].map(({ icon: Icon, label, active }) => (
-              <button
+              { icon: Heart, label: "Match", to: "/auth" as const, active: true },
+              { icon: PartyPopper, label: "Soirée appart'", to: "/app/parties" as const },
+              { icon: MessageCircle, label: "Chat", to: "/auth" as const },
+              { icon: User, label: "Moi", to: "/auth" as const },
+            ].map(({ icon: Icon, label, to, active }) => (
+              <Link
                 key={label}
+                to={to}
                 className="flex flex-col items-center gap-1 px-3 py-1"
               >
                 <Icon
@@ -68,12 +69,12 @@ function Landing() {
                   style={active ? { filter: "drop-shadow(0 0 6px #ff2d92)" } : {}}
                 />
                 <span
-                  className="text-[10px]"
+                  className="text-[10px] truncate max-w-[70px] text-center"
                   style={{ color: active ? "#ff2d92" : "#ffffff90" }}
                 >
                   {label}
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         </nav>
