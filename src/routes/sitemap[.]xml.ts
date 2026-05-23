@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { CITIES } from "@/lib/cities";
+import { POSTS } from "@/lib/blog-posts";
 
 const BASE_URL = "https://connect-kindly-61.lovable.app";
 
