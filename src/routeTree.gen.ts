@@ -18,6 +18,7 @@ import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppMeRouteImport } from './routes/app.me'
 import { Route as AppGridRouteImport } from './routes/app.grid'
 import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AppAdminRouteImport } from './routes/app.admin'
 import { Route as AppPartiesIndexRouteImport } from './routes/app.parties.index'
 import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 import { Route as AppPartiesNewRouteImport } from './routes/app.parties.new'
@@ -69,6 +70,11 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPartiesIndexRoute = AppPartiesIndexRouteImport.update({
   id: '/parties/',
   path: '/parties/',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
   '/app/me': typeof AppMeRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
   '/app/me': typeof AppMeRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
   '/app/me': typeof AppMeRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/app/admin'
     | '/app/chat'
     | '/app/grid'
     | '/app/me'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/app/admin'
     | '/app/chat'
     | '/app/grid'
     | '/app/me'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/app/admin'
     | '/app/chat'
     | '/app/grid'
     | '/app/me'
@@ -266,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admin': {
+      id: '/app/admin'
+      path: '/admin'
+      fullPath: '/app/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/parties/': {
       id: '/app/parties/'
       path: '/parties'
@@ -316,6 +335,7 @@ const AppChatRouteWithChildren =
   AppChatRoute._addFileChildren(AppChatRouteChildren)
 
 interface AppRouteChildren {
+  AppAdminRoute: typeof AppAdminRoute
   AppChatRoute: typeof AppChatRouteWithChildren
   AppGridRoute: typeof AppGridRoute
   AppMeRoute: typeof AppMeRoute
@@ -329,6 +349,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdminRoute: AppAdminRoute,
   AppChatRoute: AppChatRouteWithChildren,
   AppGridRoute: AppGridRoute,
   AppMeRoute: AppMeRoute,
@@ -351,3 +372,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
