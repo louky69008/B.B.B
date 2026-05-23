@@ -11,6 +11,8 @@ type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
   /** Density of the watermark tile (smaller = more repeats). */
   watermarkDensity?: number;
   rounded?: string;
+  /** Hide the visible "Photo protégée" lock label — still blurs to black on screenshot. */
+  silent?: boolean;
 };
 
 /**
