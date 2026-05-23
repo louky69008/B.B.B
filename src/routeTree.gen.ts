@@ -19,6 +19,8 @@ import { Route as AppGridRouteImport } from './routes/app.grid'
 import { Route as AppChatRouteImport } from './routes/app.chat'
 import { Route as AppPartiesIndexRouteImport } from './routes/app.parties.index'
 import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
+import { Route as AppPartiesNewRouteImport } from './routes/app.parties.new'
+import { Route as AppPartiesIdRouteImport } from './routes/app.parties.$id'
 import { Route as AppChatIdRouteImport } from './routes/app.chat.$id'
 
 const AuthRoute = AuthRouteImport.update({
@@ -71,6 +73,16 @@ const AppProfileIdRoute = AppProfileIdRouteImport.update({
   path: '/profile/$id',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPartiesNewRoute = AppPartiesNewRouteImport.update({
+  id: '/parties/new',
+  path: '/parties/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPartiesIdRoute = AppPartiesIdRouteImport.update({
+  id: '/parties/$id',
+  path: '/parties/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppChatIdRoute = AppChatIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -87,6 +99,8 @@ export interface FileRoutesByFullPath {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
+  '/app/parties/$id': typeof AppPartiesIdRoute
+  '/app/parties/new': typeof AppPartiesNewRoute
   '/app/profile/$id': typeof AppProfileIdRoute
   '/app/parties/': typeof AppPartiesIndexRoute
 }
@@ -100,6 +114,8 @@ export interface FileRoutesByTo {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
+  '/app/parties/$id': typeof AppPartiesIdRoute
+  '/app/parties/new': typeof AppPartiesNewRoute
   '/app/profile/$id': typeof AppProfileIdRoute
   '/app/parties': typeof AppPartiesIndexRoute
 }
@@ -114,6 +130,8 @@ export interface FileRoutesById {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
+  '/app/parties/$id': typeof AppPartiesIdRoute
+  '/app/parties/new': typeof AppPartiesNewRoute
   '/app/profile/$id': typeof AppProfileIdRoute
   '/app/parties/': typeof AppPartiesIndexRoute
 }
@@ -129,6 +147,8 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/chat/$id'
+    | '/app/parties/$id'
+    | '/app/parties/new'
     | '/app/profile/$id'
     | '/app/parties/'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +162,8 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/chat/$id'
+    | '/app/parties/$id'
+    | '/app/parties/new'
     | '/app/profile/$id'
     | '/app/parties'
   id:
@@ -155,6 +177,8 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/chat/$id'
+    | '/app/parties/$id'
+    | '/app/parties/new'
     | '/app/profile/$id'
     | '/app/parties/'
   fileRoutesById: FileRoutesById
@@ -237,6 +261,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/parties/new': {
+      id: '/app/parties/new'
+      path: '/parties/new'
+      fullPath: '/app/parties/new'
+      preLoaderRoute: typeof AppPartiesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/parties/$id': {
+      id: '/app/parties/$id'
+      path: '/parties/$id'
+      fullPath: '/app/parties/$id'
+      preLoaderRoute: typeof AppPartiesIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/chat/$id': {
       id: '/app/chat/$id'
       path: '/$id'
@@ -264,6 +302,8 @@ interface AppRouteChildren {
   AppMeRoute: typeof AppMeRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppSubscribeRoute: typeof AppSubscribeRoute
+  AppPartiesIdRoute: typeof AppPartiesIdRoute
+  AppPartiesNewRoute: typeof AppPartiesNewRoute
   AppProfileIdRoute: typeof AppProfileIdRoute
   AppPartiesIndexRoute: typeof AppPartiesIndexRoute
 }
@@ -274,6 +314,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppMeRoute: AppMeRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppSubscribeRoute: AppSubscribeRoute,
+  AppPartiesIdRoute: AppPartiesIdRoute,
+  AppPartiesNewRoute: AppPartiesNewRoute,
   AppProfileIdRoute: AppProfileIdRoute,
   AppPartiesIndexRoute: AppPartiesIndexRoute,
 }
@@ -288,13 +330,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
