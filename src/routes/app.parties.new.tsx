@@ -36,7 +36,7 @@ function NewParty() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user) { toast.info("Crée un compte pour publier ta soirée"); navigate({ to: "/auth" }); return; }
     setBusy(true);
     const { data, error } = await supabase.from("parties").insert({
       host_id: user.id,
