@@ -38,7 +38,7 @@ function Admin() {
         .order("created_at", { ascending: false });
       const ids = Array.from(new Set([
         ...(data ?? []).map((r) => r.reporter_id),
-        ...(data ?? []).map((r) => r.target_user_id).filter(Boolean),
+        ...(data ?? []).map((r) => r.target_user_id).filter((x): x is string => !!x),
       ]));
       const { data: profs } = ids.length
         ? await supabase.from("profiles").select("id, pseudo, photo_url").in("id", ids)
