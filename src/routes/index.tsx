@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import heroNeon from "@/assets/hero-neon.jpg";
 import { Heart, PartyPopper, MessageCircle, User, X } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/")({ component: Landing });
+
 
 type HotspotKey = "trans" | "appart" | "chat" | "kyc";
 
@@ -73,7 +75,10 @@ const HOTSPOTS: Hotspot[] = [
 
 function Landing() {
   const [open, setOpen] = useState<HotspotKey | null>(null);
+  const { user } = useAuth();
+  const authedTarget = "/app/grid" as const;
   const active = HOTSPOTS.find((h) => h.key === open) ?? null;
+
 
   return (
     <main
@@ -104,11 +109,12 @@ function Landing() {
 
           {/* Hotspot Enter the club */}
           <Link
-            to="/auth"
+            to={user ? authedTarget : "/auth"}
             aria-label="Enter the club"
             className="absolute left-1/2 -translate-x-1/2"
             style={{ top: "71%", width: "60%", height: "6%" }}
           />
+
 
           {/* Interactive animated hotspots */}
           {HOTSPOTS.map((h, i) => (
@@ -214,7 +220,8 @@ function Landing() {
                 {active.body}
               </p>
               <Link
-                to={active.cta.to}
+                to={user && active.cta.to === "/auth" ? authedTarget : active.cta.to}
+
                 onClick={() => setOpen(null)}
                 className="mt-4 block text-center rounded-xl py-3 text-white text-sm font-bold"
                 style={{
@@ -315,14 +322,16 @@ function Landing() {
         >
           <div className="flex justify-around items-center py-2 pb-6">
             {[
-              { icon: Heart, label: "Match", to: "/auth" as const, active: true },
-              { icon: PartyPopper, label: "Soirée appart'", to: "/app/parties" as const },
-              { icon: MessageCircle, label: "Chat", to: "/auth" as const },
-              { icon: User, label: "Moi", to: "/auth" as const },
+              { icon: Heart, label: "Match", to: (user ? "/app/grid" : "/auth") as string, active: true },
+              { icon: PartyPopper, label: "Soirée appart'", to: "/app/parties" as string, active: false },
+              { icon: MessageCircle, label: "Chat", to: (user ? "/app/chat" : "/auth") as string, active: false },
+              { icon: User, label: "Moi", to: (user ? "/app/me" : "/auth") as string, active: false },
             ].map(({ icon: Icon, label, to, active }) => (
+
+
               <Link
                 key={label}
-                to={to}
+                to={to as "/auth"}
                 className="flex flex-col items-center gap-1 px-3 py-1"
               >
                 <Icon
