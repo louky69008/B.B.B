@@ -35,6 +35,7 @@ export function ProtectedPhoto({
   watermarkDensity = 180,
   rounded,
   alt = "",
+  silent = false,
   ...imgProps
 }: Props) {
   const isUltra = useIsUltra(ownerId);
