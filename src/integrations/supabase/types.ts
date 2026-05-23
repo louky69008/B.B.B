@@ -621,6 +621,14 @@ export type Database = {
     }
     Functions: {
       delete_my_account: { Args: never; Returns: undefined }
+      get_party_private_details: {
+        Args: { _party_id: string }
+        Returns: {
+          access_code: string
+          address: string
+          floor: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
