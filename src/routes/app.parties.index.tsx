@@ -37,17 +37,23 @@ function PartiesList() {
       <div className="w-full max-w-[420px] pb-24">
         <header className="flex items-center gap-3 px-4 py-3 border-b border-neutral-800 sticky top-0 bg-black/95 backdrop-blur z-10">
           <Link to="/app/grid" className="p-1"><ArrowLeft className="size-5" /></Link>
-          <h1 className="text-lg font-bold flex-1">Soirées</h1>
+          <h1 className="text-lg font-bold flex-1">Soirée appart'</h1>
           <Link to="/app/parties/new"
             className="size-9 rounded-full bg-yellow-400 text-black flex items-center justify-center">
             <Plus className="size-5" />
           </Link>
         </header>
 
+        <div className="px-4 pt-4">
+          <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 p-4 text-sm text-yellow-100 leading-relaxed">
+            Tu cherches une soirée appart entre potes rencontrés sur tes réseaux sociaux favoris ou alors de nouvelles rencontres à te faire alors tu es au bon endroit pour <span className="font-bold text-yellow-300">"UN AFTER … D'AFTER !!!!"</span> Trouve la soirée qui va te faire kiffer que ce soit à 3, 4 ….. tout peut arriver
+          </div>
+        </div>
+
         <div className="p-4 space-y-3">
           {data?.length === 0 && (
             <div className="text-center text-neutral-500 mt-12">
-              <p>Aucune soirée à venir.</p>
+              <p>Aucune soirée appart' à venir.</p>
               <p className="text-sm mt-2">Sois le premier à en organiser une !</p>
             </div>
           )}
