@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useSubscription } from "@/hooks/use-subscription";
-import { SlidersHorizontal, Star, Droplet, Heart, MessageSquare, User, Crown, X } from "lucide-react";
+import { SlidersHorizontal, Star, Droplet, Heart, MessageSquare, User, Crown, X, PartyPopper } from "lucide-react";
 
 export const Route = createFileRoute("/app/grid")({ component: Grid });
 
@@ -228,7 +228,7 @@ function Grid() {
                 <path d="M12 2C7 2 4 6 4 11c0 4 2 7 5 9 0-2 1-3 3-3s3 1 3 3c3-2 5-5 5-9 0-5-3-9-8-9zm-3 9a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm6 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
               </svg>
             </Link>
-            <button className="p-2"><Droplet className="w-6 h-6 text-neutral-400" /></button>
+            <Link to="/app/parties" className="p-2"><PartyPopper className="w-6 h-6 text-neutral-400" /></Link>
             <Link to="/app/chat" className="p-2"><Heart className="w-6 h-6 text-neutral-400" /></Link>
             <Link to="/app/chat" className="p-2"><MessageSquare className="w-6 h-6 text-neutral-400" /></Link>
             <Link to="/app/subscribe" className="p-2"><Crown className="w-6 h-6 text-yellow-400" /></Link>
