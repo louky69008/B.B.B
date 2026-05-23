@@ -17,6 +17,7 @@ import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppMeRouteImport } from './routes/app.me'
 import { Route as AppGridRouteImport } from './routes/app.grid'
 import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AppPartiesIndexRouteImport } from './routes/app.parties.index'
 import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 import { Route as AppChatIdRouteImport } from './routes/app.chat.$id'
 
@@ -60,6 +61,11 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPartiesIndexRoute = AppPartiesIndexRouteImport.update({
+  id: '/parties/',
+  path: '/parties/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProfileIdRoute = AppProfileIdRouteImport.update({
   id: '/profile/$id',
   path: '/profile/$id',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
+  '/app/parties/': typeof AppPartiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
+  '/app/parties': typeof AppPartiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
+  '/app/parties/': typeof AppPartiesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/app/subscribe'
     | '/app/chat/$id'
     | '/app/profile/$id'
+    | '/app/parties/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/app/subscribe'
     | '/app/chat/$id'
     | '/app/profile/$id'
+    | '/app/parties'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/app/subscribe'
     | '/app/chat/$id'
     | '/app/profile/$id'
+    | '/app/parties/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -211,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/parties/': {
+      id: '/app/parties/'
+      path: '/parties'
+      fullPath: '/app/parties/'
+      preLoaderRoute: typeof AppPartiesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/profile/$id': {
       id: '/app/profile/$id'
       path: '/profile/$id'
@@ -246,6 +265,7 @@ interface AppRouteChildren {
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppSubscribeRoute: typeof AppSubscribeRoute
   AppProfileIdRoute: typeof AppProfileIdRoute
+  AppPartiesIndexRoute: typeof AppPartiesIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -255,6 +275,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppOnboardingRoute: AppOnboardingRoute,
   AppSubscribeRoute: AppSubscribeRoute,
   AppProfileIdRoute: AppProfileIdRoute,
+  AppPartiesIndexRoute: AppPartiesIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -267,3 +288,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
