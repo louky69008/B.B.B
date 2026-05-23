@@ -6,6 +6,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { useSubscription } from "@/hooks/use-subscription";
 import { SlidersHorizontal, Star, Droplet, X, User } from "lucide-react";
 import { BottomNav } from "@/components/bottom-nav";
+import { ProtectedPhoto } from "@/components/protected-photo";
+
 
 export const Route = createFileRoute("/app/grid")({ component: Grid });
 
