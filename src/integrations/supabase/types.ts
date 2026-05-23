@@ -199,10 +199,12 @@ export type Database = {
           created_at: string
           description: string
           floor: string | null
+          full_chill_out: boolean
           host_id: string
           id: string
           is_paid: boolean
           max_participants: number
+          practices: string[]
           price_cents: number | null
           rules: string | null
           starts_at: string
@@ -218,10 +220,12 @@ export type Database = {
           created_at?: string
           description?: string
           floor?: string | null
+          full_chill_out?: boolean
           host_id: string
           id?: string
           is_paid?: boolean
           max_participants?: number
+          practices?: string[]
           price_cents?: number | null
           rules?: string | null
           starts_at: string
@@ -237,10 +241,12 @@ export type Database = {
           created_at?: string
           description?: string
           floor?: string | null
+          full_chill_out?: boolean
           host_id?: string
           id?: string
           is_paid?: boolean
           max_participants?: number
+          practices?: string[]
           price_cents?: number | null
           rules?: string | null
           starts_at?: string
