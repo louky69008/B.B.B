@@ -23,11 +23,14 @@ const GENDERS = [
 ];
 const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "autre"];
 
+const TERMS_VERSION = "2026-05-23";
+
 function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [form, setForm] = useState({
     pseudo: "",
     gender_identity: "homme_cis",
