@@ -7,7 +7,7 @@ const BASE_URL = "https://connect-kindly-61.lovable.app";
 
 interface SitemapEntry {
   path: string;
-  changefreq?: "weekly" | "monthly" | "daily";
+  changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
 }
 
