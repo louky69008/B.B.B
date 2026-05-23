@@ -127,6 +127,18 @@ function Grid() {
           >
             {ageActive ? `Âge ${ageMin}-${ageMax}` : "Âge"}
           </button>
+          <button
+            onClick={() => setIdentityFilter(identityFilter === "trans" ? "all" : "trans")}
+            className={`${pillBase} ${identityFilter === "trans" ? "bg-gradient-to-r from-pink-400 to-cyan-300 text-black border-transparent" : pillOff}`}
+          >
+            Trans & NB
+          </button>
+          <Link
+            to="/app/trans"
+            className={`${pillBase} ${pillOff} flex items-center gap-1`}
+          >
+            ♡ Communauté
+          </Link>
         </div>
 
         {/* Grid */}
