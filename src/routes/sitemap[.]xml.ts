@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { CITIES } from "@/lib/cities";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+const BASE_URL = "https://connect-kindly-61.lovable.app";
 
 interface SitemapEntry {
   path: string;
@@ -17,7 +16,11 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/auth", changefreq: "monthly", priority: "0.6" },
+          { path: "/a-propos", changefreq: "monthly", priority: "0.8" },
+          { path: "/tarifs", changefreq: "monthly", priority: "0.8" },
+          { path: "/blog", changefreq: "weekly", priority: "0.7" },
+          { path: "/contact", changefreq: "monthly", priority: "0.6" },
+          { path: "/auth", changefreq: "monthly", priority: "0.5" },
           { path: "/villes", changefreq: "weekly", priority: "0.9" },
           ...CITIES.map((c) => ({
             path: `/villes/${c.slug}`,
