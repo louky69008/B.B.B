@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { useLocation } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useMessageSound } from "@/hooks/use-message-sound";
 import { toast } from "sonner";
 
 type Counts = { messages: number; parties: number };
@@ -21,6 +22,7 @@ const setSeen = (kind: string, id: string, ts = Date.now()) =>
 export function NotificationsProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const { pathname } = useLocation();
+  const playSound = useMessageSound();
   const [counts, setCounts] = useState<Counts>({ messages: 0, parties: 0 });
   const [tick, setTick] = useState(0);
   const refresh = () => setTick((n) => n + 1);
@@ -97,6 +99,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
         if (m.sender_id === user.id) return;
         // Only toast if not currently viewing that conversation
         if (!pathname.includes(`/app/chat/${m.conversation_id}`)) {
+          playSound();
           toast("💬 Nouveau message", { description: "Tu as reçu un message privé" });
         }
         refresh();
@@ -105,6 +108,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
         const m: any = payload.new;
         if (m.sender_id === user.id) return;
         if (!pathname.includes(`/app/parties/${m.party_id}`)) {
+          playSound();
           toast("🎉 Soirée appart'", { description: "Nouveau message dans le tchat de groupe" });
         }
         refresh();
