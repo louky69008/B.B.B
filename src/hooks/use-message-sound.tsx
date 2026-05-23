@@ -83,7 +83,7 @@ function playPulse(ctx: AudioContext) {
 }
 
 export function useMessageSound() {
-  const lastPlay = useRef(x0);
+  const lastPlay = useRef(0);
 
   const play = useCallback(() => {
     const now = Date.now();
