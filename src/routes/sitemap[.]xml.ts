@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { CITIES } from "@/lib/cities";
+import { POSTS } from "@/lib/blog-posts";
 
 const BASE_URL = "https://connect-kindly-61.lovable.app";
 
@@ -26,6 +27,11 @@ export const Route = createFileRoute("/sitemap.xml")({
             path: `/villes/${c.slug}`,
             changefreq: "weekly" as const,
             priority: "0.8",
+          })),
+          ...POSTS.map((p) => ({
+            path: `/blog/${p.slug}`,
+            changefreq: "monthly" as const,
+            priority: "0.6",
           })),
         ];
 

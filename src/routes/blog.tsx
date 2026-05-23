@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { POSTS } from "@/lib/blog-posts";
 
 const URL = "https://connect-kindly-61.lovable.app/blog";
 
@@ -17,11 +18,7 @@ export const Route = createFileRoute("/blog")({
   component: BlogPage,
 });
 
-const posts = [
-  { slug: "premier-rdv", title: "Réussir son premier rendez-vous IRL", excerpt: "Les 7 règles d'or pour transformer un match en vraie rencontre.", date: "2026-05-20", tag: "Conseils" },
-  { slug: "soiree-appart", title: "Soirée appart' : le guide pour bien recevoir", excerpt: "Ambiance, safe sex, limites claires : organise une soirée mémorable.", date: "2026-05-12", tag: "Lifestyle" },
-  { slug: "trans-friendly", title: "Pourquoi un espace vraiment trans-friendly compte", excerpt: "Notre démarche pour un espace inclusif et respectueux.", date: "2026-04-28", tag: "Communauté" },
-];
+const posts = POSTS;
 
 function BlogPage() {
   return (
@@ -41,8 +38,8 @@ function BlogPage() {
             </div>
             <h2 className="mt-2 font-display text-xl">{p.title}</h2>
             <p className="mt-2 text-sm text-[#bdb7d8]">{p.excerpt}</p>
-            <Link to="/blog" className="mt-3 inline-block text-xs font-mono uppercase tracking-wider text-[color:var(--neon-magenta)]">
-              Lire (bientôt) ›
+            <Link to="/blog/$slug" params={{ slug: p.slug }} className="mt-3 inline-block text-xs font-mono uppercase tracking-wider text-[color:var(--neon-magenta)] hover:text-[color:var(--neon-cyan)]">
+              Lire l'article ›
             </Link>
           </article>
         ))}

@@ -19,6 +19,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VillesCityRouteImport } from './routes/villes.$city'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AppTransRouteImport } from './routes/app.trans'
 import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
@@ -83,6 +84,11 @@ const VillesCityRoute = VillesCityRouteImport.update({
   id: '/$city',
   path: '/$city',
   getParentRoute: () => VillesRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AppTransRoute = AppTransRouteImport.update({
   id: '/trans',
@@ -160,7 +166,7 @@ export interface FileRoutesByFullPath {
   '/a-propos': typeof AProposRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tarifs': typeof TarifsRoute
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/villes/$city': typeof VillesCityRoute
   '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
@@ -186,7 +193,7 @@ export interface FileRoutesByTo {
   '/a-propos': typeof AProposRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tarifs': typeof TarifsRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/villes/$city': typeof VillesCityRoute
   '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
@@ -213,7 +221,7 @@ export interface FileRoutesById {
   '/a-propos': typeof AProposRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tarifs': typeof TarifsRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/villes/$city': typeof VillesCityRoute
   '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/blog/$slug'
     | '/villes/$city'
     | '/api/public/revenuecat'
     | '/app/chat/$id'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/blog/$slug'
     | '/villes/$city'
     | '/api/public/revenuecat'
     | '/app/chat/$id'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/blog/$slug'
     | '/villes/$city'
     | '/api/public/revenuecat'
     | '/app/chat/$id'
@@ -320,7 +332,7 @@ export interface RootRouteChildren {
   AProposRoute: typeof AProposRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
-  BlogRoute: typeof BlogRoute
+  BlogRoute: typeof BlogRouteWithChildren
   ContactRoute: typeof ContactRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TarifsRoute: typeof TarifsRoute
@@ -399,6 +411,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/villes/$city'
       preLoaderRoute: typeof VillesCityRouteImport
       parentRoute: typeof VillesRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/app/trans': {
       id: '/app/trans'
@@ -544,6 +563,16 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface VillesRouteChildren {
   VillesCityRoute: typeof VillesCityRoute
 }
@@ -560,7 +589,7 @@ const rootRouteChildren: RootRouteChildren = {
   AProposRoute: AProposRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
-  BlogRoute: BlogRoute,
+  BlogRoute: BlogRouteWithChildren,
   ContactRoute: ContactRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TarifsRoute: TarifsRoute,
