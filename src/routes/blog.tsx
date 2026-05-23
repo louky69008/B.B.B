@@ -38,8 +38,8 @@ function BlogPage() {
             </div>
             <h2 className="mt-2 font-display text-xl">{p.title}</h2>
             <p className="mt-2 text-sm text-[#bdb7d8]">{p.excerpt}</p>
-            <Link to="/blog" className="mt-3 inline-block text-xs font-mono uppercase tracking-wider text-[color:var(--neon-magenta)]">
-              Lire (bientôt) ›
+            <Link to="/blog/$slug" params={{ slug: p.slug }} className="mt-3 inline-block text-xs font-mono uppercase tracking-wider text-[color:var(--neon-magenta)] hover:text-[color:var(--neon-cyan)]">
+              Lire l'article ›
             </Link>
           </article>
         ))}
