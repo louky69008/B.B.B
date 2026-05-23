@@ -117,7 +117,7 @@ function Onboarding() {
     {
       title: "Ton identité",
       subtitle: "Tu peux la changer à tout moment. Aucune discrimination tolérée.",
-      valid: () => !!form.gender_identity && !!form.pronouns,
+      valid: () => !!form.gender_identity && !!form.pronouns && !!form.orientation,
       body: (
         <div className="space-y-3">
           <div>
@@ -132,6 +132,13 @@ function Onboarding() {
             <Select value={form.pronouns} onValueChange={(v) => set("pronouns", v)}>
               <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
               <SelectContent>{PRONOUNS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-neutral-400 text-xs">Orientation sexuelle</Label>
+            <Select value={form.orientation} onValueChange={(v) => set("orientation", v)}>
+              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
+              <SelectContent>{ORIENTATIONS.map((o) => <SelectItem key={o.v} value={o.v}>{o.label}</SelectItem>)}</SelectContent>
             </Select>
           </div>
         </div>
