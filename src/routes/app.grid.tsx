@@ -152,13 +152,21 @@ function Grid() {
               <button key={p.id} type="button" onClick={() => navigate({ to: "/app/profile/$id", params: { id: p.id } })}
                 className="relative aspect-square overflow-hidden bg-neutral-900 text-left cursor-pointer">
                 {p.photo_url ? (
-                  <img src={p.photo_url} alt={p.pseudo} className="w-full h-full object-cover" />
+                  <ProtectedPhoto
+                    src={p.photo_url}
+                    ownerId={p.id}
+                    ownerPseudo={p.pseudo}
+                    watermarkDensity={110}
+                    alt={p.pseudo}
+                    className="w-full h-full"
+                  />
                 ) : (
                   <div className="flex w-full h-full items-center justify-center bg-neutral-800">
                     <User className="w-16 h-16 text-neutral-600" />
                   </div>
                 )}
-                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+
                 <div className="absolute left-1.5 bottom-1.5 flex items-center gap-1.5">
                   {online && <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />}
                   <span className="text-white text-[11px] font-medium truncate max-w-[80px]">{p.pseudo}</span>
