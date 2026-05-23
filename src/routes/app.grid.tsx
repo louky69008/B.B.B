@@ -120,7 +120,7 @@ function Grid() {
             En ligne
           </button>
           <button className={`${pillBase} flex items-center gap-1.5 ${pillOff}`}>
-            <Droplet className="w-3.5 h-3.5" /> Dispo
+            <Droplet className="w-3.5 h-3.5" /> Cho now !
           </button>
           <button
             onClick={() => setShowAgeSheet(true)}
