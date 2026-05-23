@@ -42,6 +42,18 @@ export function PhotoUpload({ userId, onUploaded, children, className }: Props) 
     }
   };
 
+  const handleClick = () => {
+    const ok = window.confirm(
+      "Règles photos :\n\n" +
+        "• Aucune nudité visible (sexe, poitrine, fesses nues)\n" +
+        "• Aucun mineur, aucune photo prise sans consentement\n" +
+        "• Pas de coordonnées, ni de pub\n\n" +
+        "Les photos non conformes sont supprimées et peuvent entraîner un bannissement.\n\n" +
+        "Je confirme que ma photo respecte ces règles.",
+    );
+    if (ok) inputRef.current?.click();
+  };
+
   return (
     <>
       <input
@@ -57,7 +69,7 @@ export function PhotoUpload({ userId, onUploaded, children, className }: Props) 
       <button
         type="button"
         disabled={busy}
-        onClick={() => inputRef.current?.click()}
+        onClick={handleClick}
         className={className ?? "h-12 px-5 rounded-full bg-yellow-400 text-black font-semibold flex items-center justify-center gap-2 disabled:opacity-50"}
       >
         {busy ? <Loader2 className="size-5 animate-spin" /> : <Upload className="size-5" />}

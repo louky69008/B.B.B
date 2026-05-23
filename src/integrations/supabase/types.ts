@@ -415,10 +415,12 @@ export type Database = {
       profiles: {
         Row: {
           age: number | null
+          age_gate_accepted_at: string | null
           anonymous_mode: boolean
           bio: string | null
           city: string | null
           created_at: string
+          explicit_content_acknowledged_at: string | null
           gender_identity: string | null
           hide_status: boolean
           id: string
@@ -433,10 +435,12 @@ export type Database = {
         }
         Insert: {
           age?: number | null
+          age_gate_accepted_at?: string | null
           anonymous_mode?: boolean
           bio?: string | null
           city?: string | null
           created_at?: string
+          explicit_content_acknowledged_at?: string | null
           gender_identity?: string | null
           hide_status?: boolean
           id: string
@@ -451,10 +455,12 @@ export type Database = {
         }
         Update: {
           age?: number | null
+          age_gate_accepted_at?: string | null
           anonymous_mode?: boolean
           bio?: string | null
           city?: string | null
           created_at?: string
+          explicit_content_acknowledged_at?: string | null
           gender_identity?: string | null
           hide_status?: boolean
           id?: string
@@ -614,6 +620,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      delete_my_account: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
