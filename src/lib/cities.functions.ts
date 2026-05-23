@@ -21,12 +21,16 @@ export const getCityStats = createServerFn({ method: "GET" })
     const { count } = await supabaseAdmin
       .from("profiles")
       .select("id", { count: "exact", head: true })
-      .or(orClause);
+      .or(orClause)
+      .eq("anonymous_mode", false)
+      .eq("hide_status", false);
 
     const { data: rows } = await supabaseAdmin
       .from("profiles")
       .select("pseudo, age, photo_url")
       .or(orClause)
+      .eq("anonymous_mode", false)
+      .eq("hide_status", false)
       .not("photo_url", "is", null)
       .order("last_seen", { ascending: false })
       .limit(12);
