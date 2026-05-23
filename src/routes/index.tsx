@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import heroNeon from "@/assets/hero-neon.jpg";
 import { Heart, PartyPopper, MessageCircle, User, X } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/")({ component: Landing });
+
 
 type HotspotKey = "trans" | "appart" | "chat" | "kyc";
 
