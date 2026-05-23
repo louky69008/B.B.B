@@ -11,6 +11,8 @@ type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
   /** Density of the watermark tile (smaller = more repeats). */
   watermarkDensity?: number;
   rounded?: string;
+  /** Hide the visible "Photo protégée" lock label — still blurs to black on screenshot. */
+  silent?: boolean;
 };
 
 /**
@@ -33,6 +35,7 @@ export function ProtectedPhoto({
   watermarkDensity = 180,
   rounded,
   alt = "",
+  silent = false,
   ...imgProps
 }: Props) {
   const isUltra = useIsUltra(ownerId);
@@ -121,10 +124,14 @@ export function ProtectedPhoto({
         />
       )}
 
-      {hidden && (
+      {hidden && !silent && (
         <div className="absolute inset-0 flex items-center justify-center text-[10px] uppercase tracking-widest text-white/60 bg-black/40">
           🔒 Photo protégée
         </div>
+      )}
+
+      {hidden && silent && (
+        <div className="absolute inset-0 bg-black" />
       )}
     </div>
   );
