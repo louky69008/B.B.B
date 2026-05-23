@@ -159,6 +159,7 @@ function Grid() {
                     watermarkDensity={110}
                     alt={p.pseudo}
                     className="w-full h-full"
+                    silent
                   />
                 ) : (
                   <div className="flex w-full h-full items-center justify-center bg-neutral-800">
