@@ -183,6 +183,13 @@ function Me() {
               <Input value={form.city ?? ""} onChange={(e) => set("city", e.target.value)}
                 className="bg-neutral-900 border-neutral-700 text-white" />
             </div>
+            <div className="col-span-2">
+              <Label className="text-neutral-300">Orientation sexuelle</Label>
+              <Select value={form.orientation ?? "gay"} onValueChange={(v) => set("orientation", v)}>
+                <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white"><SelectValue /></SelectTrigger>
+                <SelectContent>{ORIENTATIONS.map((o) => <SelectItem key={o} value={o}>{o.replace("_", " ")}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
           </div>
 
           <label className="flex items-center gap-2 text-sm text-neutral-300">
