@@ -14,16 +14,143 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          last_message_at: string
+          user1_id: string
+          user2_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          user1_id: string
+          user2_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          user1_id?: string
+          user2_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          bio: string | null
+          city: string | null
+          created_at: string
+          gender_identity: string | null
+          hide_status: boolean
+          id: string
+          last_seen: string
+          photo_url: string | null
+          pronouns: string | null
+          pseudo: string
+          updated_at: string
+        }
+        Insert: {
+          age?: number | null
+          bio?: string | null
+          city?: string | null
+          created_at?: string
+          gender_identity?: string | null
+          hide_status?: boolean
+          id: string
+          last_seen?: string
+          photo_url?: string | null
+          pronouns?: string | null
+          pseudo: string
+          updated_at?: string
+        }
+        Update: {
+          age?: number | null
+          bio?: string | null
+          city?: string | null
+          created_at?: string
+          gender_identity?: string | null
+          hide_status?: boolean
+          id?: string
+          last_seen?: string
+          photo_url?: string | null
+          pronouns?: string | null
+          pseudo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "moderator" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +277,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "moderator", "admin"],
+    },
   },
 } as const
