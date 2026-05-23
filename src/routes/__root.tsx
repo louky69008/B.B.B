@@ -82,9 +82,11 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <AuthProvider>
-          <Header />
-          <Outlet />
-          <Toaster />
+          <NotificationsProvider>
+            <Header />
+            <Outlet />
+            <Toaster />
+          </NotificationsProvider>
         </AuthProvider>
       </I18nProvider>
     </QueryClientProvider>
