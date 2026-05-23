@@ -45,6 +45,42 @@ function Onboarding() {
 
   const steps = [
     {
+      title: "Règles d'utilisation",
+      subtitle: "À lire et accepter avant d'entrer. Tu ne pourras pas revenir en arrière sans accepter.",
+      valid: () => acceptedTerms,
+      body: (
+        <div className="space-y-4">
+          <div className="max-h-[55vh] overflow-y-auto rounded-2xl bg-neutral-900 border border-neutral-800 p-4 text-sm text-neutral-300 space-y-3">
+            <p className="font-semibold text-white">En utilisant Prism Connect, tu t'engages à :</p>
+            <ul className="space-y-2 list-disc pl-5">
+              <li><b className="text-white">Avoir 18 ans ou plus.</b> Toute fausse déclaration entraîne un bannissement immédiat et définitif.</li>
+              <li><b className="text-white">Respecter chaque membre</b> peu importe son identité de genre, son orientation, son origine, son corps, son statut sérologique ou sa séropositivité.</li>
+              <li><b className="text-white">Aucun harcèlement</b>, insulte, menace, racisme, transphobie, sérophobie, grossophobie, validisme ou discrimination — sanctions progressives (avertissement, 24h, 30j, à vie) avec bannissement de l'appareil.</li>
+              <li><b className="text-white">Aucun contenu illégal</b> : mineurs, violence non consentie, drogues, prostitution, contenu volé.</li>
+              <li><b className="text-white">Consentement obligatoire</b> avant tout échange de photo intime. Le partage non consenti d'images privées (revenge porn) est un délit et entraîne un signalement aux autorités.</li>
+              <li><b className="text-white">Soirées / rencontres IRL</b> : tu es seul responsable de tes choix et de ta sécurité. Préviens un proche, vérifie le profil, refuse si tu n'es pas à l'aise. L'app n'est pas responsable des événements organisés entre membres.</li>
+              <li><b className="text-white">Signalement</b> : utilise le bouton signaler dès qu'un comportement te semble inapproprié. Les modérateurs interviennent.</li>
+              <li><b className="text-white">Pas d'usurpation d'identité</b>, pas de faux profil, pas de spam, pas de promotion commerciale sans accord.</li>
+            </ul>
+            <p className="font-semibold text-white pt-2">Sanctions</p>
+            <p>Toute violation peut entraîner : avertissement → suspension 24h → suspension 30j → bannissement à vie de ton compte ET de ton appareil (impossible de recréer un compte).</p>
+            <p className="font-semibold text-white pt-2">Responsabilité</p>
+            <p>Prism Connect met à disposition une plateforme de mise en relation. Les échanges, rencontres et soirées se font sous l'entière responsabilité des utilisateurs. L'éditeur ne pourra être tenu responsable des comportements, dommages ou incidents survenant entre membres.</p>
+            <p className="text-xs text-neutral-500 pt-2">Version {TERMS_VERSION} — En cochant, tu confirmes avoir lu et accepté ces règles ainsi que les CGU et la politique de confidentialité.</p>
+          </div>
+          <label className="flex items-start gap-3 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-1 size-5 accent-yellow-400"
+            />
+            <span className="text-sm text-white">J'ai 18 ans ou plus et j'accepte les règles d'utilisation, les CGU et la politique de confidentialité.</span>
+          </label>
+        </div>
+      ),
+    },
+    {
       title: "Ton pseudo",
       subtitle: "C'est comme ça que les autres te verront.",
       valid: () => form.pseudo.trim().length >= 2,
