@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Search } from "lucide-react";
 import { POSTS } from "@/lib/blog-posts";
 
 const URL = "https://connect-kindly-61.lovable.app/blog";
