@@ -220,7 +220,8 @@ function Landing() {
                 {active.body}
               </p>
               <Link
-                to={active.cta.to}
+                to={user && active.cta.to === "/auth" ? authedTarget : active.cta.to}
+
                 onClick={() => setOpen(null)}
                 className="mt-4 block text-center rounded-xl py-3 text-white text-sm font-bold"
                 style={{
