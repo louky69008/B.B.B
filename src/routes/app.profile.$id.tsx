@@ -110,10 +110,17 @@ function ProfileDetail() {
         {/* Photo principale */}
         <div className="relative w-full aspect-square bg-neutral-900">
           {currentPhoto ? (
-            <img src={currentPhoto} alt={profile.pseudo} className="w-full h-full object-cover" />
+            <ProtectedPhoto
+              src={currentPhoto}
+              ownerId={profile.id}
+              ownerPseudo={profile.pseudo}
+              alt={profile.pseudo}
+              className="w-full h-full"
+            />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-900" />
           )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
 
           {/* Back */}
