@@ -50,7 +50,9 @@ export const getCitiesIndex = createServerFn({ method: "GET" }).handler(async ()
       const { count } = await supabaseAdmin
         .from("profiles")
         .select("id", { count: "exact", head: true })
-        .or(orClause);
+        .or(orClause)
+        .eq("anonymous_mode", false)
+        .eq("hide_status", false);
       return { slug: c.slug, name: c.name, region: c.region, count: count ?? 0 };
     }),
   );
