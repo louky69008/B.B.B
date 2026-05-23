@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { POSTS } from "@/lib/blog-posts";
 
 const URL = "https://connect-kindly-61.lovable.app/blog";
 
@@ -17,11 +18,7 @@ export const Route = createFileRoute("/blog")({
   component: BlogPage,
 });
 
-const posts = [
-  { slug: "premier-rdv", title: "Réussir son premier rendez-vous IRL", excerpt: "Les 7 règles d'or pour transformer un match en vraie rencontre.", date: "2026-05-20", tag: "Conseils" },
-  { slug: "soiree-appart", title: "Soirée appart' : le guide pour bien recevoir", excerpt: "Ambiance, safe sex, limites claires : organise une soirée mémorable.", date: "2026-05-12", tag: "Lifestyle" },
-  { slug: "trans-friendly", title: "Pourquoi un espace vraiment trans-friendly compte", excerpt: "Notre démarche pour un espace inclusif et respectueux.", date: "2026-04-28", tag: "Communauté" },
-];
+const posts = POSTS;
 
 function BlogPage() {
   return (
