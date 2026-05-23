@@ -322,11 +322,12 @@ function Landing() {
         >
           <div className="flex justify-around items-center py-2 pb-6">
             {[
-              { icon: Heart, label: "Match", to: "/auth" as const, active: true },
+              { icon: Heart, label: "Match", to: (user ? authedTarget : "/auth") as "/auth" | "/app/grid" | "/app/parties", active: true },
               { icon: PartyPopper, label: "Soirée appart'", to: "/app/parties" as const },
-              { icon: MessageCircle, label: "Chat", to: "/auth" as const },
-              { icon: User, label: "Moi", to: "/auth" as const },
+              { icon: MessageCircle, label: "Chat", to: (user ? "/app/messages" : "/auth") as "/auth" | "/app/messages" | "/app/parties" | "/app/grid", active: false },
+              { icon: User, label: "Moi", to: (user ? "/app/profile" : "/auth") as "/auth" | "/app/profile" | "/app/parties" | "/app/grid", active: false },
             ].map(({ icon: Icon, label, to, active }) => (
+
               <Link
                 key={label}
                 to={to}
