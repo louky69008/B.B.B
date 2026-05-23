@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-  @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Allura&display=swap");
 }
 
 
