@@ -62,7 +62,7 @@ function ChatList() {
         )}
 
         <ul>
-          {convs?.map((c) => {
+          {convs?.filter((c) => c.other && !blockedIds?.has(c.other.id)).map((c) => {
             const anon = c.other?.anonymous_mode;
             return (
               <li key={c.id}>
