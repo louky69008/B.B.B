@@ -77,10 +77,19 @@ function Grid() {
   return (
     <main className="min-h-screen w-full flex justify-center bg-black">
       <div className="relative w-full max-w-[420px] min-h-screen bg-black pb-20">
-        <div className="flex justify-between items-center px-7 pt-3 pb-1 text-white text-[15px] font-semibold">
-          <span>{new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}</span>
-          <span className="text-xs">●●● 📶 85</span>
-        </div>
+        {/* Header signature Prism */}
+        <header className="flex items-center justify-between px-4 pt-4 pb-2">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 via-amber-400 to-cyan-400 shadow-lg shadow-fuchsia-500/30" />
+            <div className="leading-tight">
+              <p className="text-white font-bold text-[15px] tracking-tight">Prism</p>
+              <p className="text-[10px] text-neutral-500 uppercase tracking-widest">Près de toi</p>
+            </div>
+          </div>
+          <Link to="/app/me" className="w-9 h-9 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center">
+            <User className="w-4 h-4 text-neutral-300" />
+          </Link>
+        </header>
 
         {/* Filters */}
         <div className="flex gap-2 px-3 py-3 overflow-x-auto no-scrollbar">
