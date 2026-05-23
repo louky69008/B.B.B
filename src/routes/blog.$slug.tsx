@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { POSTS, getPost } from "@/lib/blog-posts";
+import { POSTS, getPost, type BlogPost } from "@/lib/blog-posts";
 
 const BASE = "https://connect-kindly-61.lovable.app";
 
