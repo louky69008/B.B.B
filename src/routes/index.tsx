@@ -325,7 +325,7 @@ function Landing() {
 
         {/* iOS Tab bar */}
         <nav
-          className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] backdrop-blur-2xl z-30"
+          className="fixed md:absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] md:max-w-none backdrop-blur-2xl z-30"
           style={{
             background: "rgba(10,0,20,0.78)",
             borderTop: "1px solid rgba(255,255,255,0.08)",
