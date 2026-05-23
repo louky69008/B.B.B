@@ -6,7 +6,7 @@ type Item = { to: string; label: string; icon: typeof Heart; accent?: boolean };
 const items: Item[] = [
   { to: "/app/grid", label: "Grille", icon: Grid3x3 },
   { to: "/app/parties", label: "Soirées", icon: PartyPopper },
-  { to: "/app/chat", label: "Matchs", icon: Heart },
+  { to: "/app/matches", label: "Matchs", icon: Heart },
   { to: "/app/chat", label: "Messages", icon: MessageSquare },
   { to: "/app/subscribe", label: "Premium", icon: Crown, accent: true },
   { to: "/app/me", label: "Moi", icon: User },
