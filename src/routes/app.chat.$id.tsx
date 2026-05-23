@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useSubscription } from "@/hooks/use-subscription";
-import { Send, Sparkles, ArrowLeft, EyeOff } from "lucide-react";
+import { Send, Sparkles, ArrowLeft, EyeOff, Ghost, Check, X } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/chat/$id")({ component: ChatRoom });
@@ -144,6 +144,80 @@ function ChatRoom() {
           )}
           {messages?.map((m) => {
             const mine = m.sender_id === user?.id;
+            // Snap request
+            if (m.content === "__snap_request__") {
+              const alreadyAnswered = messages.some(
+                (x) => new Date(x.created_at) > new Date(m.created_at) &&
+                  x.sender_id !== m.sender_id &&
+                  (x.content.startsWith("__snap_accept__") || x.content === "__snap_decline__")
+              );
+              return (
+                <div key={m.id} className="flex justify-center">
+                  <div className="max-w-[85%] w-full rounded-2xl px-4 py-3 bg-gradient-to-br from-yellow-400/10 to-yellow-200/5 border border-yellow-400/40 text-center space-y-2">
+                    <div className="flex items-center justify-center gap-2 text-yellow-300 text-sm font-semibold">
+                      <Ghost className="size-4" />
+                      {mine ? "Tu as demandé son Snapchat" : "Demande de Snapchat 👻"}
+                    </div>
+                    {!mine && !alreadyAnswered && (
+                      <>
+                        <div className="flex justify-center gap-1.5 py-1">
+                          <span className="size-1.5 rounded-full bg-yellow-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                          <span className="size-1.5 rounded-full bg-yellow-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                          <span className="size-1.5 rounded-full bg-yellow-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={async () => {
+                              const handle = window.prompt("Ton pseudo Snapchat :")?.trim();
+                              if (!handle) return;
+                              await supabase.from("messages").insert({ conversation_id: id, sender_id: user!.id, content: `__snap_accept__:${handle}` });
+                            }}
+                            className="flex-1 h-9 rounded-full bg-yellow-400 text-black text-sm font-semibold flex items-center justify-center gap-1"
+                          >
+                            <Check className="size-4" /> Accepter
+                          </button>
+                          <button
+                            onClick={async () => {
+                              await supabase.from("messages").insert({ conversation_id: id, sender_id: user!.id, content: "__snap_decline__" });
+                            }}
+                            className="flex-1 h-9 rounded-full bg-neutral-800 border border-neutral-700 text-sm flex items-center justify-center gap-1"
+                          >
+                            <X className="size-4" /> Refuser
+                          </button>
+                        </div>
+                      </>
+                    )}
+                    {mine && !alreadyAnswered && (
+                      <p className="text-xs text-neutral-400">En attente de sa réponse…</p>
+                    )}
+                  </div>
+                </div>
+              );
+            }
+            if (m.content.startsWith("__snap_accept__")) {
+              const handle = m.content.replace("__snap_accept__:", "");
+              return (
+                <div key={m.id} className="flex justify-center">
+                  <div className="max-w-[85%] rounded-2xl px-4 py-3 bg-yellow-400/15 border border-yellow-400/50 text-center">
+                    <div className="flex items-center justify-center gap-2 text-yellow-300 text-sm font-semibold mb-1">
+                      <Ghost className="size-4" /> Snapchat partagé
+                    </div>
+                    <a href={`https://www.snapchat.com/add/${encodeURIComponent(handle)}`} target="_blank" rel="noreferrer" className="text-white font-mono underline">
+                      @{handle}
+                    </a>
+                  </div>
+                </div>
+              );
+            }
+            if (m.content === "__snap_decline__") {
+              return (
+                <div key={m.id} className="flex justify-center">
+                  <div className="max-w-[85%] rounded-2xl px-4 py-2 bg-neutral-900 border border-neutral-800 text-center text-xs text-neutral-400">
+                    Demande de Snap refusée
+                  </div>
+                </div>
+              );
+            }
             return (
               <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[75%] rounded-2xl px-3 py-2 text-sm ${
@@ -183,6 +257,17 @@ function ChatRoom() {
             title="Icebreakers IA"
           >
             <Sparkles className={`size-4 ${loadingIB ? "animate-pulse text-yellow-400" : "text-neutral-300"}`} />
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              if (!user) return;
+              await supabase.from("messages").insert({ conversation_id: id, sender_id: user.id, content: "__snap_request__" });
+            }}
+            className="size-10 shrink-0 rounded-full bg-yellow-400/15 border border-yellow-400/50 flex items-center justify-center"
+            title="Demander Snapchat"
+          >
+            <Ghost className="size-4 text-yellow-300" />
           </button>
           <input
             type="text"
