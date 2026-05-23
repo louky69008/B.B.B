@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      banned_devices: {
+        Row: {
+          created_at: string
+          device_fingerprint: string
+          id: string
+          reason: string | null
+          related_user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          device_fingerprint: string
+          id?: string
+          reason?: string | null
+          related_user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          device_fingerprint?: string
+          id?: string
+          reason?: string | null
+          related_user_id?: string | null
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -167,6 +191,168 @@ export type Database = {
           },
         ]
       }
+      parties: {
+        Row: {
+          access_code: string | null
+          address: string
+          city: string
+          created_at: string
+          description: string
+          floor: string | null
+          host_id: string
+          id: string
+          is_paid: boolean
+          max_participants: number
+          price_cents: number | null
+          rules: string | null
+          starts_at: string
+          status: string
+          title: string
+          updated_at: string
+          warnings: string | null
+        }
+        Insert: {
+          access_code?: string | null
+          address: string
+          city: string
+          created_at?: string
+          description?: string
+          floor?: string | null
+          host_id: string
+          id?: string
+          is_paid?: boolean
+          max_participants?: number
+          price_cents?: number | null
+          rules?: string | null
+          starts_at: string
+          status?: string
+          title: string
+          updated_at?: string
+          warnings?: string | null
+        }
+        Update: {
+          access_code?: string | null
+          address?: string
+          city?: string
+          created_at?: string
+          description?: string
+          floor?: string | null
+          host_id?: string
+          id?: string
+          is_paid?: boolean
+          max_participants?: number
+          price_cents?: number | null
+          rules?: string | null
+          starts_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          warnings?: string | null
+        }
+        Relationships: []
+      }
+      party_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          party_id: string
+          photo_url: string | null
+          sender_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          party_id: string
+          photo_url?: string | null
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          party_id?: string
+          photo_url?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "party_messages_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      party_participants: {
+        Row: {
+          id: string
+          joined_at: string
+          party_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          party_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          party_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "party_participants_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      party_requests: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          party_id: string
+          requester_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          party_id: string
+          requester_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          party_id?: string
+          requester_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "party_requests_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profile_photos: {
         Row: {
           created_at: string
@@ -246,6 +432,98 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reports: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          reporter_id: string
+          resolution_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          target_id: string | null
+          target_kind: string
+          target_user_id: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          reporter_id: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          target_id?: string | null
+          target_kind: string
+          target_user_id?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          reporter_id?: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          target_id?: string | null
+          target_kind?: string
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
+      sanctions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          issued_by: string | null
+          kind: string
+          lifted_at: string | null
+          reason: string
+          related_report_id: string | null
+          starts_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          issued_by?: string | null
+          kind: string
+          lifted_at?: string | null
+          reason?: string
+          related_report_id?: string | null
+          starts_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          issued_by?: string | null
+          kind?: string
+          lifted_at?: string | null
+          reason?: string
+          related_report_id?: string | null
+          starts_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sanctions_related_report_id_fkey"
+            columns: ["related_report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscriptions: {
         Row: {

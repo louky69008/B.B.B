@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Heart, MessageCircle, ArrowLeft, ChevronLeft, ChevronRight, Circle } from "lucide-react";
 import { toast } from "sonner";
+import { ReportButton } from "@/components/report-button";
 
 export const Route = createFileRoute("/app/profile/$id")({ component: ProfileDetail });
 
@@ -143,6 +144,7 @@ function ProfileDetail() {
               {profile.age && <span className="text-xl text-white/80">, {profile.age}</span>}
             </div>
             {profile.city && <p className="text-sm text-white/70">{profile.city}</p>}
+            <div className="mt-2"><ReportButton targetUserId={profile.id} /></div>
           </div>
         </div>
 
