@@ -1,40 +1,31 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useI18n } from "@/lib/i18n";
-
+import { SlidersHorizontal, Star, Droplet, Heart, MessageSquare, User } from "lucide-react";
 
 export const Route = createFileRoute("/app/grid")({ component: Grid });
 
 type Profile = {
   id: string;
   pseudo: string;
-  bio: string | null;
   age: number | null;
-  city: string | null;
   photo_url: string | null;
   last_seen: string;
   hide_status: boolean;
-  pronouns: string | null;
-  gender_identity: string | null;
 };
 
-function statusOf(p: Profile, t: (k: any) => string) {
-  if (p.hide_status) return { dot: "bg-offline", label: "" };
-  const diff = (Date.now() - new Date(p.last_seen).getTime()) / 1000;
-  if (diff < 120) return { dot: "bg-online", label: t("online") };
-  if (diff < 60 * 30) return { dot: "bg-recent", label: t("recent") };
-  return { dot: "bg-offline", label: t("offline") };
+function isOnline(p: Profile) {
+  if (p.hide_status) return false;
+  return (Date.now() - new Date(p.last_seen).getTime()) / 1000 < 60 * 5;
 }
 
 function Grid() {
-  const { t } = useI18n();
-  const { data, isLoading } = useQuery({
-    queryKey: ["profiles"],
+  const { data } = useQuery({
+    queryKey: ["profiles-grid"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, pseudo, bio, age, city, photo_url, last_seen, hide_status, pronouns, gender_identity")
+        .select("id, pseudo, age, photo_url, last_seen, hide_status")
         .order("last_seen", { ascending: false })
         .limit(60);
       if (error) throw error;
@@ -43,63 +34,101 @@ function Grid() {
     refetchInterval: 30_000,
   });
 
+  const pills = [
+    { icon: SlidersHorizontal, label: null },
+    { icon: Star, label: null },
+    { icon: null, label: "En ligne", active: true },
+    { icon: Droplet, label: "Right Now" },
+    { icon: null, label: "Âge" },
+  ];
+
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-10">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[color:var(--neon-cyan)]">
-          // grid.live
-        </span>
-        <h1 className="font-display mt-3 text-4xl font-black uppercase tracking-tight">{t("nav_grid")}</h1>
-      </div>
-      {isLoading && <p className="font-mono text-xs uppercase tracking-widest text-[#666]">// loading...</p>}
-      <div className="grid grid-cols-2 gap-px bg-white/10 md:grid-cols-4 lg:grid-cols-5">
-        {data?.map((p) => {
-          const s = statusOf(p, t);
-          const badges = ["DJ", "Voguer", "Latex", "Kink", "Bear", "Twink"];
-          const badge = badges[p.id.charCodeAt(0) % badges.length];
-          return (
-            <Link
-              key={p.id}
-              to="/app/profile/$id"
-              params={{ id: p.id }}
-              className="group relative aspect-square overflow-hidden bg-black"
+    <main className="min-h-screen w-full flex justify-center bg-black">
+      <div className="relative w-full max-w-[420px] min-h-screen bg-black pb-20">
+        {/* Status bar */}
+        <div className="flex justify-between items-center px-7 pt-3 pb-1 text-white text-[15px] font-semibold">
+          <span>13:36</span>
+          <span className="text-xs">●●● 📶 85</span>
+        </div>
+        <div className="flex justify-center -mt-1">
+          <div className="w-28 h-7 bg-black rounded-full" />
+        </div>
+
+        {/* Filter pills */}
+        <div className="flex gap-2 px-3 py-3 overflow-x-auto no-scrollbar">
+          {pills.map((p, i) => (
+            <button
+              key={i}
+              className={`shrink-0 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-medium border ${
+                p.active
+                  ? "bg-white text-black border-white"
+                  : "bg-neutral-900 text-white border-neutral-700"
+              }`}
             >
-              {p.photo_url ? (
-                <img src={p.photo_url} alt={p.pseudo} className="photo-bw size-full object-cover" />
-              ) : (
-                <div className="flex size-full items-center justify-center bg-gradient-to-br from-[color:var(--neon-magenta)]/20 to-[color:var(--neon-cyan)]/20">
-                  <span className="font-display text-3xl text-[color:var(--neon-magenta)] neon-glow-magenta">
-                    {p.pseudo[0]?.toUpperCase()}
+              {p.icon && <p.icon className="w-3.5 h-3.5" />}
+              {p.label && <span>{p.label}</span>}
+            </button>
+          ))}
+        </div>
+
+        {/* Grid 3 cols, no gap */}
+        <div className="grid grid-cols-3 gap-px bg-black">
+          {data?.map((p) => {
+            const online = isOnline(p);
+            return (
+              <Link
+                key={p.id}
+                to="/app/profile/$id"
+                params={{ id: p.id }}
+                className="relative aspect-square overflow-hidden bg-neutral-900"
+              >
+                {p.photo_url ? (
+                  <img src={p.photo_url} alt={p.pseudo} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="flex w-full h-full items-center justify-center bg-neutral-800">
+                    <User className="w-16 h-16 text-neutral-600" />
+                  </div>
+                )}
+                {/* Bottom gradient */}
+                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/80 to-transparent" />
+                {/* Online dot + name */}
+                <div className="absolute left-1.5 bottom-1.5 flex items-center gap-1.5">
+                  {online && (
+                    <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
+                  )}
+                  <span className="text-white text-[11px] font-medium truncate max-w-[80px]">
+                    {p.pseudo}
                   </span>
                 </div>
-              )}
-              {/* pseudo top-left mono */}
-              <div className="absolute left-2 top-2 flex items-center gap-1.5">
-                <span className={`size-1.5 rounded-full ${s.dot} ${s.label === t("online") ? "pulse-dot" : ""}`} />
-                <span className="font-mono text-[10px] uppercase tracking-wider text-white">{p.pseudo}</span>
-              </div>
-              {/* badge */}
-              <span className="absolute right-2 top-2 border border-[color:var(--neon-lime)] bg-black/60 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-[color:var(--neon-lime)]">
-                {badge}
-              </span>
-              {/* age bottom-right cyan */}
-              {p.age && (
-                <span className="absolute bottom-2 right-2 font-mono text-[10px] font-bold text-[color:var(--neon-cyan)] neon-glow-cyan">
-                  {p.age}
-                </span>
-              )}
-              {/* hover scan line */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--neon-magenta)]/30 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Bottom tab bar — Grindr style */}
+        <nav
+          className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-black border-t border-neutral-800 z-30"
+        >
+          <div className="flex justify-around items-center py-2 pb-6">
+            <Link to="/app/grid" className="p-2">
+              <svg viewBox="0 0 24 24" className="w-7 h-7 fill-yellow-400">
+                <path d="M12 2C7 2 4 6 4 11c0 4 2 7 5 9 0-2 1-3 3-3s3 1 3 3c3-2 5-5 5-9 0-5-3-9-8-9zm-3 9a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm6 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+              </svg>
             </Link>
-          );
-        })}
+            <button className="p-2">
+              <Droplet className="w-6 h-6 text-neutral-400" />
+            </button>
+            <Link to="/app/chat" className="p-2 relative">
+              <Heart className="w-6 h-6 text-neutral-400" />
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500" />
+            </Link>
+            <Link to="/app/chat" className="p-2 relative">
+              <MessageSquare className="w-6 h-6 text-neutral-400" />
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500" />
+            </Link>
+          </div>
+        </nav>
       </div>
-      {data && data.length === 0 && (
-        <p className="mt-16 text-center font-mono text-xs uppercase tracking-[0.2em] text-[#666]">
-          // no_signal :: be the first
-        </p>
-      )}
     </main>
   );
 }
-
