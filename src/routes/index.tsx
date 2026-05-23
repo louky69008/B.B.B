@@ -84,8 +84,11 @@ function Landing() {
     <main
       className="min-h-screen w-full flex justify-center items-start"
       style={{
-        background:
-          "radial-gradient(circle at 30% 10%, #2a0a3a 0%, #0a0014 55%, #000 100%)",
+        backgroundImage: `url(${heroNeon})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#0a0014",
       }}
     >
       <div
