@@ -35,6 +35,7 @@ function Grid() {
   const [ageMin, setAgeMin] = useState(18);
   const [ageMax, setAgeMax] = useState(75);
   const [ageActive, setAgeActive] = useState(false);
+  const [identityFilter, setIdentityFilter] = useState<string>("all");
 
   const { data } = useQuery({
     queryKey: ["profiles-grid", limit],
