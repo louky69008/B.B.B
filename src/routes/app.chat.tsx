@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { BottomNav } from "@/components/bottom-nav";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -87,6 +88,7 @@ function ChatList() {
           })}
         </ul>
       </div>
+    <BottomNav />
     </main>
   );
 }
