@@ -9,9 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VillesRouteImport } from './routes/villes'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VillesCityRouteImport } from './routes/villes.$city'
 import { Route as AppTransRouteImport } from './routes/app.trans'
 import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
@@ -27,6 +30,16 @@ import { Route as AppPartiesIdRouteImport } from './routes/app.parties.$id'
 import { Route as AppChatIdRouteImport } from './routes/app.chat.$id'
 import { Route as ApiPublicRevenuecatRouteImport } from './routes/api.public.revenuecat'
 
+const VillesRoute = VillesRouteImport.update({
+  id: '/villes',
+  path: '/villes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -41,6 +54,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const VillesCityRoute = VillesCityRouteImport.update({
+  id: '/$city',
+  path: '/$city',
+  getParentRoute: () => VillesRoute,
 } as any)
 const AppTransRoute = AppTransRouteImport.update({
   id: '/trans',
@@ -117,6 +135,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/villes': typeof VillesRouteWithChildren
   '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
@@ -125,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/villes/$city': typeof VillesCityRoute
   '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
@@ -136,6 +157,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/villes': typeof VillesRouteWithChildren
   '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
@@ -144,6 +167,7 @@ export interface FileRoutesByTo {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/villes/$city': typeof VillesCityRoute
   '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
@@ -156,6 +180,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/villes': typeof VillesRouteWithChildren
   '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
@@ -164,6 +190,7 @@ export interface FileRoutesById {
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
   '/app/trans': typeof AppTransRoute
+  '/villes/$city': typeof VillesCityRoute
   '/api/public/revenuecat': typeof ApiPublicRevenuecatRoute
   '/app/chat/$id': typeof AppChatIdRoute
   '/app/parties/$id': typeof AppPartiesIdRoute
@@ -177,6 +204,8 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/sitemap.xml'
+    | '/villes'
     | '/app/admin'
     | '/app/chat'
     | '/app/grid'
@@ -185,6 +214,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/villes/$city'
     | '/api/public/revenuecat'
     | '/app/chat/$id'
     | '/app/parties/$id'
@@ -196,6 +226,8 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/sitemap.xml'
+    | '/villes'
     | '/app/admin'
     | '/app/chat'
     | '/app/grid'
@@ -204,6 +236,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/villes/$city'
     | '/api/public/revenuecat'
     | '/app/chat/$id'
     | '/app/parties/$id'
@@ -215,6 +248,8 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/sitemap.xml'
+    | '/villes'
     | '/app/admin'
     | '/app/chat'
     | '/app/grid'
@@ -223,6 +258,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/app/subscribe'
     | '/app/trans'
+    | '/villes/$city'
     | '/api/public/revenuecat'
     | '/app/chat/$id'
     | '/app/parties/$id'
@@ -235,11 +271,27 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  VillesRoute: typeof VillesRouteWithChildren
   ApiPublicRevenuecatRoute: typeof ApiPublicRevenuecatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/villes': {
+      id: '/villes'
+      path: '/villes'
+      fullPath: '/villes'
+      preLoaderRoute: typeof VillesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -260,6 +312,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/villes/$city': {
+      id: '/villes/$city'
+      path: '/$city'
+      fullPath: '/villes/$city'
+      preLoaderRoute: typeof VillesCityRouteImport
+      parentRoute: typeof VillesRoute
     }
     '/app/trans': {
       id: '/app/trans'
@@ -405,10 +464,23 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface VillesRouteChildren {
+  VillesCityRoute: typeof VillesCityRoute
+}
+
+const VillesRouteChildren: VillesRouteChildren = {
+  VillesCityRoute: VillesCityRoute,
+}
+
+const VillesRouteWithChildren =
+  VillesRoute._addFileChildren(VillesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  VillesRoute: VillesRouteWithChildren,
   ApiPublicRevenuecatRoute: ApiPublicRevenuecatRoute,
 }
 export const routeTree = rootRouteImport
