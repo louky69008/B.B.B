@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { ReportButton } from "@/components/report-button";
 import { BlockButton } from "@/components/block-button";
 import { ProtectedPhoto } from "@/components/protected-photo";
-import { useBlockedIds } from "@/hooks/use-blocks";
 
 
 export const Route = createFileRoute("/app/profile/$id")({ component: ProfileDetail });
