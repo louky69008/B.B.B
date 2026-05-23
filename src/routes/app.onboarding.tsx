@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, X } from "lucide-react";
+import { PhotoUpload } from "@/components/photo-upload";
 
 export const Route = createFileRoute("/app/onboarding")({ component: Onboarding });
 
@@ -96,16 +97,30 @@ function Onboarding() {
     },
     {
       title: "Ta photo",
-      subtitle: "Une URL d'image. Tu pourras en ajouter d'autres ensuite.",
+      subtitle: "Choisis une photo depuis ton appareil. Tu pourras en ajouter d'autres ensuite.",
       valid: () => form.photo_url.startsWith("http"),
       body: (
-        <div className="space-y-3">
-          <Input value={form.photo_url} onChange={(e) => set("photo_url", e.target.value)}
-            placeholder="https://…" className="bg-neutral-900 border-neutral-700 text-white h-14 text-lg" />
-          {form.photo_url.startsWith("http") && (
-            <div className="aspect-square w-40 rounded-xl overflow-hidden bg-neutral-900 mx-auto">
+        <div className="space-y-3 flex flex-col items-center">
+          {form.photo_url ? (
+            <div className="relative aspect-square w-48 rounded-2xl overflow-hidden bg-neutral-900">
               <img src={form.photo_url} alt="" className="w-full h-full object-cover" />
+              <button
+                type="button"
+                onClick={() => set("photo_url", "")}
+                className="absolute top-2 right-2 size-8 rounded-full bg-black/70 flex items-center justify-center"
+              >
+                <X className="size-4" />
+              </button>
             </div>
+          ) : (
+            <div className="aspect-square w-48 rounded-2xl bg-neutral-900 border-2 border-dashed border-neutral-700 flex items-center justify-center text-neutral-500 text-sm">
+              Aucune photo
+            </div>
+          )}
+          {user && (
+            <PhotoUpload userId={user.id} onUploaded={(url) => set("photo_url", url)}>
+              {form.photo_url ? "Changer la photo" : "Choisir une photo"}
+            </PhotoUpload>
           )}
         </div>
       ),
