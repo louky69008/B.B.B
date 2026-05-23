@@ -38,6 +38,51 @@ export type Database = {
         }
         Relationships: []
       }
+      likes: {
+        Row: {
+          created_at: string
+          id: string
+          liked_id: string
+          liker_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          liked_id: string
+          liker_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          liked_id?: string
+          liker_id?: string
+        }
+        Relationships: []
+      }
+      matches: {
+        Row: {
+          conversation_id: string | null
+          created_at: string
+          id: string
+          user1_id: string
+          user2_id: string
+        }
+        Insert: {
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          user1_id: string
+          user2_id: string
+        }
+        Update: {
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          user1_id?: string
+          user2_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string
@@ -70,9 +115,42 @@ export type Database = {
           },
         ]
       }
+      profile_photos: {
+        Row: {
+          created_at: string
+          id: string
+          position: number
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          position?: number
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          position?: number
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_photos_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           age: number | null
+          anonymous_mode: boolean
           bio: string | null
           city: string | null
           created_at: string
@@ -87,6 +165,7 @@ export type Database = {
         }
         Insert: {
           age?: number | null
+          anonymous_mode?: boolean
           bio?: string | null
           city?: string | null
           created_at?: string
@@ -101,6 +180,7 @@ export type Database = {
         }
         Update: {
           age?: number | null
+          anonymous_mode?: boolean
           bio?: string | null
           city?: string | null
           created_at?: string
@@ -112,6 +192,33 @@ export type Database = {
           pronouns?: string | null
           pseudo?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          tier: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          tier: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          tier?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
