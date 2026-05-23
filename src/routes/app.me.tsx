@@ -22,7 +22,7 @@ function Me() {
   const { user } = useAuth();
   const { tier, config } = useSubscription();
   const qc = useQueryClient();
-  const [photoToAdd, setPhotoToAdd] = useState("");
+  const [photoToAdd, _setPhotoToAdd] = useState("");
 
   const { data, refetch } = useQuery({
     queryKey: ["me", user?.id],
