@@ -185,11 +185,13 @@ function ChatRoom() {
             <Sparkles className={`size-4 ${loadingIB ? "animate-pulse text-yellow-400" : "text-neutral-300"}`} />
           </button>
           <input
+            type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Message…"
             maxLength={2000}
-            className="flex-1 rounded-full bg-neutral-900 border border-neutral-700 px-4 text-sm text-white placeholder:text-neutral-500 outline-none focus:border-yellow-400"
+            autoFocus
+            className="flex-1 min-w-0 h-10 rounded-full bg-neutral-900 border border-neutral-700 px-4 text-sm text-white placeholder:text-neutral-500 outline-none focus:border-yellow-400"
           />
           <button type="submit" disabled={!text.trim()} className="size-10 shrink-0 rounded-full bg-yellow-400 text-black flex items-center justify-center disabled:opacity-50">
             <Send className="size-4" />
