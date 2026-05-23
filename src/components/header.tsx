@@ -3,17 +3,27 @@ import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Heart, LogOut } from "lucide-react";
+import { Heart, LogOut, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export function Header() {
   const { user } = useAuth();
   const { t, lang, setLang } = useI18n();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   const logout = async () => {
     await supabase.auth.signOut();
     navigate({ to: "/" });
   };
+
+  const marketingLinks = [
+    { to: "/a-propos", label: "À propos" },
+    { to: "/tarifs", label: "Tarifs" },
+    { to: "/villes", label: "Villes" },
+    { to: "/blog", label: "Blog" },
+    { to: "/contact", label: "Contact" },
+  ] as const;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-background/70 backdrop-blur-xl">
@@ -22,7 +32,9 @@ export function Header() {
           <Heart className="size-5 text-[color:var(--neon-magenta)]" fill="currentColor" />
           <span>{t("app_name").split("").map((c, i) => i === 0 ? <span key={i} className="text-[color:var(--neon-magenta)]">{c}</span> : c)}</span>
         </Link>
-        <nav className="flex items-center gap-1">
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
           {user ? (
             <>
               <Link to="/app/grid" className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]">
@@ -39,9 +51,20 @@ export function Header() {
               </Button>
             </>
           ) : (
-            <Link to="/auth" className="neon-btn">
-              {t("cta_login")}
-            </Link>
+            <>
+              {marketingLinks.map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]"
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <Link to="/auth" className="neon-btn ml-2">
+                {t("cta_login")}
+              </Link>
+            </>
           )}
           <button
             onClick={() => setLang(lang === "fr" ? "en" : "fr")}
@@ -50,8 +73,39 @@ export function Header() {
             {lang}
           </button>
         </nav>
-      </div>
-    </header>
 
+        {/* Mobile burger */}
+        <button
+          className="md:hidden p-2 text-[#bdb7d8]"
+          onClick={() => setOpen((o) => !o)}
+          aria-label="Menu"
+        >
+          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <nav className="md:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-3">
+          {user ? (
+            <>
+              <Link onClick={() => setOpen(false)} to="/app/grid" className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]">{t("nav_grid")}</Link>
+              <Link onClick={() => setOpen(false)} to="/app/chat" className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]">{t("nav_chat")}</Link>
+              <Link onClick={() => setOpen(false)} to="/app/me" className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]">{t("nav_me")}</Link>
+              <button onClick={() => { setOpen(false); logout(); }} className="text-left font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]">{t("logout")}</button>
+            </>
+          ) : (
+            <>
+              {marketingLinks.map((l) => (
+                <Link key={l.to} onClick={() => setOpen(false)} to={l.to} className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]">
+                  {l.label}
+                </Link>
+              ))}
+              <Link onClick={() => setOpen(false)} to="/auth" className="neon-btn w-fit">{t("cta_login")}</Link>
+            </>
+          )}
+        </nav>
+      )}
+    </header>
   );
 }

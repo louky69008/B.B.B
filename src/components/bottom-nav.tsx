@@ -17,7 +17,7 @@ export function BottomNav() {
   const { pathname } = useLocation();
   const { counts } = useNotifications();
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-black border-t border-neutral-800 z-30">
+    <nav className="md:hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-black border-t border-neutral-800 z-30">
       <div className="flex justify-around items-stretch py-1.5 pb-5">
         {items.map((it, i) => {
           const Icon = it.icon;
