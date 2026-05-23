@@ -119,7 +119,7 @@ function Grid() {
             En ligne
           </button>
           <button className={`${pillBase} flex items-center gap-1.5 ${pillOff}`}>
-            <Droplet className="w-3.5 h-3.5" /> Right Now
+            <Droplet className="w-3.5 h-3.5" /> Dispo
           </button>
           <button
             onClick={() => setShowAgeSheet(true)}
@@ -237,21 +237,7 @@ function Grid() {
           </div>
         )}
 
-        {/* Tab bar */}
-        <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-black border-t border-neutral-800 z-30">
-          <div className="flex justify-around items-center py-2 pb-6">
-            <Link to="/app/grid" className="p-2">
-              <svg viewBox="0 0 24 24" className="w-7 h-7 fill-yellow-400">
-                <path d="M12 2C7 2 4 6 4 11c0 4 2 7 5 9 0-2 1-3 3-3s3 1 3 3c3-2 5-5 5-9 0-5-3-9-8-9zm-3 9a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm6 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
-              </svg>
-            </Link>
-            <Link to="/app/parties" className="p-2"><PartyPopper className="w-6 h-6 text-neutral-400" /></Link>
-            <Link to="/app/chat" className="p-2"><Heart className="w-6 h-6 text-neutral-400" /></Link>
-            <Link to="/app/chat" className="p-2"><MessageSquare className="w-6 h-6 text-neutral-400" /></Link>
-            <Link to="/app/subscribe" className="p-2"><Crown className="w-6 h-6 text-yellow-400" /></Link>
-            <Link to="/app/me" className="p-2"><User className="w-6 h-6 text-neutral-400" /></Link>
-          </div>
-        </nav>
+        <BottomNav />
       </div>
     </main>
   );
