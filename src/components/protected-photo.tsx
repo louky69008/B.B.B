@@ -124,10 +124,14 @@ export function ProtectedPhoto({
         />
       )}
 
-      {hidden && (
+      {hidden && !silent && (
         <div className="absolute inset-0 flex items-center justify-center text-[10px] uppercase tracking-widest text-white/60 bg-black/40">
           🔒 Photo protégée
         </div>
+      )}
+
+      {hidden && silent && (
+        <div className="absolute inset-0 bg-black" />
       )}
     </div>
   );
