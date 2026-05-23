@@ -67,7 +67,9 @@ function Subscribe() {
                   <Feature ok={t.noAds}>Sans publicité</Feature>
                   <Feature ok={t.icebreakersAI}>Icebreakers IA</Feature>
                   <Feature ok={t.incognito}>Mode invisible</Feature>
+                  <Feature ok={t.watermark}>Filigrane anti-réutilisation sur tes photos 💧</Feature>
                 </ul>
+
                 <button onClick={() => choose(t.id)} disabled={isCurrent}
                   className={`mt-3 w-full h-11 rounded-full font-bold ${
                     isCurrent ? "bg-neutral-800 text-neutral-500"
