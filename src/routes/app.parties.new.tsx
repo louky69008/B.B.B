@@ -138,6 +138,39 @@ function NewParty() {
               className="bg-neutral-900 border-neutral-700 text-white" />
           </div>
 
+          <div className="space-y-2 pt-2 border-t border-neutral-800">
+            <Label className="text-neutral-300">Ambiance / pratiques</Label>
+            <label className="flex items-center gap-2 text-sm bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2">
+              <Checkbox checked={fullChill} onCheckedChange={(v) => setFullChill(v === true)} />
+              <span className="font-medium">🔥 Full chill out</span>
+              <span className="text-xs text-neutral-400">(open sur beaucoup de choses)</span>
+            </label>
+            {!fullChill && (
+              <div className="flex flex-wrap gap-2 pt-1">
+                {PRACTICE_OPTIONS.map((p) => {
+                  const on = practices.includes(p);
+                  return (
+                    <button
+                      type="button"
+                      key={p}
+                      onClick={() => togglePractice(p)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${
+                        on
+                          ? "bg-yellow-400 text-black border-yellow-400"
+                          : "bg-neutral-900 text-neutral-300 border-neutral-700"
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            <p className="text-[11px] text-neutral-500">
+              Sois clair sur ce que tu attends — chacun reste libre et responsable.
+            </p>
+          </div>
+
           <button disabled={busy} className="w-full h-12 rounded-full bg-yellow-400 text-black font-bold disabled:opacity-50">
             Publier la soirée
           </button>
