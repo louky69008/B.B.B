@@ -16,12 +16,30 @@ const GENDERS = [
   { v: "homme_cis", label: "Homme cis" },
   { v: "homme_trans", label: "Homme trans" },
   { v: "femme_trans", label: "Femme trans" },
+  { v: "travesti", label: "Travesti / Trav" },
+  { v: "drag", label: "Drag" },
   { v: "non_binaire", label: "Non-binaire" },
   { v: "genderfluid", label: "Genderfluid" },
+  { v: "genderqueer", label: "Genderqueer" },
   { v: "agender", label: "Agender" },
+  { v: "two_spirit", label: "Two-Spirit" },
+  { v: "intersexe", label: "Intersexe" },
   { v: "autre", label: "Autre" },
 ];
-const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "autre"];
+const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "il/elle", "autre"];
+const ORIENTATIONS = [
+  { v: "gay", label: "Gay" },
+  { v: "homosexuel", label: "Homosexuel" },
+  { v: "bi", label: "Bisexuel" },
+  { v: "pan", label: "Pansexuel" },
+  { v: "queer", label: "Queer" },
+  { v: "hetero_curieux", label: "Hétéro curieux" },
+  { v: "hetero", label: "Hétéro" },
+  { v: "demisexuel", label: "Demisexuel" },
+  { v: "asexuel", label: "Asexuel" },
+  { v: "fluide", label: "Fluide / Sexofluide" },
+  { v: "autre", label: "Autre / préfère ne pas dire" },
+];
 
 const TERMS_VERSION = "2026-05-23";
 
