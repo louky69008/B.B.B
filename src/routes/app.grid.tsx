@@ -15,6 +15,7 @@ type Profile = {
   photo_url: string | null;
   last_seen: string;
   hide_status: boolean;
+  gender_identity: string | null;
 };
 
 function isOnline(p: Profile) {
@@ -42,7 +43,7 @@ function Grid() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, pseudo, age, photo_url, last_seen, hide_status")
+        .select("id, pseudo, age, photo_url, last_seen, hide_status, gender_identity")
         .order("last_seen", { ascending: false })
         .limit(limit);
       if (error) throw error;
@@ -63,13 +64,16 @@ function Grid() {
 
   const filtered = useMemo(() => {
     if (!data) return [];
+    const TRANS = new Set(["femme_trans", "homme_trans", "non_binaire", "genderfluid", "agender"]);
     return data.filter((p) => {
       if (onlineOnly && !isOnline(p)) return false;
       if (favoritesOnly && !likedIds?.has(p.id)) return false;
       if (ageActive && p.age != null && (p.age < ageMin || p.age > ageMax)) return false;
+      if (identityFilter === "trans" && !TRANS.has(p.gender_identity ?? "")) return false;
+      if (identityFilter === "cis" && p.gender_identity !== "homme_cis") return false;
       return true;
     });
-  }, [data, onlineOnly, favoritesOnly, ageActive, ageMin, ageMax, likedIds]);
+  }, [data, onlineOnly, favoritesOnly, ageActive, ageMin, ageMax, likedIds, identityFilter]);
 
   const pillBase = "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border";
   const pillOff = "bg-neutral-900 text-white border-neutral-700";
