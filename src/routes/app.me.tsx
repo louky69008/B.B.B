@@ -60,13 +60,11 @@ function Me() {
     refetch();
   };
 
-  const addPhoto = async () => {
-    if (!photoToAdd.startsWith("http")) { toast.error("URL invalide"); return; }
+  const addPhoto = async (url: string) => {
     const { error } = await supabase.from("profile_photos").insert({
-      user_id: user!.id, url: photoToAdd, position: photos?.length ?? 0,
+      user_id: user!.id, url, position: photos?.length ?? 0,
     });
     if (error) { toast.error(error.message); return; }
-    setPhotoToAdd("");
     qc.invalidateQueries({ queryKey: ["my-photos", user!.id] });
   };
 
