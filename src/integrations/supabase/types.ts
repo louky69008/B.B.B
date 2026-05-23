@@ -597,6 +597,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_ultra: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "user" | "moderator" | "admin"
