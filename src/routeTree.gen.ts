@@ -16,6 +16,7 @@ import { Route as AppTransRouteImport } from './routes/app.trans'
 import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppMeRouteImport } from './routes/app.me'
+import { Route as AppMatchesRouteImport } from './routes/app.matches'
 import { Route as AppGridRouteImport } from './routes/app.grid'
 import { Route as AppChatRouteImport } from './routes/app.chat'
 import { Route as AppAdminRouteImport } from './routes/app.admin'
@@ -58,6 +59,11 @@ const AppOnboardingRoute = AppOnboardingRouteImport.update({
 const AppMeRoute = AppMeRouteImport.update({
   id: '/me',
   path: '/me',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMatchesRoute = AppMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGridRoute = AppGridRouteImport.update({
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
+  '/app/matches': typeof AppMatchesRoute
   '/app/me': typeof AppMeRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
+  '/app/matches': typeof AppMatchesRoute
   '/app/me': typeof AppMeRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/app/admin': typeof AppAdminRoute
   '/app/chat': typeof AppChatRouteWithChildren
   '/app/grid': typeof AppGridRoute
+  '/app/matches': typeof AppMatchesRoute
   '/app/me': typeof AppMeRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/subscribe': typeof AppSubscribeRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/app/admin'
     | '/app/chat'
     | '/app/grid'
+    | '/app/matches'
     | '/app/me'
     | '/app/onboarding'
     | '/app/subscribe'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/app/admin'
     | '/app/chat'
     | '/app/grid'
+    | '/app/matches'
     | '/app/me'
     | '/app/onboarding'
     | '/app/subscribe'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/app/admin'
     | '/app/chat'
     | '/app/grid'
+    | '/app/matches'
     | '/app/me'
     | '/app/onboarding'
     | '/app/subscribe'
@@ -262,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/me'
       fullPath: '/app/me'
       preLoaderRoute: typeof AppMeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/matches': {
+      id: '/app/matches'
+      path: '/matches'
+      fullPath: '/app/matches'
+      preLoaderRoute: typeof AppMatchesRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/grid': {
@@ -338,6 +357,7 @@ interface AppRouteChildren {
   AppAdminRoute: typeof AppAdminRoute
   AppChatRoute: typeof AppChatRouteWithChildren
   AppGridRoute: typeof AppGridRoute
+  AppMatchesRoute: typeof AppMatchesRoute
   AppMeRoute: typeof AppMeRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppSubscribeRoute: typeof AppSubscribeRoute
@@ -352,6 +372,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAdminRoute: AppAdminRoute,
   AppChatRoute: AppChatRouteWithChildren,
   AppGridRoute: AppGridRoute,
+  AppMatchesRoute: AppMatchesRoute,
   AppMeRoute: AppMeRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppSubscribeRoute: AppSubscribeRoute,
