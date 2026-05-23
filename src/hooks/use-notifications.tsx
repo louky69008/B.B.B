@@ -99,6 +99,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
         if (m.sender_id === user.id) return;
         // Only toast if not currently viewing that conversation
         if (!pathname.includes(`/app/chat/${m.conversation_id}`)) {
+          playSound();
           toast("💬 Nouveau message", { description: "Tu as reçu un message privé" });
         }
         refresh();
