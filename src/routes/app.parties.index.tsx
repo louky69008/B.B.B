@@ -54,7 +54,12 @@ function PartiesList() {
 
         <div className="px-4 pt-4">
           <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 p-4 text-sm text-yellow-100 leading-relaxed">
-            Tu cherches une soirée appart entre potes rencontrés sur tes réseaux sociaux favoris ou alors de nouvelles rencontres à te faire alors tu es au bon endroit pour <span className="font-bold text-yellow-300">"UN AFTER … D'AFTER !!!!"</span> Trouve la soirée qui va te faire kiffer que ce soit à 3, 4 ….. tout peut arriver
+            <div className="inline-block mb-2 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              🔓 Accès libre & 100% gratuit
+            </div>
+            <p>
+              Tu cherches une soirée appart entre potes rencontrés sur tes réseaux sociaux favoris ou alors de nouvelles rencontres à te faire alors tu es au bon endroit pour <span className="font-bold text-yellow-300">"UN AFTER … D'AFTER !!!!"</span> Trouve la soirée qui va te faire kiffer que ce soit à 3, 4 ….. tout peut arriver
+            </p>
           </div>
         </div>
 
