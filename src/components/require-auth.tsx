@@ -22,7 +22,11 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     },
   });
 
+  // Soirée appart' is the only free, fully public section
+  const isPublicParties = pathname.startsWith("/app/parties");
+
   useEffect(() => {
+    if (isPublicParties) return;
     if (loading) return;
     if (!user) {
       navigate({ to: "/auth" });
@@ -38,8 +42,9 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     if (incomplete && pathname !== "/app/onboarding") {
       navigate({ to: "/app/onboarding" });
     }
-  }, [loading, user, profile, profileLoading, pathname, navigate]);
+  }, [loading, user, profile, profileLoading, pathname, navigate, isPublicParties]);
 
+  if (isPublicParties) return <>{children}</>;
   if (loading) {
     return <div className="flex min-h-[50vh] items-center justify-center text-muted-foreground">…</div>;
   }
