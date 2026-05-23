@@ -15,12 +15,24 @@ function NewParty() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
+  const [practices, setPractices] = useState<string[]>([]);
+  const [fullChill, setFullChill] = useState(false);
   const [f, setF] = useState({
     title: "", description: "", address: "", access_code: "", floor: "",
     city: "", starts_at: "", max_participants: "10",
     is_paid: false, price: "", rules: "", warnings: "",
   });
   const set = (k: keyof typeof f, v: any) => setF((p) => ({ ...p, [k]: v }));
+
+  const PRACTICE_OPTIONS = [
+    "Safe", "Capote", "BBK", "Sous PrEP", "TasP/U=U",
+    "Suce", "Branle", "Actif", "Passif", "Versa",
+    "Kiss", "Massage", "Naked party", "Sling", "Group",
+    "Poppers OK", "Sans poppers", "Sans chems",
+  ];
+
+  const togglePractice = (p: string) =>
+    setPractices((cur) => (cur.includes(p) ? cur.filter((x) => x !== p) : [...cur, p]));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +52,8 @@ function NewParty() {
       price_cents: f.is_paid && f.price ? Math.round(Number(f.price) * 100) : null,
       rules: f.rules.trim(),
       warnings: f.warnings.trim(),
+      practices: fullChill ? [] : practices,
+      full_chill_out: fullChill,
     }).select("id").single();
     setBusy(false);
     if (error) { toast.error(error.message); return; }
@@ -122,6 +136,39 @@ function NewParty() {
             <Label className="text-neutral-300">Mises en garde (optionnel)</Label>
             <Textarea value={f.warnings} onChange={(e) => set("warnings", e.target.value)} rows={2} maxLength={300}
               className="bg-neutral-900 border-neutral-700 text-white" />
+          </div>
+
+          <div className="space-y-2 pt-2 border-t border-neutral-800">
+            <Label className="text-neutral-300">Ambiance / pratiques</Label>
+            <label className="flex items-center gap-2 text-sm bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2">
+              <Checkbox checked={fullChill} onCheckedChange={(v) => setFullChill(v === true)} />
+              <span className="font-medium">🔥 Full chill out</span>
+              <span className="text-xs text-neutral-400">(open sur beaucoup de choses)</span>
+            </label>
+            {!fullChill && (
+              <div className="flex flex-wrap gap-2 pt-1">
+                {PRACTICE_OPTIONS.map((p) => {
+                  const on = practices.includes(p);
+                  return (
+                    <button
+                      type="button"
+                      key={p}
+                      onClick={() => togglePractice(p)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${
+                        on
+                          ? "bg-yellow-400 text-black border-yellow-400"
+                          : "bg-neutral-900 text-neutral-300 border-neutral-700"
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            <p className="text-[11px] text-neutral-500">
+              Sois clair sur ce que tu attends — chacun reste libre et responsable.
+            </p>
           </div>
 
           <button disabled={busy} className="w-full h-12 rounded-full bg-yellow-400 text-black font-bold disabled:opacity-50">
