@@ -16,12 +16,30 @@ const GENDERS = [
   { v: "homme_cis", label: "Homme cis" },
   { v: "homme_trans", label: "Homme trans" },
   { v: "femme_trans", label: "Femme trans" },
+  { v: "travesti", label: "Travesti / Trav" },
+  { v: "drag", label: "Drag" },
   { v: "non_binaire", label: "Non-binaire" },
   { v: "genderfluid", label: "Genderfluid" },
+  { v: "genderqueer", label: "Genderqueer" },
   { v: "agender", label: "Agender" },
+  { v: "two_spirit", label: "Two-Spirit" },
+  { v: "intersexe", label: "Intersexe" },
   { v: "autre", label: "Autre" },
 ];
-const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "autre"];
+const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "il/elle", "autre"];
+const ORIENTATIONS = [
+  { v: "gay", label: "Gay" },
+  { v: "homosexuel", label: "Homosexuel" },
+  { v: "bi", label: "Bisexuel" },
+  { v: "pan", label: "Pansexuel" },
+  { v: "queer", label: "Queer" },
+  { v: "hetero_curieux", label: "Hétéro curieux" },
+  { v: "hetero", label: "Hétéro" },
+  { v: "demisexuel", label: "Demisexuel" },
+  { v: "asexuel", label: "Asexuel" },
+  { v: "fluide", label: "Fluide / Sexofluide" },
+  { v: "autre", label: "Autre / préfère ne pas dire" },
+];
 
 const TERMS_VERSION = "2026-05-23";
 
@@ -35,6 +53,7 @@ function Onboarding() {
     pseudo: "",
     gender_identity: "homme_cis",
     pronouns: "il/lui",
+    orientation: "gay",
     age: "",
     city: "",
     photo_url: "",
@@ -98,7 +117,7 @@ function Onboarding() {
     {
       title: "Ton identité",
       subtitle: "Tu peux la changer à tout moment. Aucune discrimination tolérée.",
-      valid: () => !!form.gender_identity && !!form.pronouns,
+      valid: () => !!form.gender_identity && !!form.pronouns && !!form.orientation,
       body: (
         <div className="space-y-3">
           <div>
@@ -113,6 +132,13 @@ function Onboarding() {
             <Select value={form.pronouns} onValueChange={(v) => set("pronouns", v)}>
               <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
               <SelectContent>{PRONOUNS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-neutral-400 text-xs">Orientation sexuelle</Label>
+            <Select value={form.orientation} onValueChange={(v) => set("orientation", v)}>
+              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
+              <SelectContent>{ORIENTATIONS.map((o) => <SelectItem key={o.v} value={o.v}>{o.label}</SelectItem>)}</SelectContent>
             </Select>
           </div>
         </div>
@@ -187,6 +213,7 @@ function Onboarding() {
       pseudo: form.pseudo.trim(),
       gender_identity: form.gender_identity,
       pronouns: form.pronouns,
+      orientation: form.orientation,
       age: Number(form.age),
       city: form.city.trim(),
       photo_url: form.photo_url.trim(),

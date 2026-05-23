@@ -5,7 +5,7 @@ import { ArrowLeft, Heart, PartyPopper } from "lucide-react";
 
 export const Route = createFileRoute("/app/trans")({ component: TransCommunity });
 
-const TRANS_IDENTITIES = ["femme_trans", "homme_trans", "non_binaire", "genderfluid", "agender"];
+const TRANS_IDENTITIES = ["femme_trans", "homme_trans", "travesti", "drag", "non_binaire", "genderfluid", "genderqueer", "agender", "two_spirit", "intersexe"];
 
 function TransCommunity() {
   const { data: profiles } = useQuery({

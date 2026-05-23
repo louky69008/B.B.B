@@ -402,6 +402,7 @@ export type Database = {
           hide_status: boolean
           id: string
           last_seen: string
+          orientation: string | null
           photo_url: string | null
           pronouns: string | null
           pseudo: string
@@ -419,6 +420,7 @@ export type Database = {
           hide_status?: boolean
           id: string
           last_seen?: string
+          orientation?: string | null
           photo_url?: string | null
           pronouns?: string | null
           pseudo: string
@@ -436,6 +438,7 @@ export type Database = {
           hide_status?: boolean
           id?: string
           last_seen?: string
+          orientation?: string | null
           photo_url?: string | null
           pronouns?: string | null
           pseudo?: string

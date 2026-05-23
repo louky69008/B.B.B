@@ -16,8 +16,9 @@ import { PhotoUpload } from "@/components/photo-upload";
 
 export const Route = createFileRoute("/app/me")({ component: Me });
 
-const GENDERS = ["homme_cis", "femme_trans", "homme_trans", "non_binaire", "genderfluid", "agender", "autre"];
-const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "autre"];
+const GENDERS = ["homme_cis", "femme_trans", "homme_trans", "travesti", "drag", "non_binaire", "genderfluid", "genderqueer", "agender", "two_spirit", "intersexe", "autre"];
+const PRONOUNS = ["il/lui", "elle/la", "iel/ellui", "they/them", "il/elle", "autre"];
+const ORIENTATIONS = ["gay", "homosexuel", "bi", "pan", "queer", "hetero_curieux", "hetero", "demisexuel", "asexuel", "fluide", "autre"];
 
 function Me() {
   const { user } = useAuth();
@@ -52,7 +53,7 @@ function Me() {
   const save = async () => {
     const { error } = await supabase.from("profiles").update({
       pseudo: form.pseudo, bio: form.bio, gender_identity: form.gender_identity,
-      pronouns: form.pronouns, age: form.age ? Number(form.age) : null,
+      pronouns: form.pronouns, orientation: form.orientation, age: form.age ? Number(form.age) : null,
       city: form.city, photo_url: form.photo_url,
       hide_status: form.hide_status, anonymous_mode: form.anonymous_mode,
     }).eq("id", user!.id);
@@ -181,6 +182,13 @@ function Me() {
               <Label className="text-neutral-300">Ville</Label>
               <Input value={form.city ?? ""} onChange={(e) => set("city", e.target.value)}
                 className="bg-neutral-900 border-neutral-700 text-white" />
+            </div>
+            <div className="col-span-2">
+              <Label className="text-neutral-300">Orientation sexuelle</Label>
+              <Select value={form.orientation ?? "gay"} onValueChange={(v) => set("orientation", v)}>
+                <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white"><SelectValue /></SelectTrigger>
+                <SelectContent>{ORIENTATIONS.map((o) => <SelectItem key={o} value={o}>{o.replace("_", " ")}</SelectItem>)}</SelectContent>
+              </Select>
             </div>
           </div>
 
