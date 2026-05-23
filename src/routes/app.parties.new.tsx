@@ -66,7 +66,7 @@ function NewParty() {
       <div className="w-full max-w-[420px] pb-24">
         <header className="flex items-center gap-3 px-4 py-3 border-b border-neutral-800 sticky top-0 bg-black/95 backdrop-blur z-10">
           <Link to="/app/parties" className="p-1"><ArrowLeft className="size-5" /></Link>
-          <h1 className="text-lg font-bold">Nouvelle soirée</h1>
+          <h1 className="text-lg font-bold">Nouvelle soirée appart'</h1>
         </header>
 
         <form onSubmit={submit} className="p-4 space-y-4">
@@ -172,7 +172,7 @@ function NewParty() {
           </div>
 
           <button disabled={busy} className="w-full h-12 rounded-full bg-yellow-400 text-black font-bold disabled:opacity-50">
-            Publier la soirée
+            Publier la soirée appart'
           </button>
         </form>
       </div>
