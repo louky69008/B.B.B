@@ -108,9 +108,21 @@ function Me() {
               className="bg-neutral-900 border-neutral-700 text-white" />
           </div>
           <div>
-            <Label className="text-neutral-300">Photo principale (URL)</Label>
-            <Input value={form.photo_url ?? ""} onChange={(e) => set("photo_url", e.target.value)} placeholder="https://…"
-              className="bg-neutral-900 border-neutral-700 text-white" />
+            <Label className="text-neutral-300">Photo principale</Label>
+            <div className="flex items-center gap-3 mt-2">
+              <div className="size-20 rounded-xl overflow-hidden bg-neutral-900 shrink-0">
+                {form.photo_url ? (
+                  <img src={form.photo_url} alt="" className="w-full h-full object-cover" />
+                ) : null}
+              </div>
+              <PhotoUpload
+                userId={user!.id}
+                onUploaded={(url) => set("photo_url", url)}
+                className="h-10 px-4 rounded-full bg-yellow-400 text-black font-semibold flex items-center gap-2 text-sm"
+              >
+                {form.photo_url ? "Changer" : "Choisir"}
+              </PhotoUpload>
+            </div>
           </div>
 
           {/* Album */}
@@ -127,12 +139,14 @@ function Me() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-2 mt-2">
-              <Input value={photoToAdd} onChange={(e) => setPhotoToAdd(e.target.value)} placeholder="URL photo…"
-                className="bg-neutral-900 border-neutral-700 text-white" />
-              <button onClick={addPhoto} className="size-10 shrink-0 rounded-md bg-yellow-400 text-black flex items-center justify-center">
-                <Plus className="size-5" />
-              </button>
+            <div className="mt-2">
+              <PhotoUpload
+                userId={user!.id}
+                onUploaded={(url) => addPhoto(url)}
+                className="h-10 px-4 rounded-full bg-neutral-900 border border-neutral-700 text-white font-medium flex items-center gap-2 text-sm w-full justify-center"
+              >
+                Ajouter une photo
+              </PhotoUpload>
             </div>
           </div>
 
