@@ -6,6 +6,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { Heart, MessageCircle, ArrowLeft, ChevronLeft, ChevronRight, Circle } from "lucide-react";
 import { toast } from "sonner";
 import { ReportButton } from "@/components/report-button";
+import { ProtectedPhoto } from "@/components/protected-photo";
+
 
 export const Route = createFileRoute("/app/profile/$id")({ component: ProfileDetail });
 
@@ -108,10 +110,17 @@ function ProfileDetail() {
         {/* Photo principale */}
         <div className="relative w-full aspect-square bg-neutral-900">
           {currentPhoto ? (
-            <img src={currentPhoto} alt={profile.pseudo} className="w-full h-full object-cover" />
+            <ProtectedPhoto
+              src={currentPhoto}
+              ownerId={profile.id}
+              ownerPseudo={profile.pseudo}
+              alt={profile.pseudo}
+              className="w-full h-full"
+            />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-900" />
           )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
 
           {/* Back */}
@@ -170,9 +179,16 @@ function ProfileDetail() {
               <div className="grid grid-cols-3 gap-1">
                 {allPhotos.map((url, i) => (
                   <button key={i} onClick={() => setPhotoIdx(i)} className={`aspect-square overflow-hidden rounded-lg ${i === photoIdx ? "ring-2 ring-yellow-400" : ""}`}>
-                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <ProtectedPhoto
+                      src={url}
+                      ownerId={profile.id}
+                      ownerPseudo={profile.pseudo}
+                      watermarkDensity={120}
+                      className="w-full h-full"
+                    />
                   </button>
                 ))}
+
               </div>
             </div>
           )}
