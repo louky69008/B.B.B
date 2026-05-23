@@ -109,11 +109,12 @@ function Landing() {
 
           {/* Hotspot Enter the club */}
           <Link
-            to="/auth"
+            to={user ? authedTarget : "/auth"}
             aria-label="Enter the club"
             className="absolute left-1/2 -translate-x-1/2"
             style={{ top: "71%", width: "60%", height: "6%" }}
           />
+
 
           {/* Interactive animated hotspots */}
           {HOTSPOTS.map((h, i) => (
