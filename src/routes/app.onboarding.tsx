@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
@@ -53,6 +54,7 @@ function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const queryClient = useQueryClient();
   const [busy, setBusy] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [form, setForm] = useState({
@@ -324,6 +326,8 @@ function Onboarding() {
       toast.error(error.message);
       return;
     }
+    await queryClient.invalidateQueries({ queryKey: ["onboarding-check"] });
+    await queryClient.refetchQueries({ queryKey: ["onboarding-check"] });
     toast.success("Bienvenue !");
     navigate({ to: "/app/grid" });
   };
