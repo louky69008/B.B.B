@@ -100,7 +100,7 @@ function Grid() {
 
   return (
     <main className="min-h-screen w-full flex justify-center bg-black">
-      <div className="relative w-full max-w-[420px] min-h-screen bg-black pb-20">
+      <div className="relative w-full max-w-[420px] md:max-w-7xl md:px-6 min-h-screen bg-black pb-20 md:pb-10">
         {/* Header signature Prism */}
         <header className="flex items-center justify-between px-4 pt-4 pb-2">
           <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ function Grid() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-3 gap-px bg-black">
+        <div className="grid grid-cols-3 gap-px md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 md:gap-3 bg-black">
           {filtered.map((p) => {
             const online = isOnline(p);
             return (
@@ -193,7 +193,7 @@ function Grid() {
 
                 <div className="absolute left-1.5 bottom-1.5 flex items-center gap-1.5">
                   {online && <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />}
-                  <span className="text-white text-[11px] font-medium truncate max-w-[80px]">
+                  <span className="text-white text-[11px] font-medium truncate max-w-[80px] md:max-w-[160px] md:text-sm">
                     {p.pseudo}
                   </span>
                 </div>
