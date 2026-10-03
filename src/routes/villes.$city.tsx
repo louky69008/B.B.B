@@ -58,7 +58,9 @@ export const Route = createFileRoute("/villes/$city")({
   ),
   errorComponent: ({ error }) => (
     <main className="min-h-screen bg-black text-white flex items-center justify-center p-8">
-      <p className="text-sm text-neutral-400">{error.message}</p>
+      <p className="text-sm text-neutral-400">
+        {error instanceof Error ? error.message : "Erreur inattendue"}
+      </p>
     </main>
   ),
   component: CityPage,

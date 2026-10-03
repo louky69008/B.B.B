@@ -59,7 +59,7 @@ function ContactPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
-        Contact
+        Contact <span className="sr-only">B.B.B &amp; cie</span>
       </h1>
       <p className="mt-4 text-[#bdb7d8]">On répond à tout, en 48h max. Choisis le bon canal.</p>
 
@@ -106,17 +106,27 @@ function ContactPage() {
         <form className="mt-12 space-y-4" onSubmit={onSubmit} noValidate>
           {/* Honeypot field — hidden from real users */}
           <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
-            <label>
+            <label htmlFor="contact-website">
               Ne pas remplir
-              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+              <input
+                id="contact-website"
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+              />
             </label>
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#9b94bf]">
+            <label
+              htmlFor="contact-email"
+              className="block text-xs font-mono uppercase tracking-wider text-[#9b94bf]"
+            >
               Email
             </label>
             <input
+              id="contact-email"
               type="email"
               name="email"
               required
@@ -125,10 +135,14 @@ function ContactPage() {
             />
           </div>
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#9b94bf]">
+            <label
+              htmlFor="contact-subject"
+              className="block text-xs font-mono uppercase tracking-wider text-[#9b94bf]"
+            >
               Sujet (optionnel)
             </label>
             <input
+              id="contact-subject"
               type="text"
               name="subject"
               maxLength={150}
@@ -136,10 +150,14 @@ function ContactPage() {
             />
           </div>
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#9b94bf]">
+            <label
+              htmlFor="contact-message"
+              className="block text-xs font-mono uppercase tracking-wider text-[#9b94bf]"
+            >
               Message
             </label>
             <textarea
+              id="contact-message"
               name="message"
               required
               rows={6}

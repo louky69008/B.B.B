@@ -97,7 +97,7 @@ function PricingPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta text-center">
-        Tarifs
+        Tarifs &amp; abonnements <span className="sr-only">B.B.B &amp; cie</span>
       </h1>
       <p className="mt-4 text-center text-[#bdb7d8]">5 formules pour matcher à ton rythme.</p>
 

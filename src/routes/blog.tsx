@@ -42,7 +42,7 @@ function BlogPage() {
   return (
     <main className="mx-auto max-w-4xl px-6 py-16">
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
-        Blog
+        Le blog de B.B.B &amp; cie
       </h1>
       <p className="mt-4 text-[#bdb7d8]">Conseils, témoignages, actu de la communauté.</p>
 

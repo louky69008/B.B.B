@@ -5,7 +5,47 @@ import heroJungle from "@/assets/hero-neon-jungle.jpg";
 import { Heart, PartyPopper, MessageCircle, User, X } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 
-export const Route = createFileRoute("/")({ component: Landing });
+const URL = "https://connect-kindly-61.lovable.app/";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "B.B.B & cie — Rencontres queer sans tabou" },
+      {
+        name: "description",
+        content:
+          "B.B.B & cie : club de rencontres queer 18+ — espace trans-friendly, soirées appart' gratuites, chat privé et profils vérifiés KYC.",
+      },
+      { property: "og:title", content: "B.B.B & cie — Rencontres queer sans tabou" },
+      {
+        property: "og:description",
+        content:
+          "Espace trans-friendly, soirées appart' gratuites, chat privé et profils vérifiés. 18+ uniquement.",
+      },
+      { property: "og:url", content: URL },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://connect-kindly-61.lovable.app/icon-512.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://connect-kindly-61.lovable.app/icon-512.png" },
+    ],
+    links: [{ rel: "canonical", href: URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "B.B.B & cie",
+          url: URL,
+          description:
+            "Club de rencontres queer 18+ : espace trans-friendly, soirées appart', chat privé, profils vérifiés.",
+          inLanguage: "fr",
+        }),
+      },
+    ],
+  }),
+  component: Landing,
+});
 
 type HotspotKey = "trans" | "appart" | "chat" | "kyc";
 
@@ -103,11 +143,19 @@ function Landing() {
           <div className="w-28 h-7 bg-black rounded-full" />
         </div>
 
+        {/* Main heading */}
+        <h1 className="px-6 pt-4 text-center font-display text-2xl uppercase leading-tight tracking-tight text-white [text-shadow:0_0_18px_rgba(255,45,146,0.75)]">
+          B.B.B &amp; cie — Rencontres queer sans tabou
+        </h1>
+        <p className="px-6 pb-1 pt-1 text-center text-[11px] text-white/60">
+          Espace trans-friendly · soirées appart' gratuites · chat privé · profils vérifiés
+        </p>
+
         {/* Hero image full-bleed */}
         <div className="relative mt-3">
           <img
             src={heroNeon}
-            alt="Kindly — Neon cyberpunk dating club"
+            alt="B.B.B & cie — club de rencontres queer sans tabou"
             className="block w-full h-auto"
           />
 
@@ -299,6 +347,7 @@ function Landing() {
 
         {/* Teaser section to fill the gap above the tab bar */}
         <section className="relative px-6 pb-28 pt-2 -mt-2 z-10">
+          <h2 className="sr-only">Soirées, matchs et univers B.B.B &amp; cie</h2>
           <Link
             to="/app/parties"
             className="block rounded-2xl p-[1.5px]"
@@ -321,12 +370,12 @@ function Landing() {
                 🎉
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-white text-[13px] font-bold leading-tight">
+                <p className="text-white text-[13px] font-bold leading-tight">
                   Soirée appart' — Accès libre
-                </div>
-                <div className="text-[11px] text-white/60 leading-tight">
+                </p>
+                <p className="text-[11px] text-white/60 leading-tight">
                   100% gratuit · entre potes ou nouvelles rencontres
-                </div>
+                </p>
               </div>
               <span className="text-[#ff2d92] text-lg">›</span>
             </div>
