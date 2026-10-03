@@ -28,7 +28,7 @@ function AboutPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
-        À propos
+        À propos de B.B.B &amp; cie
       </h1>
       <p className="mt-6 text-lg text-[#bdb7d8]">
         B.B.B & cie est née d'un constat simple : la plupart des apps de rencontre traitent leurs

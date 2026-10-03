@@ -59,7 +59,7 @@ function ContactPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
-        Contact
+        Contact <span className="sr-only">B.B.B &amp; cie</span>
       </h1>
       <p className="mt-4 text-[#bdb7d8]">On répond à tout, en 48h max. Choisis le bon canal.</p>
 
