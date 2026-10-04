@@ -28,6 +28,9 @@ supabase/.temp/
 .wrangler/
 .dev.vars
 
+# Artefacts du CLI Playwright
+/.playwright-cli/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
