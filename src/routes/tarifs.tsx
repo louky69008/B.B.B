@@ -7,16 +7,9 @@ export const Route = createFileRoute("/tarifs")({
   head: () => ({
     meta: [
       { title: "Tarifs — B.B.B & cie" },
-      {
-        name: "description",
-        content:
-          "5 abonnements : Basic Lite, Basic Mensuel, Premium, Ultra et Pass 24h. Choisis le plan qui te correspond sur B.B.B & cie.",
-      },
+      { name: "description", content: "5 abonnements : Basic Lite, Basic Mensuel, Premium, Ultra et Pass 24h. Choisis le plan qui te correspond sur B.B.B & cie." },
       { property: "og:title", content: "Tarifs — B.B.B & cie" },
-      {
-        property: "og:description",
-        content: "5 abonnements : Basic Lite, Basic Mensuel, Premium, Ultra et Pass 24h.",
-      },
+      { property: "og:description", content: "5 abonnements : Basic Lite, Basic Mensuel, Premium, Ultra et Pass 24h." },
       { property: "og:url", content: URL },
       { property: "og:type", content: "website" },
     ],
@@ -38,13 +31,7 @@ const plans = [
     name: "Basic Mensuel",
     price: "12,99 €",
     period: "/ mois",
-    features: [
-      "Jusqu'à 300 profils / mois",
-      "Sans publicité",
-      "Filtres avancés",
-      "Icebreakers IA",
-      "Mise en avant",
-    ],
+    features: ["Jusqu'à 300 profils / mois", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Mise en avant"],
     cta: "Choisir Mensuel",
     accent: true,
   },
@@ -52,13 +39,7 @@ const plans = [
     name: "Premium",
     price: "19,99 €",
     period: "/ mois",
-    features: [
-      "Jusqu'à 600 profils / mois",
-      "Sans publicité",
-      "Filtres avancés",
-      "Icebreakers IA",
-      "Mode invisible",
-    ],
+    features: ["Jusqu'à 600 profils / mois", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Mode invisible"],
     cta: "Passer Premium",
     accent: false,
   },
@@ -66,14 +47,7 @@ const plans = [
     name: "Ultra",
     price: "29,99 €",
     period: "/ mois",
-    features: [
-      "Profils illimités",
-      "Sans publicité",
-      "Filtres avancés",
-      "Icebreakers IA",
-      "Mode invisible",
-      "Filigrane anti-réutilisation",
-    ],
+    features: ["Profils illimités", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Mode invisible", "Filigrane anti-réutilisation"],
     cta: "Devenir Ultra",
     accent: false,
   },
@@ -81,13 +55,7 @@ const plans = [
     name: "Pass 24h",
     price: "2,99 €",
     period: "/ 24h",
-    features: [
-      "Jusqu'à 200 profils sur 24h",
-      "Sans publicité",
-      "Filtres avancés",
-      "Icebreakers IA",
-      "Accès 24h non renouvelable",
-    ],
+    features: ["Jusqu'à 200 profils sur 24h", "Sans publicité", "Filtres avancés", "Icebreakers IA", "Accès 24h non renouvelable"],
     cta: "Acheter 24h",
     accent: false,
   },
@@ -97,24 +65,26 @@ function PricingPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta text-center">
-        Tarifs &amp; abonnements <span className="sr-only">B.B.B &amp; cie</span>
+        Tarifs
       </h1>
-      <p className="mt-4 text-center text-[#bdb7d8]">5 formules pour matcher à ton rythme.</p>
+      <p className="mt-4 text-center text-muted-foreground">
+        5 formules pour matcher à ton rythme.
+      </p>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {plans.map((p) => (
           <div
             key={p.name}
-            className={`p-6 border ${p.accent ? "border-[color:var(--neon-magenta)] bg-[color:var(--neon-magenta)]/5" : "border-white/10 bg-white/[0.02]"}`}
+            className={`p-6 rounded-xl border ${p.accent ? "border-neon-magenta bg-secondary" : "border-border bg-card"}`}
           >
             <h2 className="font-display text-xl uppercase tracking-wide">{p.name}</h2>
             <div className="mt-4 flex items-baseline gap-1">
               <span className="text-4xl font-bold">{p.price}</span>
-              <span className="text-sm text-[#9b94bf]">{p.period}</span>
+              <span className="text-sm text-muted-foreground">{p.period}</span>
             </div>
             <ul className="mt-6 space-y-3">
               {p.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm text-[#bdb7d8]">
+                <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
                   <Check className="size-4 mt-0.5 text-[color:var(--neon-lime)] flex-shrink-0" />
                   <span>{f}</span>
                 </li>
@@ -122,11 +92,7 @@ function PricingPage() {
             </ul>
             <Link
               to="/auth"
-              className={
-                p.accent
-                  ? "neon-btn mt-8 w-full justify-center"
-                  : "neon-btn neon-btn-ghost mt-8 w-full justify-center"
-              }
+              className={p.accent ? "neon-btn mt-8 w-full justify-center" : "neon-btn neon-btn-ghost mt-8 w-full justify-center"}
             >
               {p.cta}
             </Link>
@@ -134,7 +100,7 @@ function PricingPage() {
         ))}
       </div>
 
-      <p className="mt-12 text-center text-xs text-[#9b94bf]">
+      <p className="mt-12 text-center text-xs text-muted-foreground">
         Sans engagement · Résiliable à tout moment · Paiement sécurisé
       </p>
     </main>

@@ -16,7 +16,7 @@ import { toast } from "sonner";
  */
 export function useScreenshotGuard() {
   useEffect(() => {
-    const warn = () => toast.warning("Capture d'écran interdite dans Kindly");
+    const warn = () => toast.warning("Capture d'écran interdite dans B.B.B & cie");
 
     const onContext = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
@@ -43,7 +43,9 @@ export function useScreenshotGuard() {
         // Best-effort: overwrite the clipboard after PrintScreen
         try {
           if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText("⛔ Capture bloquée par Kindly");
+            await navigator.clipboard.writeText(
+              "⛔ Capture bloquée par B.B.B & cie",
+            );
           }
         } catch {
           /* clipboard write may be blocked — ignore */

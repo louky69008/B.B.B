@@ -70,10 +70,7 @@ export function PhotoUpload({ userId, onUploaded, children, className }: Props) 
         type="button"
         disabled={busy}
         onClick={handleClick}
-        className={
-          className ??
-          "h-12 px-5 rounded-full bg-yellow-400 text-black font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
-        }
+        className={className ?? "h-12 px-5 rounded-full bg-yellow-400 text-black font-semibold flex items-center justify-center gap-2 disabled:opacity-50"}
       >
         {busy ? <Loader2 className="size-5 animate-spin" /> : <Upload className="size-5" />}
         {children ?? (busy ? "Envoi…" : "Choisir une photo")}

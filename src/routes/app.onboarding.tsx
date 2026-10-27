@@ -1,18 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ArrowRight, ArrowLeft, Check, X } from "lucide-react";
 import { PhotoUpload } from "@/components/photo-upload";
@@ -54,7 +47,6 @@ function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const queryClient = useQueryClient();
   const [busy, setBusy] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [form, setForm] = useState({
@@ -73,68 +65,27 @@ function Onboarding() {
   const steps = [
     {
       title: "Règles d'utilisation",
-      subtitle:
-        "À lire et accepter avant d'entrer. Tu ne pourras pas revenir en arrière sans accepter.",
+      subtitle: "À lire et accepter avant d'entrer. Tu ne pourras pas revenir en arrière sans accepter.",
       valid: () => acceptedTerms,
       body: (
         <div className="space-y-4">
           <div className="max-h-[55vh] overflow-y-auto rounded-2xl bg-neutral-900 border border-neutral-800 p-4 text-sm text-neutral-300 space-y-3">
-            <p className="font-semibold text-white">En utilisant Prism Connect, tu t'engages à :</p>
+            <p className="font-semibold text-white">En utilisant B.B.B & cie, tu t'engages à :</p>
             <ul className="space-y-2 list-disc pl-5">
-              <li>
-                <b className="text-white">Avoir 18 ans ou plus.</b> Toute fausse déclaration
-                entraîne un bannissement immédiat et définitif.
-              </li>
-              <li>
-                <b className="text-white">Respecter chaque membre</b> peu importe son identité de
-                genre, son orientation, son origine, son corps, son statut sérologique ou sa
-                séropositivité.
-              </li>
-              <li>
-                <b className="text-white">Aucun harcèlement</b>, insulte, menace, racisme,
-                transphobie, sérophobie, grossophobie, validisme ou discrimination — sanctions
-                progressives (avertissement, 24h, 30j, à vie) avec bannissement de l'appareil.
-              </li>
-              <li>
-                <b className="text-white">Aucun contenu illégal</b> : mineurs, violence non
-                consentie, drogues, prostitution, contenu volé.
-              </li>
-              <li>
-                <b className="text-white">Consentement obligatoire</b> avant tout échange de photo
-                intime. Le partage non consenti d'images privées (revenge porn) est un délit et
-                entraîne un signalement aux autorités.
-              </li>
-              <li>
-                <b className="text-white">Soirées / rencontres IRL</b> : tu es seul responsable de
-                tes choix et de ta sécurité. Préviens un proche, vérifie le profil, refuse si tu
-                n'es pas à l'aise. L'app n'est pas responsable des événements organisés entre
-                membres.
-              </li>
-              <li>
-                <b className="text-white">Signalement</b> : utilise le bouton signaler dès qu'un
-                comportement te semble inapproprié. Les modérateurs interviennent.
-              </li>
-              <li>
-                <b className="text-white">Pas d'usurpation d'identité</b>, pas de faux profil, pas
-                de spam, pas de promotion commerciale sans accord.
-              </li>
+              <li><b className="text-white">Avoir 18 ans ou plus.</b> Toute fausse déclaration entraîne un bannissement immédiat et définitif.</li>
+              <li><b className="text-white">Respecter chaque membre</b> peu importe son identité de genre, son orientation, son origine, son corps, son statut sérologique ou sa séropositivité.</li>
+              <li><b className="text-white">Aucun harcèlement</b>, insulte, menace, racisme, transphobie, sérophobie, grossophobie, validisme ou discrimination — sanctions progressives (avertissement, 24h, 30j, à vie) avec bannissement de l'appareil.</li>
+              <li><b className="text-white">Aucun contenu illégal</b> : mineurs, violence non consentie, drogues, prostitution, contenu volé.</li>
+              <li><b className="text-white">Consentement obligatoire</b> avant tout échange de photo intime. Le partage non consenti d'images privées (revenge porn) est un délit et entraîne un signalement aux autorités.</li>
+              <li><b className="text-white">Soirées / rencontres IRL</b> : tu es seul responsable de tes choix et de ta sécurité. Préviens un proche, vérifie le profil, refuse si tu n'es pas à l'aise. L'app n'est pas responsable des événements organisés entre membres.</li>
+              <li><b className="text-white">Signalement</b> : utilise le bouton signaler dès qu'un comportement te semble inapproprié. Les modérateurs interviennent.</li>
+              <li><b className="text-white">Pas d'usurpation d'identité</b>, pas de faux profil, pas de spam, pas de promotion commerciale sans accord.</li>
             </ul>
             <p className="font-semibold text-white pt-2">Sanctions</p>
-            <p>
-              Toute violation peut entraîner : avertissement → suspension 24h → suspension 30j →
-              bannissement à vie de ton compte ET de ton appareil (impossible de recréer un compte).
-            </p>
+            <p>Toute violation peut entraîner : avertissement → suspension 24h → suspension 30j → bannissement à vie de ton compte ET de ton appareil (impossible de recréer un compte).</p>
             <p className="font-semibold text-white pt-2">Responsabilité</p>
-            <p>
-              Prism Connect met à disposition une plateforme de mise en relation. Les échanges,
-              rencontres et soirées se font sous l'entière responsabilité des utilisateurs.
-              L'éditeur ne pourra être tenu responsable des comportements, dommages ou incidents
-              survenant entre membres.
-            </p>
-            <p className="text-xs text-neutral-500 pt-2">
-              Version {TERMS_VERSION} — En cochant, tu confirmes avoir lu et accepté ces règles
-              ainsi que les CGU et la politique de confidentialité.
-            </p>
+            <p>B.B.B & cie met à disposition une plateforme de mise en relation. Les échanges, rencontres et soirées se font sous l'entière responsabilité des utilisateurs. L'éditeur ne pourra être tenu responsable des comportements, dommages ou incidents survenant entre membres.</p>
+            <p className="text-xs text-neutral-500 pt-2">Version {TERMS_VERSION} — En cochant, tu confirmes avoir lu et accepté ces règles ainsi que les CGU et la politique de confidentialité.</p>
           </div>
           <label className="flex items-start gap-3 cursor-pointer select-none">
             <input
@@ -143,10 +94,7 @@ function Onboarding() {
               onChange={(e) => setAcceptedTerms(e.target.checked)}
               className="mt-1 size-5 accent-yellow-400"
             />
-            <span className="text-sm text-white">
-              J'ai 18 ans ou plus et j'accepte les règles d'utilisation, les CGU et la politique de
-              confidentialité.
-            </span>
+            <span className="text-sm text-white">J'ai 18 ans ou plus et j'accepte les règles d'utilisation, les CGU et la politique de confidentialité.</span>
           </label>
         </div>
       ),
@@ -175,46 +123,22 @@ function Onboarding() {
           <div>
             <Label className="text-neutral-400 text-xs">Identité de genre</Label>
             <Select value={form.gender_identity} onValueChange={(v) => set("gender_identity", v)}>
-              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {GENDERS.map((g) => (
-                  <SelectItem key={g.v} value={g.v}>
-                    {g.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
+              <SelectContent>{GENDERS.map((g) => <SelectItem key={g.v} value={g.v}>{g.label}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div>
             <Label className="text-neutral-400 text-xs">Pronoms</Label>
             <Select value={form.pronouns} onValueChange={(v) => set("pronouns", v)}>
-              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {PRONOUNS.map((p) => (
-                  <SelectItem key={p} value={p}>
-                    {p}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
+              <SelectContent>{PRONOUNS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div>
             <Label className="text-neutral-400 text-xs">Orientation sexuelle</Label>
             <Select value={form.orientation} onValueChange={(v) => set("orientation", v)}>
-              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {ORIENTATIONS.map((o) => (
-                  <SelectItem key={o.v} value={o.v}>
-                    {o.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+              <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white h-12"><SelectValue /></SelectTrigger>
+              <SelectContent>{ORIENTATIONS.map((o) => <SelectItem key={o.v} value={o.v}>{o.label}</SelectItem>)}</SelectContent>
             </Select>
           </div>
         </div>
@@ -229,28 +153,16 @@ function Onboarding() {
       },
       body: (
         <div className="space-y-3">
-          <Input
-            type="number"
-            min={18}
-            max={120}
-            value={form.age}
-            onChange={(e) => set("age", e.target.value)}
-            placeholder="Âge"
-            className="bg-neutral-900 border-neutral-700 text-white h-14 text-lg"
-          />
-          <Input
-            value={form.city}
-            onChange={(e) => set("city", e.target.value)}
-            placeholder="Ville"
-            className="bg-neutral-900 border-neutral-700 text-white h-14 text-lg"
-          />
+          <Input type="number" min={18} max={120} value={form.age} onChange={(e) => set("age", e.target.value)}
+            placeholder="Âge" className="bg-neutral-900 border-neutral-700 text-white h-14 text-lg" />
+          <Input value={form.city} onChange={(e) => set("city", e.target.value)}
+            placeholder="Ville" className="bg-neutral-900 border-neutral-700 text-white h-14 text-lg" />
         </div>
       ),
     },
     {
       title: "Ta photo",
-      subtitle:
-        "Choisis une photo depuis ton appareil (optionnel). Tu pourras en ajouter d'autres ensuite.",
+      subtitle: "Choisis une photo depuis ton appareil (optionnel). Tu pourras en ajouter d'autres ensuite.",
       valid: () => true,
       body: (
         <div className="space-y-3 flex flex-col items-center">
@@ -283,14 +195,9 @@ function Onboarding() {
       subtitle: "Présente-toi en quelques mots.",
       valid: () => true,
       body: (
-        <Textarea
-          value={form.bio}
-          onChange={(e) => set("bio", e.target.value)}
-          maxLength={500}
-          rows={5}
+        <Textarea value={form.bio} onChange={(e) => set("bio", e.target.value)} maxLength={500} rows={5}
           placeholder="Qui es-tu, ce que tu cherches…"
-          className="bg-neutral-900 border-neutral-700 text-white text-base"
-        />
+          className="bg-neutral-900 border-neutral-700 text-white text-base" />
       ),
     },
   ];
@@ -300,34 +207,22 @@ function Onboarding() {
 
   const finish = async () => {
     if (!user) return;
-    if (!acceptedTerms) {
-      toast.error("Tu dois accepter les règles d'utilisation.");
-      setStep(0);
-      return;
-    }
+    if (!acceptedTerms) { toast.error("Tu dois accepter les règles d'utilisation."); setStep(0); return; }
     setBusy(true);
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        pseudo: form.pseudo.trim(),
-        gender_identity: form.gender_identity,
-        pronouns: form.pronouns,
-        orientation: form.orientation,
-        age: Number(form.age),
-        city: form.city.trim(),
-        photo_url: form.photo_url.trim(),
-        bio: form.bio.trim() || null,
-        terms_accepted_at: new Date().toISOString(),
-        terms_version: TERMS_VERSION,
-      })
-      .eq("id", user.id);
+    const { error } = await supabase.from("profiles").update({
+      pseudo: form.pseudo.trim(),
+      gender_identity: form.gender_identity,
+      pronouns: form.pronouns,
+      orientation: form.orientation,
+      age: Number(form.age),
+      city: form.city.trim(),
+      photo_url: form.photo_url.trim(),
+      bio: form.bio.trim() || null,
+      terms_accepted_at: new Date().toISOString(),
+      terms_version: TERMS_VERSION,
+    }).eq("id", user.id);
     setBusy(false);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    await queryClient.invalidateQueries({ queryKey: ["onboarding-check"] });
-    await queryClient.refetchQueries({ queryKey: ["onboarding-check"] });
+    if (error) { toast.error(error.message); return; }
     toast.success("Bienvenue !");
     navigate({ to: "/app/grid" });
   };
@@ -338,10 +233,7 @@ function Onboarding() {
         {/* Progress */}
         <div className="flex gap-1.5 mb-8">
           {steps.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1 flex-1 rounded-full ${i <= step ? "bg-yellow-400" : "bg-neutral-800"}`}
-            />
+            <div key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-yellow-400" : "bg-neutral-800"}`} />
           ))}
         </div>
 
@@ -353,10 +245,8 @@ function Onboarding() {
 
         <div className="flex gap-3 pt-6">
           {step > 0 && (
-            <button
-              onClick={() => setStep(step - 1)}
-              className="h-14 px-5 rounded-full bg-neutral-900 border border-neutral-700 text-white flex items-center gap-2"
-            >
+            <button onClick={() => setStep(step - 1)}
+              className="h-14 px-5 rounded-full bg-neutral-900 border border-neutral-700 text-white flex items-center gap-2">
               <ArrowLeft className="size-4" />
             </button>
           )}
@@ -365,15 +255,7 @@ function Onboarding() {
             onClick={() => (isLast ? finish() : setStep(step + 1))}
             className="flex-1 h-14 rounded-full bg-yellow-400 text-black font-bold flex items-center justify-center gap-2 disabled:opacity-40"
           >
-            {isLast ? (
-              <>
-                Terminer <Check className="size-5" />
-              </>
-            ) : (
-              <>
-                Continuer <ArrowRight className="size-5" />
-              </>
-            )}
+            {isLast ? (<>Terminer <Check className="size-5" /></>) : (<>Continuer <ArrowRight className="size-5" /></>)}
           </button>
         </div>
       </div>

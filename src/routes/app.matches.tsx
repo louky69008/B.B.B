@@ -39,16 +39,16 @@ function MatchesList() {
     <main className="min-h-screen bg-black text-white flex justify-center">
       <div className="relative w-full max-w-[420px] pb-24">
         <header className="flex items-center gap-3 px-3 py-3 border-b border-neutral-800 sticky top-0 bg-black/95 backdrop-blur z-10">
-          <Link to="/app/grid" className="p-1">
-            <ArrowLeft className="size-5" />
-          </Link>
+          <Link to="/app/grid" className="p-1"><ArrowLeft className="size-5" /></Link>
           <h1 className="text-lg font-bold flex-1">Mes matchs</h1>
           <div className="flex items-center gap-1 text-xs text-pink-500">
             <Heart className="size-4 fill-pink-500" /> {matches?.length ?? 0}
           </div>
         </header>
 
-        {isLoading && <div className="text-center text-neutral-500 text-sm mt-16">Chargement…</div>}
+        {isLoading && (
+          <div className="text-center text-neutral-500 text-sm mt-16">Chargement…</div>
+        )}
 
         {matches && matches.length === 0 && (
           <div className="text-center text-neutral-500 text-sm mt-16 px-6">

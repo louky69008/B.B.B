@@ -68,36 +68,46 @@ export const Route = createFileRoute("/api/public/revenuecat")({
           "NON_RENEWING_PURCHASE",
         ]);
         // Types qui désactivent
-        const DEACTIVATE = new Set(["CANCELLATION", "EXPIRATION", "SUBSCRIPTION_PAUSED"]);
+        const DEACTIVATE = new Set([
+          "CANCELLATION",
+          "EXPIRATION",
+          "SUBSCRIPTION_PAUSED",
+        ]);
 
         if (ACTIVATE.has(type)) {
           const ent = ev.entitlement_ids?.[0];
-          const tier = ent ? (ENTITLEMENT_TO_TIER[ent] ?? "monthly") : "monthly";
-          const expires = ev.expiration_at_ms ? new Date(ev.expiration_at_ms).toISOString() : null;
+          const tier = ent ? ENTITLEMENT_TO_TIER[ent] ?? "monthly" : "monthly";
+          const expires = ev.expiration_at_ms
+            ? new Date(ev.expiration_at_ms).toISOString()
+            : null;
 
-          const { error } = await supabaseAdmin.from("subscriptions").upsert(
-            {
-              user_id: ev.app_user_id,
-              tier,
-              expires_at: expires,
-              updated_at: new Date().toISOString(),
-            },
-            { onConflict: "user_id" },
-          );
+          const { error } = await supabaseAdmin
+            .from("subscriptions")
+            .upsert(
+              {
+                user_id: ev.app_user_id,
+                tier,
+                expires_at: expires,
+                updated_at: new Date().toISOString(),
+              },
+              { onConflict: "user_id" },
+            );
           if (error) {
             console.error("RC webhook upsert error:", error);
             return new Response("DB error", { status: 500 });
           }
         } else if (DEACTIVATE.has(type)) {
-          const { error } = await supabaseAdmin.from("subscriptions").upsert(
-            {
-              user_id: ev.app_user_id,
-              tier: "free",
-              expires_at: null,
-              updated_at: new Date().toISOString(),
-            },
-            { onConflict: "user_id" },
-          );
+          const { error } = await supabaseAdmin
+            .from("subscriptions")
+            .upsert(
+              {
+                user_id: ev.app_user_id,
+                tier: "free",
+                expires_at: null,
+                updated_at: new Date().toISOString(),
+              },
+              { onConflict: "user_id" },
+            );
           if (error) {
             console.error("RC webhook deactivate error:", error);
             return new Response("DB error", { status: 500 });

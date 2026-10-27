@@ -4,7 +4,7 @@ export type Lang = "fr" | "en";
 
 const dict = {
   fr: {
-    app_name: "Kindly",
+    app_name: "B.B.B & cie",
     tagline: "L'app de rencontre pensée pour la communauté, pas pour les actionnaires.",
     cta_join: "Rejoindre gratuitement",
     cta_login: "Se connecter",
@@ -53,11 +53,10 @@ const dict = {
     hide_status: "Masquer mon statut",
     profile_updated: "Profil mis à jour",
     rules_title: "Règles communautaires",
-    rules_text:
-      "Bienveillance, anti-transphobie, anti-racisme, consentement. Tout manquement entraîne sanction.",
+    rules_text: "Bienveillance, anti-transphobie, anti-racisme, consentement. Tout manquement entraîne sanction.",
   },
   en: {
-    app_name: "Kindly",
+    app_name: "B.B.B & cie",
     tagline: "A dating app built for the community, not shareholders.",
     cta_join: "Join for free",
     cta_login: "Log in",
@@ -106,8 +105,7 @@ const dict = {
     hide_status: "Hide my status",
     profile_updated: "Profile updated",
     rules_title: "Community rules",
-    rules_text:
-      "Kindness, anti-transphobia, anti-racism, consent. Any violation leads to sanctions.",
+    rules_text: "Kindness, anti-transphobia, anti-racism, consent. Any violation leads to sanctions.",
   },
 } as const;
 

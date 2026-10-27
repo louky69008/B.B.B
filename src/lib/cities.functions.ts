@@ -12,12 +12,7 @@ export const getCityStats = createServerFn({ method: "GET" })
   .inputValidator((input) => z.object({ slug: z.string().min(1).max(80) }).parse(input))
   .handler(async ({ data }) => {
     const city = findCity(data.slug);
-    if (!city)
-      return {
-        city: null,
-        count: 0,
-        sample: [] as Array<{ pseudo: string; age: number | null; photo_url: string | null }>,
-      };
+    if (!city) return { city: null, count: 0, sample: [] as Array<{ pseudo: string; age: number | null; photo_url: string | null }> };
 
     const variants = cityMatchValues(city);
     // ilike OR sur chaque variante
@@ -51,9 +46,7 @@ export const getCityStats = createServerFn({ method: "GET" })
 export const getCitiesIndex = createServerFn({ method: "GET" }).handler(async () => {
   const results = await Promise.all(
     CITIES.map(async (c) => {
-      const orClause = cityMatchValues(c)
-        .map((v) => `city.ilike.${v}`)
-        .join(",");
+      const orClause = cityMatchValues(c).map((v) => `city.ilike.${v}`).join(",");
       const { count } = await supabaseAdmin
         .from("profiles")
         .select("id", { count: "exact", head: true })

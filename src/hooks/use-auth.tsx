@@ -16,9 +16,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Set up listener BEFORE getting session (per Supabase guidance)
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_e, s) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
       setSession(s);
       setLoading(false);
     });
@@ -33,10 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!session?.user) return;
     const ping = async () => {
-      await supabase
-        .from("profiles")
-        .update({ last_seen: new Date().toISOString() })
-        .eq("id", session.user.id);
+      await supabase.from("profiles").update({ last_seen: new Date().toISOString() }).eq("id", session.user.id);
     };
     ping();
     const id = setInterval(ping, 60_000);
@@ -44,9 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [session?.user?.id]);
 
   return (
-    <AuthCtx.Provider value={{ user: session?.user ?? null, session, loading }}>
-      {children}
-    </AuthCtx.Provider>
+    <AuthCtx.Provider value={{ user: session?.user ?? null, session, loading }}>{children}</AuthCtx.Provider>
   );
 }
 

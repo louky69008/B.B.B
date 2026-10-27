@@ -63,7 +63,7 @@ export function ProtectedPhoto({
     e.stopPropagation();
   };
 
-  const wmLabel = (ownerPseudo || "Kindly").toUpperCase();
+  const wmLabel = (ownerPseudo || "B.B.B").toUpperCase();
 
   return (
     <div
@@ -71,14 +71,12 @@ export function ProtectedPhoto({
       className={`relative overflow-hidden ${rounded ?? ""} ${className ?? ""}`}
       onContextMenu={stop}
       onDragStart={stop}
-      style={
-        {
-          userSelect: "none",
-          WebkitUserSelect: "none",
-          WebkitTouchCallout: "none",
-          WebkitUserDrag: "none",
-        } as React.CSSProperties
-      }
+      style={{
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        WebkitTouchCallout: "none",
+        WebkitUserDrag: "none",
+      } as React.CSSProperties}
     >
       {src ? (
         <img
@@ -89,13 +87,11 @@ export function ProtectedPhoto({
           onContextMenu={stop}
           onDragStart={stop}
           className="w-full h-full object-cover pointer-events-none select-none"
-          style={
-            {
-              transition: "filter 200ms ease",
-              filter: hidden ? "blur(36px) brightness(0.4)" : "none",
-              WebkitUserDrag: "none",
-            } as React.CSSProperties
-          }
+          style={{
+            transition: "filter 200ms ease",
+            filter: hidden ? "blur(36px) brightness(0.4)" : "none",
+            WebkitUserDrag: "none",
+          } as React.CSSProperties}
         />
       ) : (
         <div className="w-full h-full bg-neutral-900" />
@@ -119,7 +115,7 @@ export function ProtectedPhoto({
                  <text x='50%' y='50%' fill='white' fill-opacity='0.35'
                        font-family='Inter, system-ui, sans-serif' font-size='13' font-weight='700'
                        text-anchor='middle' transform='rotate(-30 ${watermarkDensity / 2} ${watermarkDensity / 2})'>
-                   @${wmLabel} · KINDLY
+                   @${wmLabel} · B.B.B &amp; cie
                  </text>
                </svg>`,
             )}")`,
@@ -134,7 +130,9 @@ export function ProtectedPhoto({
         </div>
       )}
 
-      {hidden && silent && <div className="absolute inset-0 bg-black" />}
+      {hidden && silent && (
+        <div className="absolute inset-0 bg-black" />
+      )}
     </div>
   );
 }

@@ -8,10 +8,11 @@ export function RequireAuth({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const isAdminRoute = pathname.startsWith("/app/admin");
 
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ["onboarding-check", user?.id],
-    enabled: !!user,
+    enabled: !!user && !isAdminRoute,
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
@@ -32,6 +33,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
       navigate({ to: "/auth" });
       return;
     }
+    if (isAdminRoute) return;
     if (profileLoading) return;
     const incomplete =
       !profile ||
@@ -42,7 +44,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     if (incomplete && pathname !== "/app/onboarding") {
       navigate({ to: "/app/onboarding" });
     }
-  }, [loading, user, profile, profileLoading, pathname, navigate, isPublicParties]);
+  }, [loading, user, profile, profileLoading, pathname, navigate, isPublicParties, isAdminRoute]);
 
   if (isPublicParties) return <>{children}</>;
   if (loading) {

@@ -23,12 +23,7 @@ export const CITIES: City[] = [
   { slug: "rennes", name: "Rennes", region: "Bretagne" },
   { slug: "reims", name: "Reims", region: "Grand Est" },
   { slug: "le-havre", name: "Le Havre", region: "Normandie", aliases: ["Le Havre", "Havre"] },
-  {
-    slug: "saint-etienne",
-    name: "Saint-Étienne",
-    region: "Auvergne-Rhône-Alpes",
-    aliases: ["Saint-Etienne", "St-Etienne"],
-  },
+  { slug: "saint-etienne", name: "Saint-Étienne", region: "Auvergne-Rhône-Alpes", aliases: ["Saint-Etienne", "St-Etienne"] },
   { slug: "toulon", name: "Toulon", region: "PACA" },
   { slug: "grenoble", name: "Grenoble", region: "Auvergne-Rhône-Alpes" },
   { slug: "dijon", name: "Dijon", region: "Bourgogne-Franche-Comté" },

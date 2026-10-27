@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -24,10 +23,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold">404</h1>
         <p className="mt-4 text-muted-foreground">Page introuvable.</p>
-        <Link
-          to="/"
-          className="mt-6 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-        >
+        <Link to="/" className="mt-6 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
           Retour à l'accueil
         </Link>
       </div>
@@ -35,21 +31,16 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold">Quelque chose s'est mal passé</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {error instanceof Error ? error.message : "Erreur inattendue"}
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <button
-          onClick={() => {
-            router.invalidate();
-            reset();
-          }}
+          onClick={() => { router.invalidate(); reset(); }}
           className="mt-6 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
         >
           Réessayer
@@ -67,10 +58,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "B.B.B & cie — Rencontres authentiques" },
       { name: "description", content: "Rencontres authentiques — la nuit, le jour, la soirée." },
       { property: "og:title", content: "B.B.B & cie — Rencontres authentiques" },
-      {
-        property: "og:description",
-        content: "Rencontres authentiques — la nuit, le jour, la soirée.",
-      },
+      { property: "og:description", content: "Rencontres authentiques — la nuit, le jour, la soirée." },
       { property: "og:type", content: "website" },
     ],
     links: [
@@ -82,19 +70,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: lazy(() => Promise.resolve({ default: ErrorComponent })),
+  errorComponent: ErrorComponent,
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="dark">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
+    <html lang="fr">
+      <head><HeadContent /></head>
+      <body>{children}<Scripts /></body>
     </html>
   );
 }

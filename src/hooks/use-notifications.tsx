@@ -14,7 +14,8 @@ const Ctx = createContext<{
 }>({ counts: { messages: 0, parties: 0 }, markSeen: () => {}, refresh: () => {} });
 
 const seenKey = (kind: string, id: string) => `seen:${kind}:${id}`;
-const getSeen = (kind: string, id: string) => Number(localStorage.getItem(seenKey(kind, id)) ?? 0);
+const getSeen = (kind: string, id: string) =>
+  Number(localStorage.getItem(seenKey(kind, id)) ?? 0);
 const setSeen = (kind: string, id: string, ts = Date.now()) =>
   localStorage.setItem(seenKey(kind, id), String(ts));
 
@@ -28,10 +29,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
 
   // Recompute unread counts
   useEffect(() => {
-    if (!user) {
-      setCounts({ messages: 0, parties: 0 });
-      return;
-    }
+    if (!user) { setCounts({ messages: 0, parties: 0 }); return; }
     let cancelled = false;
 
     const compute = async () => {
@@ -63,12 +61,10 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
         supabase.from("parties").select("id").eq("host_id", user.id),
         supabase.from("party_participants").select("party_id").eq("user_id", user.id),
       ]);
-      const partyIds = Array.from(
-        new Set([
-          ...(hosted ?? []).map((p) => p.id as string),
-          ...(parts ?? []).map((p) => p.party_id as string),
-        ]),
-      );
+      const partyIds = Array.from(new Set([
+        ...(hosted ?? []).map((p: any) => p.id),
+        ...(parts ?? []).map((p: any) => p.party_id),
+      ]));
 
       let pCount = 0;
       for (const pid of partyIds) {
@@ -90,10 +86,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
 
     compute();
     const id = setInterval(compute, 20_000);
-    return () => {
-      cancelled = true;
-      clearInterval(id);
-    };
+    return () => { cancelled = true; clearInterval(id); };
   }, [user?.id, tick]);
 
   // Realtime: live toast + refresh on incoming message
@@ -101,64 +94,39 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
     if (!user) return;
     const channel = supabase
       .channel("notif-" + user.id)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
-        (payload) => {
-          const m = payload.new as { sender_id: string; conversation_id: string };
-          if (m.sender_id === user.id) return;
-          // Only toast if not currently viewing that conversation
-          if (!pathname.includes(`/app/chat/${m.conversation_id}`)) {
-            playSound();
-            toast("💬 Nouveau message", { description: "Tu as reçu un message privé" });
-          }
-          refresh();
-        },
-      )
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "party_messages" },
-        (payload) => {
-          const m = payload.new as { sender_id: string; party_id: string };
-          if (m.sender_id === user.id) return;
-          if (!pathname.includes(`/app/parties/${m.party_id}`)) {
-            playSound();
-            toast("🎉 Soirée appart'", { description: "Nouveau message dans le tchat de groupe" });
-          }
-          refresh();
-        },
-      )
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
+        const m: any = payload.new;
+        if (m.sender_id === user.id) return;
+        // Only toast if not currently viewing that conversation
+        if (!pathname.includes(`/app/chat/${m.conversation_id}`)) {
+          playSound();
+          toast("💬 Nouveau message", { description: "Tu as reçu un message privé" });
+        }
+        refresh();
+      })
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "party_messages" }, (payload) => {
+        const m: any = payload.new;
+        if (m.sender_id === user.id) return;
+        if (!pathname.includes(`/app/parties/${m.party_id}`)) {
+          playSound();
+          toast("🎉 Soirée appart'", { description: "Nouveau message dans le tchat de groupe" });
+        }
+        refresh();
+      })
       .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => { supabase.removeChannel(channel); };
   }, [user?.id, pathname]);
 
   // Auto mark-seen when user opens a conversation / party page
   useEffect(() => {
     const conv = pathname.match(/\/app\/chat\/([^/]+)/);
-    if (conv) {
-      setSeen("conv", conv[1]);
-      refresh();
-    }
+    if (conv) { setSeen("conv", conv[1]); refresh(); }
     const party = pathname.match(/\/app\/parties\/([^/]+)/);
-    if (party && party[1] !== "new") {
-      setSeen("party", party[1]);
-      refresh();
-    }
+    if (party && party[1] !== "new") { setSeen("party", party[1]); refresh(); }
   }, [pathname]);
 
   return (
-    <Ctx.Provider
-      value={{
-        counts,
-        markSeen: (k, i) => {
-          setSeen(k, i);
-          refresh();
-        },
-        refresh,
-      }}
-    >
+    <Ctx.Provider value={{ counts, markSeen: (k, i) => { setSeen(k, i); refresh(); }, refresh }}>
       {children}
     </Ctx.Provider>
   );

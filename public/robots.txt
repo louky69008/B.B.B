@@ -3,5 +3,3 @@ Allow: /
 
 Disallow: /app/
 Disallow: /auth
-
-Sitemap: https://connect-kindly-61.lovable.app/sitemap.xml

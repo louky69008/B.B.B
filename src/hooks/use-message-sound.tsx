@@ -4,10 +4,7 @@ let globalAudioCtx: AudioContext | null = null;
 
 function getAudioContext(): AudioContext {
   if (!globalAudioCtx) {
-    // Safari expose le-prefixed constructor ; on le déclare via une intersection
-    // pour éviter un `any` sur la fenêtre.
-    const w = window as Window & { webkitAudioContext?: typeof AudioContext };
-    globalAudioCtx = new (window.AudioContext || w.webkitAudioContext)();
+    globalAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
   }
   if (globalAudioCtx.state === "suspended") {
     globalAudioCtx.resume();

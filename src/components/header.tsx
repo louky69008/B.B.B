@@ -26,48 +26,56 @@ export function Header() {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold tracking-tight">
-          <Heart className="size-5 text-[color:var(--neon-magenta)]" fill="currentColor" />
-          <span>
-            {t("app_name")
-              .split("")
-              .map((c, i) =>
-                i === 0 ? (
-                  <span key={i} className="text-[color:var(--neon-magenta)]">
-                    {c}
-                  </span>
-                ) : (
-                  c
-                ),
-              )}
+    <header
+      className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-xl"
+      onKeyDown={(event) => {
+        if (event.key === "Escape") setOpen(false);
+      }}
+    >
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <Link
+          to="/"
+          onClick={() => setOpen(false)}
+          className="flex shrink-0 items-center gap-2.5 rounded-lg text-xl font-extrabold tracking-tight text-foreground sm:text-2xl"
+        >
+          <span className="flex size-10 items-center justify-center rounded-2xl bg-linear-to-br from-neon-magenta to-primary text-primary-foreground shadow-[var(--shadow-neon)]">
+            <Heart className="size-6" fill="currentColor" aria-hidden="true" />
           </span>
+          <span>{t("app_name")}</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav aria-label="Navigation principale" className="hidden lg:flex items-center gap-1">
           {user ? (
             <>
               <Link
                 to="/app/grid"
-                className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]"
+                className="rounded-full px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+                activeProps={{ className: "bg-secondary text-primary" }}
               >
                 {t("nav_grid")}
               </Link>
               <Link
                 to="/app/chat"
-                className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]"
+                className="rounded-full px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+                activeProps={{ className: "bg-secondary text-primary" }}
               >
                 {t("nav_chat")}
               </Link>
               <Link
                 to="/app/me"
-                className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]"
+                className="rounded-full px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+                activeProps={{ className: "bg-secondary text-primary" }}
               >
                 {t("nav_me")}
               </Link>
-              <Button variant="ghost" size="icon" onClick={logout} title={t("logout")}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={logout}
+                title={t("logout")}
+                aria-label={t("logout")}
+              >
                 <LogOut className="size-4" />
               </Button>
             </>
@@ -77,69 +85,85 @@ export function Header() {
                 <Link
                   key={l.to}
                   to={l.to}
-                  className="px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8] hover:text-[color:var(--neon-cyan)]"
+                  className="rounded-full px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+                  activeProps={{ className: "bg-secondary text-primary" }}
                 >
                   {l.label}
                 </Link>
               ))}
-              <Link to="/auth" className="neon-btn ml-2">
-                {t("cta_login")}
-              </Link>
+              <Button asChild className="ml-2">
+                <Link to="/auth">{t("cta_login")}</Link>
+              </Button>
             </>
           )}
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-            className="ml-3 border border-white/20 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#9b94bf] hover:border-[color:var(--neon-cyan)] hover:text-[color:var(--neon-cyan)]"
+            className="ml-2 uppercase"
+            aria-label={lang === "fr" ? "Switch to English" : "Passer en français"}
           >
             {lang}
-          </button>
+          </Button>
         </nav>
 
         {/* Mobile burger */}
-        <button
-          className="md:hidden p-2 text-[#bdb7d8]"
+        <Button
+          variant="ghost"
+          size="icon"
+          className="lg:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-label="Menu"
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        </Button>
       </div>
 
       {/* Mobile drawer */}
       {open && (
-        <nav className="md:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-3">
+        <nav
+          id="mobile-navigation"
+          aria-label="Navigation mobile"
+          className="lg:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-border bg-background px-4 py-4 flex flex-col gap-2 shadow-[var(--shadow-surface)] sm:px-6"
+        >
           {user ? (
             <>
               <Link
                 onClick={() => setOpen(false)}
                 to="/app/grid"
-                className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]"
+                className="rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary"
+                activeProps={{ className: "bg-secondary text-primary" }}
               >
                 {t("nav_grid")}
               </Link>
               <Link
                 onClick={() => setOpen(false)}
                 to="/app/chat"
-                className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]"
+                className="rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary"
+                activeProps={{ className: "bg-secondary text-primary" }}
               >
                 {t("nav_chat")}
               </Link>
               <Link
                 onClick={() => setOpen(false)}
                 to="/app/me"
-                className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]"
+                className="rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary"
+                activeProps={{ className: "bg-secondary text-primary" }}
               >
                 {t("nav_me")}
               </Link>
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => {
                   setOpen(false);
                   logout();
                 }}
-                className="text-left font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]"
+                className="justify-start"
               >
                 {t("logout")}
-              </button>
+              </Button>
             </>
           ) : (
             <>
@@ -148,16 +172,26 @@ export function Header() {
                   key={l.to}
                   onClick={() => setOpen(false)}
                   to={l.to}
-                  className="font-mono text-xs uppercase tracking-[0.18em] text-[#bdb7d8]"
+                  className="rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary"
+                  activeProps={{ className: "bg-secondary text-primary" }}
                 >
                   {l.label}
                 </Link>
               ))}
-              <Link onClick={() => setOpen(false)} to="/auth" className="neon-btn w-fit">
-                {t("cta_login")}
-              </Link>
+              <Button asChild className="mt-2">
+                <Link onClick={() => setOpen(false)} to="/auth">
+                  {t("cta_login")}
+                </Link>
+              </Button>
             </>
           )}
+          <Button
+            variant="ghost"
+            onClick={() => setLang(lang === "fr" ? "en" : "fr")}
+            className="justify-start"
+          >
+            {lang === "fr" ? "English" : "Français"}
+          </Button>
         </nav>
       )}
     </header>
