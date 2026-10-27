@@ -5,8 +5,8 @@
   "description": "Rencontres authentiques — la nuit, le jour, la soirée.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
   "icons": [
     {
       "src": "/icon-192.png",

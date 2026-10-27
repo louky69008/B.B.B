@@ -63,7 +63,7 @@ export function ProtectedPhoto({
     e.stopPropagation();
   };
 
-  const wmLabel = (ownerPseudo || "Kindly").toUpperCase();
+  const wmLabel = (ownerPseudo || "B.B.B").toUpperCase();
 
   return (
     <div
@@ -115,7 +115,7 @@ export function ProtectedPhoto({
                  <text x='50%' y='50%' fill='white' fill-opacity='0.35'
                        font-family='Inter, system-ui, sans-serif' font-size='13' font-weight='700'
                        text-anchor='middle' transform='rotate(-30 ${watermarkDensity / 2} ${watermarkDensity / 2})'>
-                   @${wmLabel} · KINDLY
+                   @${wmLabel} · B.B.B &amp; cie
                  </text>
                </svg>`,
             )}")`,

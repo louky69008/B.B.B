@@ -67,7 +67,7 @@ function PricingPage() {
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta text-center">
         Tarifs
       </h1>
-      <p className="mt-4 text-center text-[#bdb7d8]">
+      <p className="mt-4 text-center text-muted-foreground">
         5 formules pour matcher à ton rythme.
       </p>
 
@@ -75,16 +75,16 @@ function PricingPage() {
         {plans.map((p) => (
           <div
             key={p.name}
-            className={`p-6 border ${p.accent ? "border-[color:var(--neon-magenta)] bg-[color:var(--neon-magenta)]/5" : "border-white/10 bg-white/[0.02]"}`}
+            className={`p-6 rounded-xl border ${p.accent ? "border-neon-magenta bg-secondary" : "border-border bg-card"}`}
           >
             <h2 className="font-display text-xl uppercase tracking-wide">{p.name}</h2>
             <div className="mt-4 flex items-baseline gap-1">
               <span className="text-4xl font-bold">{p.price}</span>
-              <span className="text-sm text-[#9b94bf]">{p.period}</span>
+              <span className="text-sm text-muted-foreground">{p.period}</span>
             </div>
             <ul className="mt-6 space-y-3">
               {p.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm text-[#bdb7d8]">
+                <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
                   <Check className="size-4 mt-0.5 text-[color:var(--neon-lime)] flex-shrink-0" />
                   <span>{f}</span>
                 </li>
@@ -100,7 +100,7 @@ function PricingPage() {
         ))}
       </div>
 
-      <p className="mt-12 text-center text-xs text-[#9b94bf]">
+      <p className="mt-12 text-center text-xs text-muted-foreground">
         Sans engagement · Résiliable à tout moment · Paiement sécurisé
       </p>
     </main>

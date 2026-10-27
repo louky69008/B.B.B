@@ -24,13 +24,13 @@ function Landing() {
         <div className="relative">
           <img
             src={heroNeon}
-            alt="Kindly — illustration d'accueil"
+            alt="B.B.B & cie — illustration d'accueil"
             className="block w-full h-auto"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#12091f] via-[#12091f]/55 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
             <p className="text-[11px] uppercase tracking-[0.25em] text-white/55">
-              Kindly
+              B.B.B & cie
             </p>
             <h1 className="mt-2 text-3xl font-black leading-tight text-white sm:text-[2.75rem]">
               Rencontres plus simples, soirées plus fluides.

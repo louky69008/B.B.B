@@ -4,7 +4,7 @@ export type Lang = "fr" | "en";
 
 const dict = {
   fr: {
-    app_name: "Kindly",
+    app_name: "B.B.B & cie",
     tagline: "L'app de rencontre pensée pour la communauté, pas pour les actionnaires.",
     cta_join: "Rejoindre gratuitement",
     cta_login: "Se connecter",
@@ -56,7 +56,7 @@ const dict = {
     rules_text: "Bienveillance, anti-transphobie, anti-racisme, consentement. Tout manquement entraîne sanction.",
   },
   en: {
-    app_name: "Kindly",
+    app_name: "B.B.B & cie",
     tagline: "A dating app built for the community, not shareholders.",
     cta_join: "Join for free",
     cta_login: "Log in",

@@ -71,7 +71,7 @@ function BlogPostPage() {
       </Link>
 
       <header className="mt-6">
-        <div className="flex items-center gap-3 text-xs font-mono text-[#9b94bf]">
+        <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground">
           <span className="text-[color:var(--neon-cyan)]">{post.tag}</span>
           <span>·</span>
           <time dateTime={post.date}>
@@ -83,7 +83,7 @@ function BlogPostPage() {
         <h1 className="mt-4 font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
           {post.title}
         </h1>
-        <p className="mt-4 text-lg text-[#bdb7d8]">{post.excerpt}</p>
+        <p className="mt-4 text-lg text-muted-foreground">{post.excerpt}</p>
       </header>
 
       <article className="mt-12 space-y-8">
@@ -95,7 +95,7 @@ function BlogPostPage() {
               </h2>
             )}
             {section.paragraphs.map((p, j) => (
-              <p key={j} className="text-[#d4cfe8] leading-relaxed mb-4">
+              <p key={j} className="text-foreground leading-relaxed mb-4">
                 {p}
               </p>
             ))}
@@ -104,7 +104,7 @@ function BlogPostPage() {
       </article>
 
       {related.length > 0 && (
-        <aside className="mt-20 pt-10 border-t border-white/10">
+        <aside className="mt-20 pt-10 border-t border-border">
           <h2 className="font-display text-xl uppercase mb-6">À lire ensuite</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {related.map((p) => (
@@ -112,11 +112,11 @@ function BlogPostPage() {
                 key={p.slug}
                 to="/blog/$slug"
                 params={{ slug: p.slug }}
-                className="p-5 border border-white/10 bg-white/[0.02] hover:border-[color:var(--neon-cyan)] transition-colors block"
+                className="p-5 rounded-xl border border-border bg-card hover:border-primary transition-colors block"
               >
                 <div className="text-xs font-mono text-[color:var(--neon-cyan)]">{p.tag}</div>
                 <h3 className="mt-2 font-display text-lg">{p.title}</h3>
-                <p className="mt-2 text-sm text-[#bdb7d8]">{p.excerpt}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{p.excerpt}</p>
               </Link>
             ))}
           </div>

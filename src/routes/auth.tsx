@@ -10,10 +10,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 type AuthMode = "login" | "signup" | "forgot" | "recovery";
+type AuthSearch = { mode?: "recovery" };
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    mode: search.mode === "recovery" ? ("recovery" as const) : undefined,
+  validateSearch: (search: Record<string, unknown>): AuthSearch => ({
+    mode: search.mode === "recovery" ? "recovery" : undefined,
   }),
   component: AuthPage,
 });

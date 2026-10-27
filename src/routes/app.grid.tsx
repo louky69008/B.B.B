@@ -91,12 +91,12 @@ function Grid() {
   return (
     <main className="min-h-screen w-full flex justify-center bg-black">
       <div className="relative w-full max-w-[420px] min-h-screen bg-black pb-20">
-        {/* Header signature Prism */}
+        {/* Marque de l’application */}
         <header className="flex items-center justify-between px-4 pt-4 pb-2">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 via-amber-400 to-cyan-400 shadow-lg shadow-fuchsia-500/30" />
             <div className="leading-tight">
-              <p className="text-white font-bold text-[15px] tracking-tight">Prism</p>
+              <p className="text-white font-bold text-[15px] tracking-tight">B.B.B & cie</p>
               <p className="text-[10px] text-neutral-500 uppercase tracking-widest">Près de toi</p>
             </div>
           </div>

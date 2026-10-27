@@ -23,7 +23,7 @@ function CGUPage() {
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
         Conditions Générales d'Utilisation
       </h1>
-      <p className="mt-4 text-sm text-[#9b94bf]">
+      <p className="mt-4 text-sm text-muted-foreground">
         Dernière mise à jour : 23 mai 2026
       </p>
 
@@ -81,7 +81,7 @@ function LegalSection({ title, body }: { title: string; body: string }) {
       <h2 className="font-display text-xl uppercase tracking-wide text-[color:var(--neon-cyan)]">
         {title}
       </h2>
-      <p className="mt-3 text-[#bdb7d8] leading-relaxed">{body}</p>
+      <p className="mt-3 text-muted-foreground leading-relaxed">{body}</p>
     </div>
   );
 }

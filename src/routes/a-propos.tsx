@@ -23,7 +23,7 @@ function AboutPage() {
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
         À propos
       </h1>
-      <p className="mt-6 text-lg text-[#bdb7d8]">
+      <p className="mt-6 text-lg text-muted-foreground">
         B.B.B & cie est née d'un constat simple : la plupart des apps de
         rencontre traitent leurs utilisateur·rices comme du bétail à matcher.
         Nous voulions un espace plus humain, plus libre, et radicalement plus
@@ -56,7 +56,7 @@ function Block({ title, body }: { title: string; body: string }) {
   return (
     <div className="border-l-2 border-[color:var(--neon-cyan)] pl-5">
       <h2 className="font-display text-xl uppercase tracking-wide text-[color:var(--neon-cyan)]">{title}</h2>
-      <p className="mt-2 text-[#bdb7d8] leading-relaxed">{body}</p>
+      <p className="mt-2 text-muted-foreground leading-relaxed">{body}</p>
     </div>
   );
 }

@@ -70,7 +70,7 @@ function Onboarding() {
       body: (
         <div className="space-y-4">
           <div className="max-h-[55vh] overflow-y-auto rounded-2xl bg-neutral-900 border border-neutral-800 p-4 text-sm text-neutral-300 space-y-3">
-            <p className="font-semibold text-white">En utilisant Prism Connect, tu t'engages à :</p>
+            <p className="font-semibold text-white">En utilisant B.B.B & cie, tu t'engages à :</p>
             <ul className="space-y-2 list-disc pl-5">
               <li><b className="text-white">Avoir 18 ans ou plus.</b> Toute fausse déclaration entraîne un bannissement immédiat et définitif.</li>
               <li><b className="text-white">Respecter chaque membre</b> peu importe son identité de genre, son orientation, son origine, son corps, son statut sérologique ou sa séropositivité.</li>
@@ -84,7 +84,7 @@ function Onboarding() {
             <p className="font-semibold text-white pt-2">Sanctions</p>
             <p>Toute violation peut entraîner : avertissement → suspension 24h → suspension 30j → bannissement à vie de ton compte ET de ton appareil (impossible de recréer un compte).</p>
             <p className="font-semibold text-white pt-2">Responsabilité</p>
-            <p>Prism Connect met à disposition une plateforme de mise en relation. Les échanges, rencontres et soirées se font sous l'entière responsabilité des utilisateurs. L'éditeur ne pourra être tenu responsable des comportements, dommages ou incidents survenant entre membres.</p>
+            <p>B.B.B & cie met à disposition une plateforme de mise en relation. Les échanges, rencontres et soirées se font sous l'entière responsabilité des utilisateurs. L'éditeur ne pourra être tenu responsable des comportements, dommages ou incidents survenant entre membres.</p>
             <p className="text-xs text-neutral-500 pt-2">Version {TERMS_VERSION} — En cochant, tu confirmes avoir lu et accepté ces règles ainsi que les CGU et la politique de confidentialité.</p>
           </div>
           <label className="flex items-start gap-3 cursor-pointer select-none">
