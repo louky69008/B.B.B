@@ -12,7 +12,9 @@ export function useBlockedIds() {
     queryKey: ["blocks", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const { data, error } = await supabase.from("blocks").select("blocker_id, blocked_id");
+      const { data, error } = await supabase
+        .from("blocks")
+        .select("blocker_id, blocked_id");
       if (error) throw error;
       const ids = new Set<string>();
       for (const b of data ?? []) {

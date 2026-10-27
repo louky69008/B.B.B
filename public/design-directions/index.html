@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Prism Connect — 3 directions de design</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0e0e12;color:#eee;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:1320px;margin:0 auto;padding:48px 28px 80px}
+  header{text-align:center;margin-bottom:48px}
+  .eyebrow{display:inline-block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#a09bb8;padding:6px 12px;border:1px solid #2a2740;border-radius:999px;margin-bottom:20px}
+  h1{font-family:'Instrument Serif',serif;font-size:clamp(36px,5vw,64px);font-weight:400;letter-spacing:-.02em;line-height:1.05}
+  h1 i{color:#ff4e87}
+  p.sub{margin-top:14px;color:#a09bb8;font-size:16px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.55}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{background:#16161e;border:1px solid #25253a;border-radius:20px;overflow:hidden;transition:transform .2s,border-color .2s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-4px);border-color:#ff4e87}
+  .preview{aspect-ratio:4/3;overflow:hidden;position:relative;background:#0a0a10}
+  .preview iframe{width:200%;height:200%;border:0;transform:scale(.5);transform-origin:0 0;pointer-events:none}
+  .body{padding:24px}
+  .num{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#7a7596;margin-bottom:8px}
+  .name{font-family:'Instrument Serif',serif;font-size:32px;letter-spacing:-.02em;line-height:1}
+  .name i{font-style:italic;color:#ff4e87}
+  .tagline{margin-top:10px;font-size:14px;color:#a09bb8;line-height:1.55;min-height:65px}
+  .traits{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+  .t{font-size:11px;padding:5px 10px;border-radius:999px;background:#1f1f2e;color:#cfcadf;letter-spacing:.04em}
+  .row{display:flex;gap:10px;margin-top:20px}
+  .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;transition:background .15s}
+  .btn.primary{background:#ff4e87;color:#fff}
+  .btn.primary:hover{background:#ff337a}
+  .btn.ghost{background:transparent;border:1px solid #2e2e44;color:#eee}
+  .btn.ghost:hover{background:#1f1f2e}
+  .palette{display:flex;gap:4px;margin-top:14px}
+  .palette span{width:18px;height:18px;border-radius:5px;border:1px solid rgba(255,255,255,.08)}
+  footer{text-align:center;margin-top:60px;color:#6f6a86;font-size:13px}
+  footer code{background:#1d1d2c;padding:2px 8px;border-radius:5px;color:#cfcadf}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Prism Connect — sélection</span>
+    <h1>Trois <i>directions</i> de design.<br>Une seule te ressemble.</h1>
+    <p class="sub">Clique sur une carte pour voir la maquette complète (landing + grille de profils). Compare l'énergie, la typographie, l'ambiance — puis dis-moi laquelle on construit.</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="card">
+      <div class="preview"><iframe src="./neon.html" scrolling="no"></iframe></div>
+      <div class="body">
+        <div class="num">Direction 01</div>
+        <div class="name">Neon <i>Underground</i></div>
+        <div class="tagline">Énergie club queer berlinoise. Magenta · cyan · lime sur noir profond, typographie tech, grilles brutalistes et CTA agressifs.</div>
+        <div class="palette"><span style="background:#070710"></span><span style="background:#ff2d92"></span><span style="background:#00f0ff"></span><span style="background:#c6ff3d"></span><span style="background:#f5f3ff"></span></div>
+        <div class="traits"><span class="t">Sombre</span><span class="t">Vibrant</span><span class="t">Tech/Mono</span><span class="t">Brutaliste</span></div>
+        <div class="row">
+          <a class="btn primary" href="./neon.html" target="_blank">Ouvrir →</a>
+          <a class="btn ghost" href="./neon.html">Aperçu</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="preview"><iframe src="./soft.html" scrolling="no"></iframe></div>
+      <div class="body">
+        <div class="num">Direction 02</div>
+        <div class="name">Soft <i>Pride</i></div>
+        <div class="tagline">Chaleureux, rond, accueillant. Pastels Pride, blobs floutés, coins très arrondis et typographies humaines. Ambiance "câlin numérique".</div>
+        <div class="palette"><span style="background:#fff8f3"></span><span style="background:#ff7aa2"></span><span style="background:#ffb86b"></span><span style="background:#a8e6cf"></span><span style="background:#9d7bff"></span></div>
+        <div class="traits"><span class="t">Clair</span><span class="t">Doux</span><span class="t">Arrondi</span><span class="t">Émotionnel</span></div>
+        <div class="row">
+          <a class="btn primary" href="./soft.html" target="_blank">Ouvrir →</a>
+          <a class="btn ghost" href="./soft.html">Aperçu</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="preview"><iframe src="./editorial.html" scrolling="no"></iframe></div>
+      <div class="body">
+        <div class="num">Direction 03</div>
+        <div class="name">Editorial <i>Minimal</i></div>
+        <div class="tagline">Une revue queer imprimée. Serif italique, papier crème, accent terracotta, grilles éditoriales. Manifeste plus que catalogue.</div>
+        <div class="palette"><span style="background:#f4f1ea"></span><span style="background:#141414"></span><span style="background:#d94f2a"></span><span style="background:#fbf9f4"></span><span style="background:#5c5950"></span></div>
+        <div class="traits"><span class="t">Crème</span><span class="t">Serif</span><span class="t">Éditorial</span><span class="t">Sophistiqué</span></div>
+        <div class="row">
+          <a class="btn primary" href="./editorial.html" target="_blank">Ouvrir →</a>
+          <a class="btn ghost" href="./editorial.html">Aperçu</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Quand tu as choisi, dis-moi simplement <code>direction 01</code>, <code>02</code> ou <code>03</code> — j'applique le design à toute l'app.
+  </footer>
+</div>
+</body></html>

@@ -9,6 +9,7 @@ import { BottomNav } from "@/components/bottom-nav";
 import { ProtectedPhoto } from "@/components/protected-photo";
 import { useBlockedIds } from "@/hooks/use-blocks";
 
+
 export const Route = createFileRoute("/app/grid")({ component: Grid });
 
 type Profile = {
@@ -81,18 +82,7 @@ function Grid() {
       if (identityFilter === "cis" && p.gender_identity !== "homme_cis") return false;
       return true;
     });
-  }, [
-    data,
-    onlineOnly,
-    favoritesOnly,
-    hotNow,
-    ageActive,
-    ageMin,
-    ageMax,
-    likedIds,
-    identityFilter,
-    blockedIds,
-  ]);
+  }, [data, onlineOnly, favoritesOnly, hotNow, ageActive, ageMin, ageMax, likedIds, identityFilter, blockedIds]);
 
   const pillBase = "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium border";
   const pillOff = "bg-neutral-900 text-white border-neutral-700";
@@ -100,20 +90,17 @@ function Grid() {
 
   return (
     <main className="min-h-screen w-full flex justify-center bg-black">
-      <div className="relative w-full max-w-[420px] md:max-w-7xl md:px-6 min-h-screen bg-black pb-20 md:pb-10">
-        {/* Header signature Prism */}
+      <div className="relative w-full max-w-[420px] min-h-screen bg-black pb-20">
+        {/* Marque de l’application */}
         <header className="flex items-center justify-between px-4 pt-4 pb-2">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 via-amber-400 to-cyan-400 shadow-lg shadow-fuchsia-500/30" />
             <div className="leading-tight">
-              <p className="text-white font-bold text-[15px] tracking-tight">Prism</p>
+              <p className="text-white font-bold text-[15px] tracking-tight">B.B.B & cie</p>
               <p className="text-[10px] text-neutral-500 uppercase tracking-widest">Près de toi</p>
             </div>
           </div>
-          <Link
-            to="/app/me"
-            className="w-9 h-9 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center"
-          >
+          <Link to="/app/me" className="w-9 h-9 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center">
             <User className="w-4 h-4 text-neutral-300" />
           </Link>
         </header>
@@ -158,22 +145,21 @@ function Grid() {
           >
             Trans & NB
           </button>
-          <Link to="/app/trans" className={`${pillBase} ${pillOff} flex items-center gap-1`}>
+          <Link
+            to="/app/trans"
+            className={`${pillBase} ${pillOff} flex items-center gap-1`}
+          >
             ♡ Communauté
           </Link>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-3 gap-px md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 md:gap-3 bg-black">
+        <div className="grid grid-cols-3 gap-px bg-black">
           {filtered.map((p) => {
             const online = isOnline(p);
             return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => navigate({ to: "/app/profile/$id", params: { id: p.id } })}
-                className="relative aspect-square overflow-hidden bg-neutral-900 text-left cursor-pointer"
-              >
+              <button key={p.id} type="button" onClick={() => navigate({ to: "/app/profile/$id", params: { id: p.id } })}
+                className="relative aspect-square overflow-hidden bg-neutral-900 text-left cursor-pointer">
                 {p.photo_url ? (
                   <ProtectedPhoto
                     src={p.photo_url}
@@ -193,9 +179,7 @@ function Grid() {
 
                 <div className="absolute left-1.5 bottom-1.5 flex items-center gap-1.5">
                   {online && <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />}
-                  <span className="text-white text-[11px] font-medium truncate max-w-[80px] md:max-w-[160px] md:text-sm">
-                    {p.pseudo}
-                  </span>
+                  <span className="text-white text-[11px] font-medium truncate max-w-[80px]">{p.pseudo}</span>
                 </div>
               </button>
             );
@@ -211,16 +195,9 @@ function Grid() {
         {/* Limit reached banner */}
         {config.profileLimit !== -1 && data && data.length >= config.profileLimit && (
           <div className="mt-3 mx-3 rounded-2xl border border-yellow-400/40 bg-yellow-400/10 p-4 text-center">
-            <p className="text-sm text-yellow-300 font-semibold">
-              Limite atteinte ({config.profileLimit} profils)
-            </p>
-            <p className="text-xs text-neutral-400 mt-1">
-              Passez Premium pour voir tous les profils
-            </p>
-            <Link
-              to="/app/subscribe"
-              className="inline-block mt-3 px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold"
-            >
+            <p className="text-sm text-yellow-300 font-semibold">Limite atteinte ({config.profileLimit} profils)</p>
+            <p className="text-xs text-neutral-400 mt-1">Passez Premium pour voir tous les profils</p>
+            <Link to="/app/subscribe" className="inline-block mt-3 px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold">
               Voir les offres
             </Link>
           </div>
@@ -228,61 +205,33 @@ function Grid() {
 
         {/* Age bottom sheet */}
         {showAgeSheet && (
-          <div
-            className="fixed inset-0 z-40 flex items-end justify-center bg-black/70"
-            onClick={() => setShowAgeSheet(false)}
-          >
-            <div
-              className="w-full max-w-[420px] bg-neutral-950 border-t border-neutral-800 rounded-t-3xl p-5 space-y-4"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/70" onClick={() => setShowAgeSheet(false)}>
+            <div className="w-full max-w-[420px] bg-neutral-950 border-t border-neutral-800 rounded-t-3xl p-5 space-y-4" onClick={(e) => e.stopPropagation()}>
               <div className="flex justify-between items-center">
                 <h3 className="text-white font-semibold">Âge</h3>
-                <button onClick={() => setShowAgeSheet(false)}>
-                  <X className="w-5 h-5 text-neutral-400" />
-                </button>
+                <button onClick={() => setShowAgeSheet(false)}><X className="w-5 h-5 text-neutral-400" /></button>
               </div>
               <div className="flex gap-3">
                 <label className="flex-1 text-xs text-neutral-400">
                   Min: <span className="text-white font-semibold">{ageMin}</span>
-                  <input
-                    type="range"
-                    min={18}
-                    max={99}
-                    value={ageMin}
+                  <input type="range" min={18} max={99} value={ageMin}
                     onChange={(e) => setAgeMin(Math.min(+e.target.value, ageMax))}
-                    className="w-full accent-yellow-400"
-                  />
+                    className="w-full accent-yellow-400" />
                 </label>
                 <label className="flex-1 text-xs text-neutral-400">
                   Max: <span className="text-white font-semibold">{ageMax}</span>
-                  <input
-                    type="range"
-                    min={18}
-                    max={99}
-                    value={ageMax}
+                  <input type="range" min={18} max={99} value={ageMax}
                     onChange={(e) => setAgeMax(Math.max(+e.target.value, ageMin))}
-                    className="w-full accent-yellow-400"
-                  />
+                    className="w-full accent-yellow-400" />
                 </label>
               </div>
               <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setAgeActive(false);
-                    setShowAgeSheet(false);
-                  }}
-                  className="flex-1 py-2.5 rounded-full border border-neutral-700 text-white text-sm"
-                >
+                <button onClick={() => { setAgeActive(false); setShowAgeSheet(false); }}
+                  className="flex-1 py-2.5 rounded-full border border-neutral-700 text-white text-sm">
                   Réinitialiser
                 </button>
-                <button
-                  onClick={() => {
-                    setAgeActive(true);
-                    setShowAgeSheet(false);
-                  }}
-                  className="flex-1 py-2.5 rounded-full bg-yellow-400 text-black text-sm font-semibold"
-                >
+                <button onClick={() => { setAgeActive(true); setShowAgeSheet(false); }}
+                  className="flex-1 py-2.5 rounded-full bg-yellow-400 text-black text-sm font-semibold">
                   Appliquer
                 </button>
               </div>
@@ -292,29 +241,17 @@ function Grid() {
 
         {/* Advanced filters placeholder sheet */}
         {showFiltersSheet && (
-          <div
-            className="fixed inset-0 z-40 flex items-end justify-center bg-black/70"
-            onClick={() => setShowFiltersSheet(false)}
-          >
-            <div
-              className="w-full max-w-[420px] bg-neutral-950 border-t border-neutral-800 rounded-t-3xl p-5 space-y-4"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/70" onClick={() => setShowFiltersSheet(false)}>
+            <div className="w-full max-w-[420px] bg-neutral-950 border-t border-neutral-800 rounded-t-3xl p-5 space-y-4" onClick={(e) => e.stopPropagation()}>
               <div className="flex justify-between items-center">
                 <h3 className="text-white font-semibold">Filtres</h3>
-                <button onClick={() => setShowFiltersSheet(false)}>
-                  <X className="w-5 h-5 text-neutral-400" />
-                </button>
+                <button onClick={() => setShowFiltersSheet(false)}><X className="w-5 h-5 text-neutral-400" /></button>
               </div>
               <p className="text-sm text-neutral-400">
-                Filtres avancés (identité de genre, ville, distance, mots-clés…) — à préciser avec
-                toi avant implémentation.
+                Filtres avancés (identité de genre, ville, distance, mots-clés…) — à préciser avec toi avant implémentation.
               </p>
-              <Link
-                to="/app/subscribe"
-                onClick={() => setShowFiltersSheet(false)}
-                className="block text-center py-2.5 rounded-full bg-yellow-400 text-black text-sm font-semibold"
-              >
+              <Link to="/app/subscribe" onClick={() => setShowFiltersSheet(false)}
+                className="block text-center py-2.5 rounded-full bg-yellow-400 text-black text-sm font-semibold">
                 Débloquer tous les filtres (Premium)
               </Link>
             </div>

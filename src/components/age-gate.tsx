@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import { ShieldAlert } from "lucide-react";
 
 const STORAGE_KEY = "bbb_age_gate_v1";
@@ -40,33 +41,32 @@ export function AgeGate() {
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.92)", backdropFilter: "blur(12px)" }}
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-[var(--overlay)] p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="age-gate-title"
     >
-      <div className="w-full max-w-md rounded-3xl border border-yellow-400/40 bg-neutral-950 p-6 shadow-2xl">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-[var(--shadow-surface)]">
         <div className="flex items-center gap-3">
-          <div className="flex size-12 items-center justify-center rounded-2xl bg-yellow-400/15">
-            <ShieldAlert className="size-6 text-yellow-400" />
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-secondary">
+            <ShieldAlert className="size-6 text-primary" aria-hidden="true" />
           </div>
           <div>
-            <h2 id="age-gate-title" className="text-xl font-bold text-white">
+            <h2 id="age-gate-title" className="text-xl font-bold text-foreground">
               Réservé aux adultes (18+)
             </h2>
-            <p className="text-xs text-neutral-400">Contrôle d'entrée obligatoire</p>
+            <p className="text-xs text-muted-foreground">Contrôle d'entrée obligatoire</p>
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-neutral-200">
+        <p className="mt-4 text-sm leading-relaxed text-foreground">
           Ce site s'adresse <strong>uniquement aux personnes majeures</strong>. Il peut contenir un
           <strong> langage explicite</strong> à caractère sexuel destiné à une communauté adulte
           consentante. <strong>Aucune nudité publique n'est tolérée</strong> sur les profils ou les
           contenus visibles sans connexion.
         </p>
 
-        <div className="mt-5 space-y-3 text-sm text-neutral-200">
+        <div className="mt-5 space-y-3 text-sm text-foreground">
           <label className="flex cursor-pointer items-start gap-2">
             <Checkbox
               checked={adult}
@@ -102,22 +102,15 @@ export function AgeGate() {
         </div>
 
         <div className="mt-6 flex flex-col gap-2">
-          <button
-            disabled={!canEnter}
-            onClick={accept}
-            className="h-12 rounded-full bg-yellow-400 font-bold text-black transition disabled:cursor-not-allowed disabled:opacity-40"
-          >
+          <Button size="lg" disabled={!canEnter} onClick={accept}>
             Entrer
-          </button>
-          <button
-            onClick={leave}
-            className="h-10 rounded-full text-sm text-neutral-400 hover:text-white"
-          >
+          </Button>
+          <Button variant="ghost" onClick={leave}>
             J'ai moins de 18 ans — quitter
-          </button>
+          </Button>
         </div>
 
-        <p className="mt-4 text-[11px] leading-relaxed text-neutral-500">
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
           En entrant, vous reconnaissez avoir lu et accepté ces conditions. Votre choix est
           enregistré localement sur cet appareil.
         </p>

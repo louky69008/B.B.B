@@ -73,8 +73,7 @@ export function DeleteAccountButton() {
 
             <div>
               <label className="text-xs text-neutral-400">
-                Tape <span className="font-mono font-bold text-red-300">{CONFIRM}</span> pour
-                confirmer
+                Tape <span className="font-mono font-bold text-red-300">{CONFIRM}</span> pour confirmer
               </label>
               <Input
                 value={confirm}

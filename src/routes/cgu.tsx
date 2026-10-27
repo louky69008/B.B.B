@@ -6,16 +6,9 @@ export const Route = createFileRoute("/cgu")({
   head: () => ({
     meta: [
       { title: "Conditions Générales d'Utilisation — B.B.B & cie" },
-      {
-        name: "description",
-        content:
-          "Conditions générales d'utilisation de B.B.B & cie. Règles de conduite, responsabilités et modalités d'accès au service de rencontres.",
-      },
+      { name: "description", content: "Conditions générales d'utilisation de B.B.B & cie. Règles de conduite, responsabilités et modalités d'accès au service de rencontres." },
       { property: "og:title", content: "CGU — B.B.B & cie" },
-      {
-        property: "og:description",
-        content: "Conditions générales d'utilisation du service de rencontres B.B.B & cie.",
-      },
+      { property: "og:description", content: "Conditions générales d'utilisation du service de rencontres B.B.B & cie." },
       { property: "og:url", content: URL },
       { property: "og:type", content: "website" },
     ],
@@ -30,7 +23,9 @@ function CGUPage() {
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
         Conditions Générales d'Utilisation
       </h1>
-      <p className="mt-4 text-sm text-[#9b94bf]">Dernière mise à jour : 23 mai 2026</p>
+      <p className="mt-4 text-sm text-muted-foreground">
+        Dernière mise à jour : 23 mai 2026
+      </p>
 
       <section className="mt-12 space-y-10">
         <LegalSection
@@ -86,7 +81,7 @@ function LegalSection({ title, body }: { title: string; body: string }) {
       <h2 className="font-display text-xl uppercase tracking-wide text-[color:var(--neon-cyan)]">
         {title}
       </h2>
-      <p className="mt-3 text-[#bdb7d8] leading-relaxed">{body}</p>
+      <p className="mt-3 text-muted-foreground leading-relaxed">{body}</p>
     </div>
   );
 }

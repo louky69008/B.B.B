@@ -51,7 +51,9 @@ function CitiesIndex() {
     <main className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-4 py-10">
         <p className="text-xs uppercase tracking-widest text-yellow-400">SEO local</p>
-        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Rencontres par ville en France</h1>
+        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
+          Rencontres par ville en France
+        </h1>
         <p className="mt-3 text-neutral-300">
           B.B.B & cie réunit une communauté gay, trans-friendly et queer dans toute la France.
           Choisis ta ville pour découvrir les profils autour de toi.
@@ -69,7 +71,9 @@ function CitiesIndex() {
                   <MapPin className="size-4 text-yellow-400" />
                   <span className="font-medium">{c.name}</span>
                 </span>
-                {c.count > 0 && <span className="text-xs text-neutral-400">{c.count}</span>}
+                {c.count > 0 && (
+                  <span className="text-xs text-neutral-400">{c.count}</span>
+                )}
               </Link>
             </li>
           ))}

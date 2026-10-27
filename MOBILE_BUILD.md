@@ -43,14 +43,12 @@ VITE_REVENUECAT_ANDROID_KEY=goog_xxxxxxxxxxxxxxxxxxxx
 ## 4. Créer les produits dans les stores
 
 ### Apple (App Store Connect)
-
 - Compte Apple Developer requis : **99 $/an**
 - App Store Connect → Mon app → **Achats intégrés** → créer :
   - Abonnement auto-renouvelable : `monthly`, `premium`, `ultra`, `basic_lite`
   - Non-consommable / consommable : `day_pass`
 
 ### Google (Play Console)
-
 - Compte Play Console requis : **25 $ une fois**
 - Play Console → Monétisation → **Abonnements** → mêmes IDs
 
@@ -80,7 +78,7 @@ Quand l'utilisateur clique sur "Choisir" :
 ```ts
 const native = await iap.isNative();
 if (native) {
-  const pkg = nativeOfferings?.find((p) => p.identifier === tier);
+  const pkg = nativeOfferings?.find(p => p.identifier === tier);
   if (pkg) {
     const newTier = await iap.purchasePackage(pkg);
     // newTier est synchronisé via webhook RevenueCat → Supabase (voir étape 6)

@@ -58,9 +58,7 @@ export const Route = createFileRoute("/villes/$city")({
   ),
   errorComponent: ({ error }) => (
     <main className="min-h-screen bg-black text-white flex items-center justify-center p-8">
-      <p className="text-sm text-neutral-400">
-        {error instanceof Error ? error.message : "Erreur inattendue"}
-      </p>
+      <p className="text-sm text-neutral-400">{error.message}</p>
     </main>
   ),
   component: CityPage,
@@ -76,13 +74,9 @@ function CityPage() {
     <main className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-4 py-10">
         <nav className="text-xs text-neutral-400">
-          <Link to="/" className="hover:text-white">
-            Accueil
-          </Link>
+          <Link to="/" className="hover:text-white">Accueil</Link>
           <span className="mx-1">›</span>
-          <Link to="/villes" className="hover:text-white">
-            Villes
-          </Link>
+          <Link to="/villes" className="hover:text-white">Villes</Link>
           <span className="mx-1">›</span>
           <span className="text-white">{city.name}</span>
         </nav>
@@ -91,12 +85,15 @@ function CityPage() {
           <p className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-yellow-400">
             <MapPin className="size-3.5" /> {city.region}
           </p>
-          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Rencontres à {city.name}</h1>
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
+            Rencontres à {city.name}
+          </h1>
           <p className="mt-3 text-neutral-300">
             {count > 0 ? (
               <>
-                <strong>{count}</strong> {count > 1 ? "profils sont actifs" : "profil est actif"} à{" "}
-                {city.name} sur B.B.B & cie.
+                <strong>{count}</strong>{" "}
+                {count > 1 ? "profils sont actifs" : "profil est actif"} à {city.name} sur B.B.B &
+                cie.
               </>
             ) : (
               <>Sois l'un·e des premier·ères à rejoindre la communauté à {city.name}.</>
@@ -193,7 +190,7 @@ function CityPage() {
             floutées par défaut tant que tu n'as pas créé de compte.
           </p>
           <p className="mt-3 text-sm text-neutral-300">
-            Tu peux aussi explorer les villes proches&nbsp;:{" "}
+            Tu peux aussi explorer les villes proches&nbsp;: {" "}
             <Link to="/villes" className="text-yellow-400 underline">
               voir toutes les villes
             </Link>
@@ -208,10 +205,7 @@ function CityPage() {
 function Feature({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
   return (
     <div className="rounded-2xl border border-neutral-800 bg-neutral-950 p-4">
-      <div className="flex items-center gap-2">
-        {icon}
-        <h3 className="font-semibold">{title}</h3>
-      </div>
+      <div className="flex items-center gap-2">{icon}<h3 className="font-semibold">{title}</h3></div>
       <p className="mt-1.5 text-sm text-neutral-400">{text}</p>
     </div>
   );

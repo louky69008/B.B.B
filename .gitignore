@@ -16,15 +16,20 @@ dist-ssr
 .nitro
 *.local
 
-# Environment variables — never commit secrets
+# Variables d'environnement locales
 .env
 .env.*
 !.env.example
-.dev.vars
-.dev.vars.*
+
+# État local du CLI Supabase
+supabase/.temp/
 
 # Wrangler / Cloudflare
 .wrangler/
+.dev.vars
+
+# Artefacts du CLI Playwright
+/.playwright-cli/
 
 # Editor directories and files
 .vscode/*

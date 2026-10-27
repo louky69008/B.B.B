@@ -6,16 +6,9 @@ export const Route = createFileRoute("/politique-confidentialite")({
   head: () => ({
     meta: [
       { title: "Politique de Confidentialité — B.B.B & cie" },
-      {
-        name: "description",
-        content:
-          "Politique de confidentialité de B.B.B & cie : collecte, utilisation, conservation et droits sur vos données personnelles.",
-      },
+      { name: "description", content: "Politique de confidentialité de B.B.B & cie : collecte, utilisation, conservation et droits sur vos données personnelles." },
       { property: "og:title", content: "Politique de Confidentialité — B.B.B & cie" },
-      {
-        property: "og:description",
-        content: "Comment B.B.B & cie protège vos données personnelles et respecte le RGPD.",
-      },
+      { property: "og:description", content: "Comment B.B.B & cie protège vos données personnelles et respecte le RGPD." },
       { property: "og:url", content: URL },
       { property: "og:type", content: "website" },
     ],
@@ -30,7 +23,7 @@ function PrivacyPage() {
       <h1 className="font-display text-4xl md:text-5xl uppercase tracking-tight neon-glow-magenta">
         Politique de Confidentialité
       </h1>
-      <p className="mt-4 text-sm text-[#9b94bf]">
+      <p className="mt-4 text-sm text-muted-foreground">
         Dernière mise à jour : 23 mai 2026 — Conforme au RGPD
       </p>
 
@@ -92,7 +85,7 @@ function PrivacySection({ title, body }: { title: string; body: string }) {
       <h2 className="font-display text-xl uppercase tracking-wide text-[color:var(--neon-cyan)]">
         {title}
       </h2>
-      <p className="mt-3 text-[#bdb7d8] leading-relaxed">{body}</p>
+      <p className="mt-3 text-muted-foreground leading-relaxed">{body}</p>
     </div>
   );
 }

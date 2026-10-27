@@ -49,19 +49,19 @@ export const POSTS: BlogPost[] = [
       {
         heading: "5. Pose des questions ouvertes",
         paragraphs: [
-          'Évite l\'interrogatoire CV ("tu fais quoi dans la vie ?"). Préfère "qu\'est-ce qui t\'a fait rire cette semaine ?" ou "c\'est quoi ton dernier coup de cœur ?". Tu apprendras 10x plus.',
+          "Évite l'interrogatoire CV (\"tu fais quoi dans la vie ?\"). Préfère \"qu'est-ce qui t'a fait rire cette semaine ?\" ou \"c'est quoi ton dernier coup de cœur ?\". Tu apprendras 10x plus.",
         ],
       },
       {
         heading: "6. Le consentement, à chaque étape",
         paragraphs: [
-          'Un baiser, une main sur l\'épaule, un raccompagnement : demande, observe, écoute. "Je peux ?" reste la phrase la plus sexy de toutes.',
+          "Un baiser, une main sur l'épaule, un raccompagnement : demande, observe, écoute. \"Je peux ?\" reste la phrase la plus sexy de toutes.",
         ],
       },
       {
         heading: "7. Débriefer honnêtement",
         paragraphs: [
-          'Dans les 24h, envoie un message clair : "super soirée, on remet ça ?" ou "c\'était sympa mais pas de match pour moi, prends soin de toi". Ghoster c\'est dépassé.',
+          "Dans les 24h, envoie un message clair : \"super soirée, on remet ça ?\" ou \"c'était sympa mais pas de match pour moi, prends soin de toi\". Ghoster c'est dépassé.",
         ],
       },
     ],
@@ -129,7 +129,7 @@ export const POSTS: BlogPost[] = [
       {
         heading: "Des champs d'identité qui ne forcent pas la case",
         paragraphs: [
-          'Genre, pronoms, identité de genre : trois champs distincts, tous libres ou multi-sélection. Pas de "homme/femme" obligatoire, pas de menu déroulant qui efface les non-binaires.',
+          "Genre, pronoms, identité de genre : trois champs distincts, tous libres ou multi-sélection. Pas de \"homme/femme\" obligatoire, pas de menu déroulant qui efface les non-binaires.",
         ],
       },
       {
@@ -139,7 +139,7 @@ export const POSTS: BlogPost[] = [
         ],
       },
       {
-        heading: 'Un filtre "trans-friendly"',
+        heading: "Un filtre \"trans-friendly\"",
         paragraphs: [
           "Pour les personnes trans qui veulent éviter les profils chasseurs ou exotisants : un filtre permet de ne voir que les profils ayant explicitement marqué leur ouverture, avec un engagement écrit sur le respect.",
         ],

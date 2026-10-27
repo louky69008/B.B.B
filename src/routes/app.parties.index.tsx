@@ -29,9 +29,7 @@ function PartiesList() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("parties")
-        .select(
-          "id, title, city, starts_at, max_participants, is_paid, price_cents, status, host_id",
-        )
+        .select("id, title, city, starts_at, max_participants, is_paid, price_cents, status, host_id")
         .gte("starts_at", new Date(Date.now() - 6 * 3600_000).toISOString())
         .order("starts_at", { ascending: true });
       if (error) throw error;
@@ -46,14 +44,10 @@ function PartiesList() {
     <main className="min-h-screen bg-black text-white flex justify-center">
       <div className="w-full max-w-[420px] pb-24">
         <header className="flex items-center gap-3 px-4 py-3 border-b border-neutral-800 sticky top-0 bg-black/95 backdrop-blur z-10">
-          <Link to="/app/grid" className="p-1">
-            <ArrowLeft className="size-5" />
-          </Link>
+          <Link to="/app/grid" className="p-1"><ArrowLeft className="size-5" /></Link>
           <h1 className="text-lg font-bold flex-1">Soirée appart'</h1>
-          <Link
-            to="/app/parties/new"
-            className="size-9 rounded-full bg-yellow-400 text-black flex items-center justify-center"
-          >
+          <Link to="/app/parties/new"
+            className="size-9 rounded-full bg-yellow-400 text-black flex items-center justify-center">
             <Plus className="size-5" />
           </Link>
         </header>
@@ -64,10 +58,7 @@ function PartiesList() {
               🔓 Accès libre & 100% gratuit
             </div>
             <p>
-              Tu cherches une soirée appart entre potes rencontrés sur tes réseaux sociaux favoris
-              ou alors de nouvelles rencontres à te faire alors tu es au bon endroit pour{" "}
-              <span className="font-bold text-yellow-300">"UN AFTER … D'AFTER !!!!"</span> Trouve la
-              soirée qui va te faire kiffer que ce soit à 3, 4 ….. tout peut arriver
+              Tu cherches une soirée appart entre potes rencontrés sur tes réseaux sociaux favoris ou alors de nouvelles rencontres à te faire alors tu es au bon endroit pour <span className="font-bold text-yellow-300">"UN AFTER … D'AFTER !!!!"</span> Trouve la soirée qui va te faire kiffer que ce soit à 3, 4 ….. tout peut arriver
             </p>
           </div>
         </div>
@@ -104,10 +95,7 @@ function PartiesList() {
               {tab === "host" ? (
                 <>
                   <p>Tu n'organises aucune soirée appart'.</p>
-                  <Link
-                    to="/app/parties/new"
-                    className="inline-block mt-3 px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold"
-                  >
+                  <Link to="/app/parties/new" className="inline-block mt-3 px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold">
                     Organiser ma soirée
                   </Link>
                 </>
@@ -120,62 +108,39 @@ function PartiesList() {
             </div>
           )}
           {list.map((p) => (
-            <Link
-              key={p.id}
-              to="/app/parties/$id"
-              params={{ id: p.id }}
-              className="block rounded-2xl border border-neutral-800 bg-neutral-900/60 p-4"
-            >
+            <Link key={p.id} to="/app/parties/$id" params={{ id: p.id }}
+              className="block rounded-2xl border border-neutral-800 bg-neutral-900/60 p-4">
               <div className="flex items-start justify-between gap-3">
                 <h2 className="font-bold text-base">{p.title}</h2>
-                <span
-                  className={`text-[10px] px-2 py-0.5 rounded-full ${
-                    p.status === "open"
-                      ? "bg-emerald-500/20 text-emerald-300"
-                      : p.status === "full"
-                        ? "bg-orange-500/20 text-orange-300"
-                        : "bg-neutral-700 text-neutral-300"
-                  }`}
-                >
+                <span className={`text-[10px] px-2 py-0.5 rounded-full ${
+                  p.status === "open" ? "bg-emerald-500/20 text-emerald-300" :
+                  p.status === "full" ? "bg-orange-500/20 text-orange-300" :
+                  "bg-neutral-700 text-neutral-300"
+                }`}>
                   {p.status === "open" ? "Ouvert" : p.status === "full" ? "Complet" : "Terminé"}
                 </span>
               </div>
               <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-yellow-400/15 border border-yellow-400/30 px-2.5 py-1 text-xs font-semibold text-yellow-200">
                 <Calendar className="size-3.5" />
-                {new Date(p.starts_at).toLocaleString("fr-FR", {
-                  weekday: "short",
-                  day: "numeric",
-                  month: "short",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {new Date(p.starts_at).toLocaleString("fr-FR", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
               </div>
               <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-neutral-400">
-                <span className="flex items-center gap-1">
-                  <MapPin className="size-3" />
-                  {p.city}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Users className="size-3" />
-                  {p.max_participants} max
-                </span>
+                <span className="flex items-center gap-1"><MapPin className="size-3" />{p.city}</span>
+                <span className="flex items-center gap-1"><Users className="size-3" />{p.max_participants} max</span>
                 {p.is_paid && p.price_cents && (
                   <span className="flex items-center gap-1 text-yellow-400">
-                    <Euro className="size-3" />
-                    {(p.price_cents / 100).toFixed(2)}
+                    <Euro className="size-3" />{(p.price_cents / 100).toFixed(2)}
                   </span>
                 )}
                 {p.host_id === user?.id && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300">
-                    Hôte
-                  </span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300">Hôte</span>
                 )}
               </div>
             </Link>
           ))}
         </div>
       </div>
-      <BottomNav />
+    <BottomNav />
     </main>
   );
 }
