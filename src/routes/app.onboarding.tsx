@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
@@ -46,6 +47,7 @@ const TERMS_VERSION = "2026-05-23";
 function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [step, setStep] = useState(0);
   const [busy, setBusy] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -223,6 +225,9 @@ function Onboarding() {
     }).eq("id", user.id);
     setBusy(false);
     if (error) { toast.error(error.message); return; }
+    // RequireAuth stays mounted across /app/* — refresh its cached completion check
+    // before leaving, otherwise it sees the stale (incomplete) profile and bounces back here.
+    await queryClient.refetchQueries({ queryKey: ["onboarding-check"] });
     toast.success("Bienvenue !");
     navigate({ to: "/app/grid" });
   };

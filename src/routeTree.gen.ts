@@ -9,47 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VillesRouteImport } from './routes/villes'
-import { Route as TarifsRouteImport } from './routes/tarifs'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as PolitiqueConfidentialiteRouteImport } from './routes/politique-confidentialite'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CguRouteImport } from './routes/cgu'
-import { Route as BlogRouteImport } from './routes/blog'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AppRouteImport } from './routes/app'
-import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as VillesCityRouteImport } from './routes/villes.$city'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as AppTransRouteImport } from './routes/app.trans'
-import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
-import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
-import { Route as AppMeRouteImport } from './routes/app.me'
-import { Route as AppMatchesRouteImport } from './routes/app.matches'
-import { Route as AppGridRouteImport } from './routes/app.grid'
-import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as CguRouteImport } from './routes/cgu'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PolitiqueConfidentialiteRouteImport } from './routes/politique-confidentialite'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TarifsRouteImport } from './routes/tarifs'
+import { Route as VillesRouteImport } from './routes/villes'
 import { Route as AppAdminRouteImport } from './routes/app.admin'
-import { Route as AppPartiesIndexRouteImport } from './routes/app.parties.index'
-import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
-import { Route as AppPartiesNewRouteImport } from './routes/app.parties.new'
-import { Route as AppPartiesIdRouteImport } from './routes/app.parties.$id'
-import { Route as AppChatIdRouteImport } from './routes/app.chat.$id'
+import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AppGridRouteImport } from './routes/app.grid'
+import { Route as AppMatchesRouteImport } from './routes/app.matches'
+import { Route as AppMeRouteImport } from './routes/app.me'
+import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
+import { Route as AppSubscribeRouteImport } from './routes/app.subscribe'
+import { Route as AppTransRouteImport } from './routes/app.trans'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as VillesCityRouteImport } from './routes/villes.$city'
 import { Route as ApiPublicRevenuecatRouteImport } from './routes/api.public.revenuecat'
+import { Route as AppChatIdRouteImport } from './routes/app.chat.$id'
+import { Route as AppPartiesIndexRouteImport } from './routes/app.parties.index'
+import { Route as AppPartiesIdRouteImport } from './routes/app.parties.$id'
+import { Route as AppPartiesNewRouteImport } from './routes/app.parties.new'
+import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 
-const VillesRoute = VillesRouteImport.update({
-  id: '/villes',
-  path: '/villes',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TarifsRoute = TarifsRouteImport.update({
-  id: '/tarifs',
-  path: '/tarifs',
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CguRoute = CguRouteImport.update({
+  id: '/cgu',
+  path: '/cgu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PolitiqueConfidentialiteRoute =
@@ -58,79 +78,24 @@ const PolitiqueConfidentialiteRoute =
     path: '/politique-confidentialite',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CguRoute = CguRouteImport.update({
-  id: '/cgu',
-  path: '/cgu',
+const TarifsRoute = TarifsRouteImport.update({
+  id: '/tarifs',
+  path: '/tarifs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
+const VillesRoute = VillesRouteImport.update({
+  id: '/villes',
+  path: '/villes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AProposRoute = AProposRouteImport.update({
-  id: '/a-propos',
-  path: '/a-propos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VillesCityRoute = VillesCityRouteImport.update({
-  id: '/$city',
-  path: '/$city',
-  getParentRoute: () => VillesRoute,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
-} as any)
-const AppTransRoute = AppTransRouteImport.update({
-  id: '/trans',
-  path: '/trans',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSubscribeRoute = AppSubscribeRouteImport.update({
-  id: '/subscribe',
-  path: '/subscribe',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppOnboardingRoute = AppOnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppMeRoute = AppMeRouteImport.update({
-  id: '/me',
-  path: '/me',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppMatchesRoute = AppMatchesRouteImport.update({
-  id: '/matches',
-  path: '/matches',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppGridRoute = AppGridRouteImport.update({
-  id: '/grid',
-  path: '/grid',
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AppRoute,
 } as any)
 const AppChatRoute = AppChatRouteImport.update({
@@ -138,24 +103,59 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAdminRoute = AppAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AppGridRoute = AppGridRouteImport.update({
+  id: '/grid',
+  path: '/grid',
   getParentRoute: () => AppRoute,
+} as any)
+const AppMatchesRoute = AppMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMeRoute = AppMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOnboardingRoute = AppOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSubscribeRoute = AppSubscribeRouteImport.update({
+  id: '/subscribe',
+  path: '/subscribe',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTransRoute = AppTransRouteImport.update({
+  id: '/trans',
+  path: '/trans',
+  getParentRoute: () => AppRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
+const VillesCityRoute = VillesCityRouteImport.update({
+  id: '/$city',
+  path: '/$city',
+  getParentRoute: () => VillesRoute,
+} as any)
+const ApiPublicRevenuecatRoute = ApiPublicRevenuecatRouteImport.update({
+  id: '/api/public/revenuecat',
+  path: '/api/public/revenuecat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppChatIdRoute = AppChatIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppChatRoute,
 } as any)
 const AppPartiesIndexRoute = AppPartiesIndexRouteImport.update({
   id: '/parties/',
   path: '/parties/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppProfileIdRoute = AppProfileIdRouteImport.update({
-  id: '/profile/$id',
-  path: '/profile/$id',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPartiesNewRoute = AppPartiesNewRouteImport.update({
-  id: '/parties/new',
-  path: '/parties/new',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPartiesIdRoute = AppPartiesIdRouteImport.update({
@@ -163,15 +163,15 @@ const AppPartiesIdRoute = AppPartiesIdRouteImport.update({
   path: '/parties/$id',
   getParentRoute: () => AppRoute,
 } as any)
-const AppChatIdRoute = AppChatIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AppChatRoute,
+const AppPartiesNewRoute = AppPartiesNewRouteImport.update({
+  id: '/parties/new',
+  path: '/parties/new',
+  getParentRoute: () => AppRoute,
 } as any)
-const ApiPublicRevenuecatRoute = ApiPublicRevenuecatRouteImport.update({
-  id: '/api/public/revenuecat',
-  path: '/api/public/revenuecat',
-  getParentRoute: () => rootRouteImport,
+const AppProfileIdRoute = AppProfileIdRouteImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -369,67 +369,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/villes': {
-      id: '/villes'
-      path: '/villes'
-      fullPath: '/villes'
-      preLoaderRoute: typeof VillesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tarifs': {
-      id: '/tarifs'
-      path: '/tarifs'
-      fullPath: '/tarifs'
-      preLoaderRoute: typeof TarifsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/politique-confidentialite': {
-      id: '/politique-confidentialite'
-      path: '/politique-confidentialite'
-      fullPath: '/politique-confidentialite'
-      preLoaderRoute: typeof PolitiqueConfidentialiteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cgu': {
-      id: '/cgu'
-      path: '/cgu'
-      fullPath: '/cgu'
-      preLoaderRoute: typeof CguRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/a-propos': {
@@ -439,67 +383,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AProposRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/villes/$city': {
-      id: '/villes/$city'
-      path: '/$city'
-      fullPath: '/villes/$city'
-      preLoaderRoute: typeof VillesCityRouteImport
-      parentRoute: typeof VillesRoute
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/trans': {
-      id: '/app/trans'
-      path: '/trans'
-      fullPath: '/app/trans'
-      preLoaderRoute: typeof AppTransRouteImport
-      parentRoute: typeof AppRoute
+    '/cgu': {
+      id: '/cgu'
+      path: '/cgu'
+      fullPath: '/cgu'
+      preLoaderRoute: typeof CguRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/subscribe': {
-      id: '/app/subscribe'
-      path: '/subscribe'
-      fullPath: '/app/subscribe'
-      preLoaderRoute: typeof AppSubscribeRouteImport
-      parentRoute: typeof AppRoute
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/onboarding': {
-      id: '/app/onboarding'
-      path: '/onboarding'
-      fullPath: '/app/onboarding'
-      preLoaderRoute: typeof AppOnboardingRouteImport
-      parentRoute: typeof AppRoute
+    '/politique-confidentialite': {
+      id: '/politique-confidentialite'
+      path: '/politique-confidentialite'
+      fullPath: '/politique-confidentialite'
+      preLoaderRoute: typeof PolitiqueConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/me': {
-      id: '/app/me'
-      path: '/me'
-      fullPath: '/app/me'
-      preLoaderRoute: typeof AppMeRouteImport
-      parentRoute: typeof AppRoute
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/matches': {
-      id: '/app/matches'
-      path: '/matches'
-      fullPath: '/app/matches'
-      preLoaderRoute: typeof AppMatchesRouteImport
-      parentRoute: typeof AppRoute
+    '/tarifs': {
+      id: '/tarifs'
+      path: '/tarifs'
+      fullPath: '/tarifs'
+      preLoaderRoute: typeof TarifsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/grid': {
-      id: '/app/grid'
-      path: '/grid'
-      fullPath: '/app/grid'
-      preLoaderRoute: typeof AppGridRouteImport
+    '/villes': {
+      id: '/villes'
+      path: '/villes'
+      fullPath: '/villes'
+      preLoaderRoute: typeof VillesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/admin': {
+      id: '/app/admin'
+      path: '/admin'
+      fullPath: '/app/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/chat': {
@@ -509,32 +460,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/admin': {
-      id: '/app/admin'
-      path: '/admin'
-      fullPath: '/app/admin'
-      preLoaderRoute: typeof AppAdminRouteImport
+    '/app/grid': {
+      id: '/app/grid'
+      path: '/grid'
+      fullPath: '/app/grid'
+      preLoaderRoute: typeof AppGridRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/matches': {
+      id: '/app/matches'
+      path: '/matches'
+      fullPath: '/app/matches'
+      preLoaderRoute: typeof AppMatchesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/me': {
+      id: '/app/me'
+      path: '/me'
+      fullPath: '/app/me'
+      preLoaderRoute: typeof AppMeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/onboarding': {
+      id: '/app/onboarding'
+      path: '/onboarding'
+      fullPath: '/app/onboarding'
+      preLoaderRoute: typeof AppOnboardingRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/subscribe': {
+      id: '/app/subscribe'
+      path: '/subscribe'
+      fullPath: '/app/subscribe'
+      preLoaderRoute: typeof AppSubscribeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/trans': {
+      id: '/app/trans'
+      path: '/trans'
+      fullPath: '/app/trans'
+      preLoaderRoute: typeof AppTransRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/villes/$city': {
+      id: '/villes/$city'
+      path: '/$city'
+      fullPath: '/villes/$city'
+      preLoaderRoute: typeof VillesCityRouteImport
+      parentRoute: typeof VillesRoute
+    }
+    '/api/public/revenuecat': {
+      id: '/api/public/revenuecat'
+      path: '/api/public/revenuecat'
+      fullPath: '/api/public/revenuecat'
+      preLoaderRoute: typeof ApiPublicRevenuecatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/chat/$id': {
+      id: '/app/chat/$id'
+      path: '/$id'
+      fullPath: '/app/chat/$id'
+      preLoaderRoute: typeof AppChatIdRouteImport
+      parentRoute: typeof AppChatRoute
     }
     '/app/parties/': {
       id: '/app/parties/'
       path: '/parties'
       fullPath: '/app/parties/'
       preLoaderRoute: typeof AppPartiesIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/profile/$id': {
-      id: '/app/profile/$id'
-      path: '/profile/$id'
-      fullPath: '/app/profile/$id'
-      preLoaderRoute: typeof AppProfileIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/parties/new': {
-      id: '/app/parties/new'
-      path: '/parties/new'
-      fullPath: '/app/parties/new'
-      preLoaderRoute: typeof AppPartiesNewRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/parties/$id': {
@@ -544,19 +544,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPartiesIdRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/chat/$id': {
-      id: '/app/chat/$id'
-      path: '/$id'
-      fullPath: '/app/chat/$id'
-      preLoaderRoute: typeof AppChatIdRouteImport
-      parentRoute: typeof AppChatRoute
+    '/app/parties/new': {
+      id: '/app/parties/new'
+      path: '/parties/new'
+      fullPath: '/app/parties/new'
+      preLoaderRoute: typeof AppPartiesNewRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/api/public/revenuecat': {
-      id: '/api/public/revenuecat'
-      path: '/api/public/revenuecat'
-      fullPath: '/api/public/revenuecat'
-      preLoaderRoute: typeof ApiPublicRevenuecatRouteImport
-      parentRoute: typeof rootRouteImport
+    '/app/profile/$id': {
+      id: '/app/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/app/profile/$id'
+      preLoaderRoute: typeof AppProfileIdRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
