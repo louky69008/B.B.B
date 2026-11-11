@@ -25,7 +25,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const { t, lang } = useI18n();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const search = Route.useSearch();
   const [mode, setMode] = useState<AuthMode>(search.mode ?? "login");
@@ -261,7 +261,7 @@ function AuthPage() {
             )}
             <button
               type="submit"
-              disabled={busy}
+              disabled={loading || busy}
               className="neon-btn min-h-12 w-full gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
               {copy.action}

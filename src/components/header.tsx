@@ -30,7 +30,7 @@ export function Header() {
     ? ([
         { to: "/app/grid", label: french ? "Découvrir" : "Discover" },
         { to: "/app/parties", label: french ? "Soirées" : "Events" },
-        { to: "/app/matches", label: "Matchs" },
+        { to: "/app/matches", label: "Likes" },
         { to: "/app/chat", label: t("nav_chat") },
         { to: "/app/subscribe", label: "Premium" },
         { to: "/app/me", label: t("nav_me") },

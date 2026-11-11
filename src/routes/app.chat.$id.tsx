@@ -4,9 +4,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useNotifications } from "@/hooks/use-notifications";
 import { useBlockedIds } from "@/hooks/use-blocks";
 import { useSubscription } from "@/hooks/use-subscription";
 import { useI18n } from "@/lib/i18n";
+import { messageTimeInMicroseconds } from "@/lib/message-time";
 import {
   Send,
   Sparkles,
@@ -37,6 +39,7 @@ function ChatRoomRoute() {
 
 function ChatRoom({ id }: { id: string }) {
   const { user } = useAuth();
+  const { markSeen } = useNotifications();
   const { lang, t } = useI18n();
   const french = lang === "fr";
   const { config } = useSubscription();
@@ -125,6 +128,23 @@ function ChatRoom({ id }: { id: string }) {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (!canOpen || !messages?.length) return;
+    const latest = messages.reduce(
+      (time, message) =>
+        messageTimeInMicroseconds(message.created_at) > messageTimeInMicroseconds(time)
+          ? message.created_at
+          : time,
+      messages[0].created_at,
+    );
+    const markVisible = () => {
+      if (document.visibilityState === "visible") markSeen("conv", id, latest);
+    };
+    markVisible();
+    document.addEventListener("visibilitychange", markVisible);
+    return () => document.removeEventListener("visibilitychange", markVisible);
+  }, [canOpen, id, markSeen, messages]);
 
   const insertMessage = async (content: string) => {
     if (!content || !user || !canOpen) return;

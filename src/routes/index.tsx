@@ -6,7 +6,6 @@ import {
   LockKeyhole,
   MessageCircle,
   ShieldCheck,
-  Sparkles,
   UsersRound,
 } from "lucide-react";
 import heroCouple from "@/assets/hero-couple.png";
@@ -34,7 +33,7 @@ const copy = {
       "Profils avec option de vérification",
       "Options de confidentialité",
     ],
-    community: "Rencontre la communauté",
+    community: "Une communauté, mille possibilités",
     profiles: "Profils et matchs",
     profilesBody: "Explore les profils et découvre avec qui le courant passe.",
     messages: "Messages privés",
@@ -43,9 +42,9 @@ const copy = {
     safetyBody: "Profils vérifiés, blocage et signalement pour garder la main sur tes échanges.",
     events: "Soirées entre membres",
     eventsBody: "Trouve une soirée près de chez toi ou organise la tienne.",
-    eventsCta: "Voir les soirées",
-    premiumBody: "Affine tes recherches avec les filtres avancés et découvre plus de profils.",
-    premiumCta: "Comparer les offres",
+    bannerTitle: "Soyez vous-même.",
+    bannerBody: "Ici, chaque histoire compte.",
+    bannerAction: "Rencontrer la communauté",
   },
   en: {
     heading: ["LGBT+", "Dating"],
@@ -61,7 +60,7 @@ const copy = {
       "Optional profile verification",
       "Privacy settings",
     ],
-    community: "Meet the community",
+    community: "One community, a thousand possibilities",
     profiles: "Profiles and matches",
     profilesBody: "Browse profiles and see who you connect with.",
     messages: "Private messages",
@@ -71,9 +70,9 @@ const copy = {
       "Verified profiles, blocking and reporting put you in control of your conversations.",
     events: "Community events",
     eventsBody: "Find an event near you or host your own.",
-    eventsCta: "Explore events",
-    premiumBody: "Narrow your search with advanced filters and discover more profiles.",
-    premiumCta: "Compare plans",
+    bannerTitle: "Be yourself.",
+    bannerBody: "Every story matters here.",
+    bannerAction: "Meet the community",
   },
 } as const;
 
@@ -89,21 +88,31 @@ function Landing() {
       icon: Heart,
       title: content.profiles,
       body: content.profilesBody,
-      accent: "bg-pink-100 text-pink-800",
+      to: "/app/grid",
+      accent: "from-[#c900f2] to-[#f841ab]",
+    },
+    {
+      icon: CalendarDays,
+      title: content.events,
+      body: content.eventsBody,
+      to: "/app/parties",
+      accent: "from-[#9300f9] to-[#ff5d86]",
     },
     {
       icon: MessageCircle,
       title: content.messages,
       body: content.messagesBody,
-      accent: "bg-violet-100 text-violet-800",
+      to: "/app/chat",
+      accent: "from-[#a600ff] to-[#f6499a]",
     },
     {
       icon: ShieldCheck,
       title: content.safety,
       body: content.safetyBody,
-      accent: "bg-indigo-100 text-indigo-800",
+      to: "/a-propos",
+      accent: "from-[#e000e5] to-[#6b00fa]",
     },
-  ];
+  ] as const;
 
   return (
     <main className="bg-[#f4f5fc] text-foreground" lang={lang}>
@@ -199,65 +208,45 @@ function Landing() {
         >
           {content.community}
         </h2>
+        <div
+          className="mx-auto mt-2 h-1 w-20 rounded-full bg-linear-to-r from-pink-500 via-amber-300 to-violet-600"
+          aria-hidden="true"
+        />
 
-        <ul className="mt-8 grid gap-4 md:grid-cols-3 lg:gap-6">
-          {features.map(({ icon: Icon, title, body, accent }) => (
-            <li
-              key={title}
-              className="rounded-3xl border border-border bg-card p-5 shadow-[var(--shadow-surface)] sm:p-6"
-            >
-              <span
-                className={`inline-flex size-12 items-center justify-center rounded-2xl ${accent}`}
+        <ul className="mt-7 grid grid-cols-2 gap-2.5 md:grid-cols-4 lg:gap-4">
+          {features.map(({ icon: Icon, title, body, to, accent }) => (
+            <li key={title}>
+              <Link
+                to={to}
+                className="block h-full rounded-2xl border border-border bg-card p-3 shadow-sm transition hover:border-primary/40 sm:p-5"
               >
-                <Icon className="size-5" aria-hidden="true" />
-              </span>
-              <h3 className="mt-4 text-lg font-bold leading-snug">{title}</h3>
-              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <span
+                  className={`inline-flex size-11 items-center justify-center rounded-xl bg-linear-to-br text-white ${accent}`}
+                >
+                  <Icon className="size-5" aria-hidden="true" />
+                </span>
+                <h3 className="mt-3 text-base font-bold leading-snug">{title}</h3>
+                <p className="mt-1.5 max-w-sm text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                  {body}
+                </p>
+              </Link>
             </li>
           ))}
         </ul>
 
-        <div className="mt-5 grid gap-4 md:grid-cols-2 lg:gap-6">
-          <section
-            aria-labelledby="events-title"
-            className="flex flex-col items-start rounded-3xl border border-border bg-linear-to-br from-pink-50 to-white p-5 sm:p-7"
-          >
-            <CalendarDays className="size-6 text-pink-700" aria-hidden="true" />
-            <h3 id="events-title" className="mt-4 font-display text-2xl">
-              {content.events}
-            </h3>
-            <p className="mt-2 grow text-sm leading-relaxed text-muted-foreground">
-              {content.eventsBody}
-            </p>
-            <Link
-              to="/app/parties"
-              className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-primary hover:underline"
-            >
-              {content.eventsCta}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-          </section>
-
-          <section
-            aria-labelledby="premium-title"
-            className="flex flex-col items-start rounded-3xl border border-border bg-linear-to-br from-violet-100 to-white p-5 sm:p-7"
-          >
-            <Sparkles className="size-6 text-violet-700" aria-hidden="true" />
-            <h3 id="premium-title" className="mt-4 font-display text-2xl">
-              {t("plan_premium")}
-            </h3>
-            <p className="mt-2 grow text-sm leading-relaxed text-muted-foreground">
-              {content.premiumBody}
-            </p>
-            <Link
-              to="/tarifs"
-              className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-primary hover:underline"
-            >
-              {content.premiumCta}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-          </section>
-        </div>
+        <Link
+          to="/a-propos"
+          aria-label={content.bannerAction}
+          className="mt-7 flex items-center justify-between gap-4 rounded-2xl bg-[radial-gradient(ellipse_at_80%_0%,#b300a2,transparent_75%),linear-gradient(110deg,#12052c,#401483)] p-5 text-white sm:px-7"
+        >
+          <span>
+            <span className="block font-display text-2xl">{content.bannerTitle}</span>
+            <span className="mt-1 block text-sm text-white/90">{content.bannerBody}</span>
+          </span>
+          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-white text-primary">
+            <ArrowRight className="size-5" aria-hidden="true" />
+          </span>
+        </Link>
       </section>
     </main>
   );

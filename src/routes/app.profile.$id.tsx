@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { ReportButton } from "@/components/report-button";
 import { BlockButton } from "@/components/block-button";
 import { ProtectedPhoto } from "@/components/protected-photo";
+import { relationshipIntentLabel } from "@/lib/relationship-intents";
 
 export const Route = createFileRoute("/app/profile/$id")({ component: ProfileDetail });
 
@@ -185,6 +186,7 @@ function MemberProfile({ id }: { id: string }) {
     { label: "Identité", value: profile.gender_identity?.replaceAll("_", " ") },
     { label: "Âge", value: profile.age != null ? `${profile.age} ans` : null },
     { label: "Ville", value: profile.city },
+    { label: "Relation recherchée", value: relationshipIntentLabel(profile.relationship_intent) },
   ].filter((detail) => detail.value);
   const heroControl =
     "grid size-10 place-items-center rounded-full bg-white/95 text-foreground shadow-sm transition hover:bg-white disabled:opacity-40";

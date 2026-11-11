@@ -4,8 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowLeft, ChevronRight, EyeOff, Heart, MessageCircle, User } from "lucide-react";
+import { ArrowLeft, EyeOff, MessageCircle, User } from "lucide-react";
 import { useBlockedIds } from "@/hooks/use-blocks";
+import { useMatches } from "@/hooks/use-matches";
+import { useNotifications } from "@/hooks/use-notifications";
+import { ProtectedPhoto } from "@/components/protected-photo";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/app/chat")({ component: ChatLayout });
@@ -68,23 +71,15 @@ function ChatList() {
     },
   });
 
-  const { data: matchCount } = useQuery({
-    queryKey: ["match-count", user?.id],
-    enabled: !!user,
-    queryFn: async () => {
-      const { count, error } = await supabase
-        .from("matches")
-        .select("id", { count: "exact", head: true });
-      if (error) throw error;
-      return count ?? 0;
-    },
-  });
+  const { unreadByConversation } = useNotifications();
 
   const visible =
     blockedIds && !blocksError
       ? convs?.filter((conversation) => !blockedIds.has(conversation.otherId))
       : [];
-  const date = new Intl.DateTimeFormat(lang, { dateStyle: "short", timeStyle: "short" });
+  const date = new Intl.DateTimeFormat(lang, { dateStyle: "short" });
+  const time = new Intl.DateTimeFormat(lang, { hour: "numeric", minute: "2-digit" });
+  const today = date.format(new Date());
 
   return (
     <main className="min-h-[calc(100svh-5rem)] bg-linear-to-b from-secondary via-background to-background text-foreground">
@@ -98,16 +93,8 @@ function ChatList() {
             <ArrowLeft className="size-5" aria-hidden="true" />
           </Link>
           <h1 className="font-display min-w-0 flex-1 text-3xl sm:text-4xl">{t("nav_chat")}</h1>
-          {matchCount !== undefined && (
-            <Link
-              to="/app/matches"
-              className="ml-auto inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-linear-to-r from-neon-magenta to-primary px-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-neon)] hover:brightness-95 sm:px-4"
-            >
-              <Heart className="size-4" fill="currentColor" aria-hidden="true" />
-              {matchCount} {french ? "matchs" : matchCount === 1 ? "match" : "matches"}
-            </Link>
-          )}
         </header>
+        <MatchStrip french={french} />
 
         {!blocksError && (blocksPending || (!!blockedIds && isPending)) && (
           <p
@@ -142,6 +129,7 @@ function ChatList() {
         {visible && visible.length > 0 && (
           <ul className="divide-y divide-border rounded-3xl border border-border bg-card p-1.5 shadow-[var(--shadow-surface)] sm:p-2">
             {visible.map(({ id, other, latest }) => {
+              const unread = unreadByConversation[id] ?? 0;
               const anon = !other || other.anonymous_mode;
               const active =
                 !anon &&
@@ -174,27 +162,46 @@ function ChatList() {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-                        <p className="min-w-0 truncate text-base font-bold">
-                          {anon ? (french ? "Anonyme" : "Anonymous") : other.pseudo}
-                        </p>
-                        {latest && (
-                          <time
-                            dateTime={latest.created_at}
-                            className="shrink-0 text-xs text-muted-foreground"
-                          >
-                            {date.format(new Date(latest.created_at))}
-                          </time>
-                        )}
-                      </div>
-                      <p className="mt-0.5 truncate text-sm text-muted-foreground">
+                      <p className="truncate text-base font-bold">
+                        {anon ? (french ? "Anonyme" : "Anonymous") : other.pseudo}
+                      </p>
+                      <p
+                        className={`mt-0.5 truncate text-sm ${unread > 0 ? "font-semibold" : "text-muted-foreground"}`}
+                      >
                         {messagePreview(latest?.content, french)}
                       </p>
                     </div>
-                    <ChevronRight
-                      className="size-4 shrink-0 text-muted-foreground group-hover:text-primary"
-                      aria-hidden="true"
-                    />
+                    <div className="flex shrink-0 flex-col items-end gap-1.5">
+                      {latest && (
+                        <time
+                          dateTime={latest.created_at}
+                          className="text-xs text-muted-foreground"
+                        >
+                          {date.format(new Date(latest.created_at)) === today
+                            ? time.format(new Date(latest.created_at))
+                            : date.format(new Date(latest.created_at))}
+                        </time>
+                      )}
+                      {unread > 0 && (
+                        <>
+                          <span
+                            aria-hidden="true"
+                            className="grid min-h-6 min-w-6 place-items-center rounded-full bg-neon-magenta px-1.5 text-xs font-bold text-white"
+                          >
+                            {unread}
+                          </span>
+                          <span className="sr-only">
+                            {french
+                              ? unread === 1
+                                ? "1 message non lu"
+                                : `${unread} messages non lus`
+                              : unread === 1
+                                ? "1 unread message"
+                                : `${unread} unread messages`}
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </Link>
                 </li>
               );
@@ -204,5 +211,94 @@ function ChatList() {
       </div>
       <BottomNav />
     </main>
+  );
+}
+
+function MatchStrip({ french }: { french: boolean }) {
+  const { matches, isPending, isError } = useMatches();
+  const tileClass = "flex w-16 flex-col items-center gap-1.5 rounded-xl px-1 py-1 sm:w-20";
+
+  return (
+    <section
+      aria-labelledby="inbox-matches"
+      className="mb-5 rounded-3xl border border-border bg-card px-4 pt-3 pb-2 shadow-[var(--shadow-surface)] sm:px-5"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h2 id="inbox-matches" className="flex items-center gap-2 text-lg font-bold">
+          {french ? "Matchs" : "Matches"}
+          {!!matches?.length && (
+            <span className="grid min-h-6 min-w-6 place-items-center rounded-full bg-neon-magenta px-1.5 text-xs font-bold text-white">
+              {matches.length}
+            </span>
+          )}
+        </h2>
+        <Link
+          to="/app/matches"
+          className="inline-flex min-h-11 items-center rounded-md px-1 text-sm font-semibold text-primary hover:underline"
+        >
+          {french ? "Voir tout" : "See all"}
+        </Link>
+      </div>
+      {isPending && (
+        <p role="status" className="pb-2 text-sm text-muted-foreground">
+          {french ? "Chargement des matchs…" : "Loading matches…"}
+        </p>
+      )}
+      {isError && !matches && (
+        <p role="alert" className="pb-2 text-sm text-muted-foreground">
+          {french ? "Impossible de charger les matchs." : "Could not load matches."}
+        </p>
+      )}
+      {matches?.length === 0 && (
+        <p className="pb-2 text-sm text-muted-foreground">
+          {french ? "Aucun match pour le moment" : "No matches yet"}
+        </p>
+      )}
+      {!!matches?.length && (
+        <ul className="-mx-1 flex snap-x gap-1 overflow-x-auto overscroll-x-contain px-1 py-2 sm:gap-2">
+          {matches.map(({ id, conversationId, otherId, other }) => {
+            const anonymous = !other || other.anonymous_mode;
+            const name = anonymous ? (french ? "Anonyme" : "Anonymous") : other.pseudo;
+            const content = (
+              <>
+                <div className="grid size-14 shrink-0 place-items-center overflow-hidden rounded-full bg-secondary text-primary ring-1 ring-border sm:size-16">
+                  {!anonymous && other.photo_url ? (
+                    <ProtectedPhoto
+                      src={other.photo_url}
+                      ownerId={other.id}
+                      ownerPseudo={other.pseudo}
+                      className="size-full"
+                      loading="lazy"
+                      silent
+                    />
+                  ) : anonymous ? (
+                    <EyeOff className="size-5" aria-hidden="true" />
+                  ) : (
+                    <User className="size-5" aria-hidden="true" />
+                  )}
+                </div>
+                <span className="w-full truncate text-center text-xs font-semibold">{name}</span>
+              </>
+            );
+            const linkClass = `${tileClass} hover:bg-secondary focus-visible:bg-secondary`;
+            return (
+              <li key={id} className="shrink-0 snap-start">
+                {conversationId ? (
+                  <Link to="/app/chat/$id" params={{ id: conversationId }} className={linkClass}>
+                    {content}
+                  </Link>
+                ) : !anonymous ? (
+                  <Link to="/app/profile/$id" params={{ id: otherId }} className={linkClass}>
+                    {content}
+                  </Link>
+                ) : (
+                  <div className={tileClass}>{content}</div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
   );
 }

@@ -13,7 +13,7 @@ type Item = {
 const items: Item[] = [
   { to: "/app/grid", label: "Découvrir", icon: Compass },
   { to: "/app/parties", label: "Soirées", icon: PartyPopper, badgeKey: "parties" },
-  { to: "/app/matches", label: "Matchs", icon: Heart },
+  { to: "/app/matches", label: "Likes", icon: Heart },
   { to: "/app/chat", label: "Messages", icon: MessageSquare, badgeKey: "messages" },
   { to: "/app/subscribe", label: "Premium", icon: Crown, accent: true },
   { to: "/app/me", label: "Profil", icon: User },
