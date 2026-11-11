@@ -1,121 +1,87 @@
-/**
- * Webhook RevenueCat → Supabase
- *
- * URL à coller dans RevenueCat (Project Settings → Integrations → Webhooks) :
- *   https://project--43e583f9-0012-4d9b-8bac-3cdddf600e04.lovable.app/api/public/revenuecat
- *
- * RevenueCat envoie un header `Authorization: Bearer <ton secret>` que tu définis
- * toi-même dans leur UI. On vérifie ce secret avant tout traitement.
- *
- * Avant utilisation : ajoute le secret REVENUECAT_WEBHOOK_SECRET via Lovable.
- */
 import { createFileRoute } from "@tanstack/react-router";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { getRevenueCatEntitlement } from "@/lib/revenuecat.server";
 
-type RCEvent = {
-  event: {
-    type: string;
-    app_user_id: string;
-    product_id?: string;
-    entitlement_ids?: string[];
-    expiration_at_ms?: number | null;
-    environment?: "SANDBOX" | "PRODUCTION";
-  };
+type RevenueCatEvent = {
+  type: string;
+  app_user_id?: string;
+  transferred_from?: string[];
+  transferred_to?: string[];
+  environment?: "SANDBOX" | "PRODUCTION";
 };
 
-const ENTITLEMENT_TO_TIER: Record<string, string> = {
-  ultra: "ultra",
-  premium: "premium",
-  monthly: "monthly",
-  basic_lite: "basic_lite",
-  day_pass: "day_pass",
-};
+const userIdPattern = /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
 
 export const Route = createFileRoute("/api/public/revenuecat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         const secret = process.env.REVENUECAT_WEBHOOK_SECRET;
-        if (!secret) {
-          return new Response("Webhook secret not configured", { status: 500 });
-        }
-
-        const auth = request.headers.get("authorization") ?? "";
-        if (auth !== `Bearer ${secret}`) {
+        if (!secret) return new Response("Webhook not configured", { status: 503 });
+        if (request.headers.get("authorization") !== `Bearer ${secret}`) {
           return new Response("Unauthorized", { status: 401 });
         }
 
-        let body: RCEvent;
+        let event: RevenueCatEvent | undefined;
         try {
-          body = (await request.json()) as RCEvent;
+          event = ((await request.json()) as { event?: RevenueCatEvent } | null)?.event;
         } catch {
           return new Response("Invalid JSON", { status: 400 });
         }
+        if (typeof event?.type !== "string") return new Response("Invalid event", { status: 400 });
+        if (event.type === "TEST") return new Response("ok");
 
-        const ev = body.event;
-        if (!ev?.app_user_id) {
-          return new Response("Missing app_user_id", { status: 400 });
+        const sandbox = process.env.REVENUECAT_ALLOW_SANDBOX === "true";
+        const environment = sandbox ? "sandbox" : "production";
+        if (event.environment != null && typeof event.environment !== "string") {
+          return new Response("Invalid event environment", { status: 400 });
+        }
+        if (event.environment && event.environment.toLowerCase() !== environment) {
+          return new Response("Other environment ignored");
         }
 
-        const type = ev.type;
+        const candidates =
+          event.type === "TRANSFER"
+            ? [
+                ...(Array.isArray(event.transferred_from) ? event.transferred_from : []),
+                ...(Array.isArray(event.transferred_to) ? event.transferred_to : []),
+              ]
+            : [event.app_user_id];
+        const users = [
+          ...new Set(
+            candidates.filter(
+              (id): id is string => typeof id === "string" && userIdPattern.test(id),
+            ),
+          ),
+        ];
+        if (!users.length) return new Response("No B.B.B account");
 
-        // Types d'événements qui activent un abonnement
-        const ACTIVATE = new Set([
-          "INITIAL_PURCHASE",
-          "RENEWAL",
-          "PRODUCT_CHANGE",
-          "UNCANCELLATION",
-          "NON_RENEWING_PURCHASE",
-        ]);
-        // Types qui désactivent
-        const DEACTIVATE = new Set([
-          "CANCELLATION",
-          "EXPIRATION",
-          "SUBSCRIPTION_PAUSED",
-        ]);
+        const project = process.env.REVENUECAT_PROJECT_ID;
+        const key = process.env.REVENUECAT_SECRET_API_KEY;
+        if (!project || !key) return new Response("RevenueCat API not configured", { status: 503 });
 
-        if (ACTIVATE.has(type)) {
-          const ent = ev.entitlement_ids?.[0];
-          const tier = ent ? ENTITLEMENT_TO_TIER[ent] ?? "monthly" : "monthly";
-          const expires = ev.expiration_at_ms
-            ? new Date(ev.expiration_at_ms).toISOString()
-            : null;
-
-          const { error } = await supabaseAdmin
-            .from("subscriptions")
-            .upsert(
-              {
-                user_id: ev.app_user_id,
-                tier,
-                expires_at: expires,
-                updated_at: new Date().toISOString(),
-              },
-              { onConflict: "user_id" },
+        try {
+          for (const userId of users) {
+            const checkedAt = new Date().toISOString();
+            const { tier, expiresAt } = await getRevenueCatEntitlement(
+              project,
+              userId,
+              environment,
+              key,
             );
-          if (error) {
-            console.error("RC webhook upsert error:", error);
-            return new Response("DB error", { status: 500 });
+            const { error } = await supabaseAdmin.rpc("reconcile_revenuecat_entitlement", {
+              _user_id: userId,
+              _tier: tier,
+              _expires_at: expiresAt,
+              _checked_at: checkedAt,
+            });
+            if (error) return new Response("Entitlement update failed", { status: 500 });
           }
-        } else if (DEACTIVATE.has(type)) {
-          const { error } = await supabaseAdmin
-            .from("subscriptions")
-            .upsert(
-              {
-                user_id: ev.app_user_id,
-                tier: "free",
-                expires_at: null,
-                updated_at: new Date().toISOString(),
-              },
-              { onConflict: "user_id" },
-            );
-          if (error) {
-            console.error("RC webhook deactivate error:", error);
-            return new Response("DB error", { status: 500 });
-          }
+        } catch {
+          return new Response("RevenueCat reconciliation failed", { status: 502 });
         }
-        // TEST / autres → on log et on répond 200
-        console.log("RC webhook:", type, ev.app_user_id, ev.environment);
-        return new Response("ok", { status: 200 });
+
+        return new Response("ok");
       },
     },
   },

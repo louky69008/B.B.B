@@ -459,6 +459,7 @@ export type Database = {
           photo_url: string | null
           pronouns: string | null
           pseudo: string
+          relationship_intent: string | null
           terms_accepted_at: string | null
           terms_version: string | null
           updated_at: string
@@ -479,6 +480,7 @@ export type Database = {
           photo_url?: string | null
           pronouns?: string | null
           pseudo: string
+          relationship_intent?: string | null
           terms_accepted_at?: string | null
           terms_version?: string | null
           updated_at?: string
@@ -499,6 +501,7 @@ export type Database = {
           photo_url?: string | null
           pronouns?: string | null
           pseudo?: string
+          relationship_intent?: string | null
           terms_accepted_at?: string | null
           terms_version?: string | null
           updated_at?: string
@@ -602,6 +605,7 @@ export type Database = {
           created_at: string
           expires_at: string | null
           id: string
+          revenuecat_checked_at: string | null
           tier: string
           updated_at: string
           user_id: string
@@ -610,6 +614,7 @@ export type Database = {
           created_at?: string
           expires_at?: string | null
           id?: string
+          revenuecat_checked_at?: string | null
           tier: string
           updated_at?: string
           user_id: string
@@ -618,6 +623,7 @@ export type Database = {
           created_at?: string
           expires_at?: string | null
           id?: string
+          revenuecat_checked_at?: string | null
           tier?: string
           updated_at?: string
           user_id?: string
@@ -650,6 +656,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      decide_party_request: {
+        Args: { _request_id: string; _accept: boolean }
+        Returns: undefined
+      }
       delete_my_account: { Args: never; Returns: undefined }
       get_party_private_details: {
         Args: { _party_id: string }
@@ -667,6 +677,15 @@ export type Database = {
         Returns: boolean
       }
       is_ultra: { Args: { _user_id: string }; Returns: boolean }
+      reconcile_revenuecat_entitlement: {
+        Args: {
+          _user_id: string
+          _tier: string
+          _expires_at: string | null
+          _checked_at: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "user" | "moderator" | "admin"
