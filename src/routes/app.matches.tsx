@@ -3,14 +3,19 @@ import { BottomNav } from "@/components/bottom-nav";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowLeft, EyeOff, Heart, MessageSquare } from "lucide-react";
+import { ArrowLeft, EyeOff, Heart, MessageSquare, User } from "lucide-react";
+import { ProtectedPhoto } from "@/components/protected-photo";
 
 export const Route = createFileRoute("/app/matches")({ component: MatchesList });
 
 function MatchesList() {
   const { user } = useAuth();
 
-  const { data: matches, isLoading } = useQuery({
+  const {
+    data: matches,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["matches", user?.id],
     enabled: !!user,
     queryFn: async () => {
@@ -36,59 +41,123 @@ function MatchesList() {
   });
 
   return (
-    <main className="min-h-screen bg-black text-white flex justify-center">
-      <div className="relative w-full max-w-[420px] pb-24">
-        <header className="flex items-center gap-3 px-3 py-3 border-b border-neutral-800 sticky top-0 bg-black/95 backdrop-blur z-10">
-          <Link to="/app/grid" className="p-1"><ArrowLeft className="size-5" /></Link>
-          <h1 className="text-lg font-bold flex-1">Mes matchs</h1>
-          <div className="flex items-center gap-1 text-xs text-pink-500">
-            <Heart className="size-4 fill-pink-500" /> {matches?.length ?? 0}
-          </div>
+    <main className="min-h-svh bg-background text-foreground">
+      <div className="mx-auto max-w-6xl px-4 pt-5 pb-24 sm:px-7 sm:pt-8 lg:px-10">
+        <header className="mb-6 flex items-center gap-3 sm:gap-4">
+          <Link
+            to="/app/grid"
+            aria-label="Retour à Découvrir"
+            className="grid size-11 shrink-0 place-items-center rounded-full border border-border bg-card hover:bg-secondary"
+          >
+            <ArrowLeft className="size-5" aria-hidden="true" />
+          </Link>
+          <h1 className="flex-1 font-display text-3xl sm:text-4xl">Mes matchs</h1>
+          {matches && (
+            <span
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-secondary px-3 py-2 text-sm font-bold text-primary"
+              aria-label={`${matches.length} matchs`}
+            >
+              <Heart className="size-4 fill-current" aria-hidden="true" /> {matches.length}
+            </span>
+          )}
         </header>
 
         {isLoading && (
-          <div className="text-center text-neutral-500 text-sm mt-16">Chargement…</div>
+          <p
+            className="rounded-3xl bg-secondary p-8 text-center text-sm text-muted-foreground"
+            role="status"
+          >
+            Chargement des matchs…
+          </p>
+        )}
+        {isError && !matches && (
+          <p
+            className="rounded-3xl bg-secondary p-8 text-center text-sm text-muted-foreground"
+            role="alert"
+          >
+            Les matchs n’ont pas pu être chargés.
+          </p>
         )}
 
-        {matches && matches.length === 0 && (
-          <div className="text-center text-neutral-500 text-sm mt-16 px-6">
-            Aucun match pour le moment. Continue à liker des profils 💖
+        {matches?.length === 0 && (
+          <div className="rounded-3xl border border-border bg-secondary px-5 py-10 text-center">
+            <span className="mx-auto mb-3 grid size-12 place-items-center rounded-full bg-background text-neon-magenta">
+              <Heart className="size-5" aria-hidden="true" />
+            </span>
+            <p className="font-semibold">Aucun match pour le moment</p>
+            <Link
+              to="/app/grid"
+              className="mt-3 inline-flex min-h-10 items-center rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground"
+            >
+              Découvrir les profils
+            </Link>
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-2 p-2">
-          {matches?.map((m) => {
-            const anon = m.other?.anonymous_mode;
-            return (
-              <Link
-                key={m.id}
-                to="/app/chat/$id"
-                params={{ id: m.conversation_id ?? "" }}
-                className="relative aspect-square rounded-lg overflow-hidden bg-neutral-900 group"
-              >
-                {anon ? (
-                  <div className="size-full flex items-center justify-center bg-neutral-800">
-                    <EyeOff className="size-8 text-neutral-400" />
+        {!!matches?.length && (
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4">
+            {matches.map(({ id, other, conversation_id }) => {
+              const anonymous = other?.anonymous_mode ?? true;
+              const name = anonymous ? "Anonyme" : other?.pseudo;
+              const content = (
+                <>
+                  {!anonymous && other?.photo_url ? (
+                    <ProtectedPhoto
+                      src={other.photo_url}
+                      ownerId={other.id}
+                      ownerPseudo={other.pseudo}
+                      className="size-full transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      silent
+                    />
+                  ) : (
+                    <div className="grid size-full place-items-center bg-linear-to-br from-secondary to-accent text-primary/60">
+                      {anonymous ? (
+                        <EyeOff className="size-9" aria-hidden="true" />
+                      ) : (
+                        <User className="size-9" aria-hidden="true" />
+                      )}
+                    </div>
+                  )}
+                  <div
+                    className="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/95 via-slate-950/10 via-55% to-transparent"
+                    aria-hidden="true"
+                  />
+                  <span className="absolute top-3 right-3 grid size-8 place-items-center rounded-full bg-white text-neon-magenta shadow-sm">
+                    <Heart className="size-4 fill-current" aria-hidden="true" />
+                  </span>
+                  <div className="absolute inset-x-0 bottom-0 p-3 text-white sm:p-4">
+                    <p className="flex items-baseline text-sm font-bold sm:text-base">
+                      <span className="truncate">{name}</span>
+                      {!anonymous && other?.age != null && (
+                        <span className="shrink-0">, {other.age}</span>
+                      )}
+                    </p>
+                    {conversation_id && (
+                      <p className="mt-1 flex items-center gap-1.5 text-xs text-white/90">
+                        <MessageSquare className="size-3.5 shrink-0" aria-hidden="true" /> Envoyer
+                        un message
+                      </p>
+                    )}
                   </div>
-                ) : m.other?.photo_url ? (
-                  <img src={m.other.photo_url} alt="" className="size-full object-cover" />
-                ) : (
-                  <div className="size-full bg-neutral-800" />
-                )}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-2">
-                  <p className="text-sm font-semibold truncate">
-                    {anon ? "Anonyme" : (m.other?.pseudo ?? "…")}
-                    {!anon && m.other?.age ? `, ${m.other.age}` : ""}
-                  </p>
-                  <div className="flex items-center gap-1 text-[10px] text-neutral-300">
-                    <MessageSquare className="size-3" /> Envoyer un message
-                  </div>
-                </div>
-                <Heart className="absolute top-2 right-2 size-4 fill-pink-500 text-pink-500 drop-shadow" />
-              </Link>
-            );
-          })}
-        </div>
+                </>
+              );
+              const cardClass =
+                "group relative isolate block aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-sm sm:rounded-3xl";
+              return (
+                <li key={id}>
+                  {conversation_id ? (
+                    <Link to="/app/chat/$id" params={{ id: conversation_id }} className={cardClass}>
+                      {content}
+                    </Link>
+                  ) : (
+                    <article className={cardClass}>{content}</article>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <BottomNav />
     </main>

@@ -1,30 +1,34 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight, Heart, KeyRound, LockKeyhole, UserRoundPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/lib/i18n";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 type AuthMode = "login" | "signup" | "forgot" | "recovery";
-type AuthSearch = { mode?: "recovery" };
+type AuthSearch = { mode?: "signup" | "recovery" };
+
+const fieldClass = "h-12 rounded-xl border-[#e1dcef] bg-[#faf9fe] px-4 shadow-none";
+const textLinkClass =
+  "inline-flex min-h-10 items-center rounded-md font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): AuthSearch => ({
-    mode: search.mode === "recovery" ? "recovery" : undefined,
+    mode: search.mode === "signup" || search.mode === "recovery" ? search.mode : undefined,
   }),
   component: AuthPage,
 });
 
 function AuthPage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { user } = useAuth();
   const navigate = useNavigate();
   const search = Route.useSearch();
-  const [mode, setMode] = useState<AuthMode>(search.mode === "recovery" ? "recovery" : "login");
+  const [mode, setMode] = useState<AuthMode>(search.mode ?? "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -33,7 +37,7 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (search.mode === "recovery") setMode("recovery");
+    setMode(search.mode ?? "login");
   }, [search.mode]);
 
   useEffect(() => {
@@ -125,127 +129,172 @@ function AuthPage() {
     }
   };
 
-  const title =
-    mode === "signup"
-      ? t("signup")
-      : mode === "forgot"
-        ? "Mot de passe oublié"
-        : mode === "recovery"
-          ? "Définir un nouveau mot de passe"
-          : t("login");
+  const fr = lang === "fr";
+  const copy = {
+    login: {
+      title: t("login"),
+      description: fr ? "Ravi de te revoir sur B.B.B." : "Welcome back to B.B.B.",
+      action: t("cta_login"),
+      Icon: Heart,
+    },
+    signup: {
+      title: t("signup"),
+      description: fr ? "Rejoins la communauté B.B.B." : "Join the B.B.B. community.",
+      action: fr ? "Créer un compte" : "Create an account",
+      Icon: UserRoundPlus,
+    },
+    forgot: {
+      title: fr ? "Mot de passe oublié" : "Forgot password",
+      description: fr
+        ? "Tu recevras un lien sécurisé pour choisir un nouveau mot de passe."
+        : "We’ll send you a secure link to choose a new password.",
+      action: fr ? "Envoyer le lien" : "Send the link",
+      Icon: KeyRound,
+    },
+    recovery: {
+      title: fr ? "Définir un nouveau mot de passe" : "Choose a new password",
+      description: fr
+        ? "Choisis un mot de passe unique d’au moins 8 caractères."
+        : "Choose a unique password with at least 8 characters.",
+      action: fr ? "Enregistrer le mot de passe" : "Save password",
+      Icon: LockKeyhole,
+    },
+  }[mode];
 
   return (
-    <main className="mx-auto max-w-md px-4 py-12">
-      <div className="rounded-2xl border border-border bg-card p-6">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        {mode === "forgot" && (
-          <p className="mt-2 text-sm text-muted-foreground">
-            Nous vous enverrons un lien sécurisé pour choisir un nouveau mot de passe.
-          </p>
-        )}
-        {mode === "recovery" && (
-          <p className="mt-2 text-sm text-muted-foreground">
-            Choisissez un mot de passe unique d’au moins 8 caractères.
-          </p>
-        )}
-        <form onSubmit={submit} className="mt-6 space-y-4">
-          {mode === "signup" && (
-            <div>
-              <Label htmlFor="pseudo">{t("pseudo")}</Label>
-              <Input
-                id="pseudo"
-                value={pseudo}
-                onChange={(e) => setPseudo(e.target.value)}
-                required
-                minLength={2}
-                maxLength={30}
-              />
-            </div>
-          )}
+    <main className="bg-[#f4f5fc] px-4 py-7 text-[#100936] sm:py-12 lg:py-16">
+      <div className="mx-auto w-full max-w-[27rem]">
+        <Link to="/" className={`${textLinkClass} mb-3 gap-2 text-sm`}>
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          {fr ? "Accueil" : "Home"}
+        </Link>
+        <section
+          aria-labelledby="auth-title"
+          className="rounded-[1.6rem] border border-[#eeebf8] bg-white px-6 py-7 shadow-[0_10px_34px_#2920640b] sm:px-9 sm:py-9"
+        >
+          <div className="text-center">
+            <span className="mx-auto mb-4 grid size-14 place-items-center rounded-full bg-[#fbe8fc] text-primary">
+              <copy.Icon className="size-6" aria-hidden="true" />
+            </span>
+            <h1 id="auth-title" className="font-display text-3xl leading-tight font-bold">
+              {copy.title}
+            </h1>
+            <p className="mt-2 text-sm leading-relaxed text-[#514982]">{copy.description}</p>
+          </div>
+          <form onSubmit={submit} className="mt-7 space-y-4">
+            {mode === "signup" && (
+              <div className="grid gap-2">
+                <Label htmlFor="pseudo">{t("pseudo")}</Label>
+                <Input
+                  id="pseudo"
+                  className={fieldClass}
+                  autoComplete="nickname"
+                  value={pseudo}
+                  onChange={(e) => setPseudo(e.target.value)}
+                  required
+                  minLength={2}
+                  maxLength={30}
+                />
+              </div>
+            )}
+            {mode !== "recovery" && (
+              <div className="grid gap-2">
+                <Label htmlFor="email">{t("email")}</Label>
+                <Input
+                  id="email"
+                  className={fieldClass}
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+            {mode !== "forgot" && (
+              <div className="grid gap-2">
+                <Label htmlFor="password">
+                  {mode === "recovery"
+                    ? fr
+                      ? "Nouveau mot de passe"
+                      : "New password"
+                    : t("password")}
+                </Label>
+                <Input
+                  id="password"
+                  className={fieldClass}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={mode === "recovery" ? 8 : 6}
+                  autoComplete={mode === "login" ? "current-password" : "new-password"}
+                />
+              </div>
+            )}
+            {mode === "recovery" && (
+              <div className="grid gap-2">
+                <Label htmlFor="password-confirmation">
+                  {fr ? "Confirmer le mot de passe" : "Confirm password"}
+                </Label>
+                <Input
+                  id="password-confirmation"
+                  className={fieldClass}
+                  type="password"
+                  value={passwordConfirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                />
+              </div>
+            )}
+            {mode === "signup" && (
+              <label className="flex min-h-10 cursor-pointer items-center gap-2.5 text-sm text-[#514982]">
+                <Checkbox
+                  className="size-[1.125rem] border-[#9c91ba]"
+                  checked={adult}
+                  onCheckedChange={(v) => setAdult(v === true)}
+                />
+                {t("age_confirm")}
+              </label>
+            )}
+            <button
+              type="submit"
+              disabled={busy}
+              className="neon-btn min-h-12 w-full gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >
+              {copy.action}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </button>
+          </form>
+
           {mode !== "recovery" && (
-            <div>
-              <Label htmlFor="email">{t("email")}</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+            <div className="mt-3 text-center text-sm text-[#514982]">
+              {mode === "login" && (
+                <button type="button" onClick={() => setMode("forgot")} className={textLinkClass}>
+                  {fr ? "Mot de passe oublié ?" : "Forgot your password?"}
+                </button>
+              )}
+              {mode === "forgot" ? (
+                <button type="button" onClick={() => setMode("login")} className={textLinkClass}>
+                  {fr ? "Retour à la connexion" : "Back to log in"}
+                </button>
+              ) : (
+                <p className="mt-1 flex flex-wrap items-center justify-center gap-x-1.5 border-t border-[#eeebf8] pt-2">
+                  {mode === "login" ? t("no_account") : t("have_account")}
+                  <Link
+                    to="/auth"
+                    search={{ mode: mode === "login" ? "signup" : undefined }}
+                    className={textLinkClass}
+                  >
+                    {mode === "login" ? (fr ? "S’inscrire" : "Sign up") : t("cta_login")}
+                  </Link>
+                </p>
+              )}
             </div>
           )}
-          {mode !== "forgot" && (
-            <div>
-              <Label htmlFor="password">
-                {mode === "recovery" ? "Nouveau mot de passe" : t("password")}
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={mode === "recovery" ? 8 : 6}
-                autoComplete={mode === "recovery" ? "new-password" : "current-password"}
-              />
-            </div>
-          )}
-          {mode === "recovery" && (
-            <div>
-              <Label htmlFor="password-confirmation">Confirmer le mot de passe</Label>
-              <Input
-                id="password-confirmation"
-                type="password"
-                value={passwordConfirmation}
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                required
-                minLength={8}
-                autoComplete="new-password"
-              />
-            </div>
-          )}
-          {mode === "signup" && (
-            <label className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Checkbox checked={adult} onCheckedChange={(v) => setAdult(v === true)} />
-              {t("age_confirm")}
-            </label>
-          )}
-          <Button type="submit" disabled={busy} className="w-full">
-            {mode === "signup"
-              ? t("signup")
-              : mode === "forgot"
-                ? "Envoyer le lien"
-                : mode === "recovery"
-                  ? "Enregistrer le mot de passe"
-                  : t("login")}
-          </Button>
-        </form>
-
-        {mode === "login" && (
-          <button
-            type="button"
-            onClick={() => setMode("forgot")}
-            className="mt-4 w-full text-center text-sm text-muted-foreground hover:text-foreground"
-          >
-            Mot de passe oublié ?
-          </button>
-        )}
-
-        {mode !== "recovery" && (
-          <button
-            type="button"
-            onClick={() =>
-              setMode(mode === "signup" ? "login" : mode === "login" ? "signup" : "login")
-            }
-            className="mt-3 w-full text-center text-sm text-muted-foreground hover:text-foreground"
-          >
-            {mode === "signup"
-              ? t("have_account")
-              : mode === "login"
-                ? t("no_account")
-                : "Retour à la connexion"}
-          </button>
-        )}
+        </section>
       </div>
     </main>
   );

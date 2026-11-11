@@ -46,35 +46,35 @@
   color-scheme: light;
   --radius: 1rem;
   --background: #ffffff;
-  --foreground: #201039;
+  --foreground: #100936;
   --card: #ffffff;
-  --card-foreground: #201039;
+  --card-foreground: #100936;
   --popover: #ffffff;
-  --popover-foreground: #201039;
-  --primary: #7c3aed;
-  --primary-hover: #6d28d9;
+  --popover-foreground: #100936;
+  --primary: #5b00fa;
+  --primary-hover: #4800c8;
   --primary-foreground: #ffffff;
-  --secondary: #f7f3ff;
-  --secondary-foreground: #6d28d9;
-  --muted: #f7f3ff;
-  --muted-foreground: #756785;
-  --accent: #efe5ff;
-  --accent-foreground: #6d28d9;
+  --secondary: #f3edff;
+  --secondary-foreground: #5b00fa;
+  --muted: #f4f5fc;
+  --muted-foreground: #554d85;
+  --accent: #ede4ff;
+  --accent-foreground: #5500e8;
   --destructive: #be123c;
   --destructive-foreground: #ffffff;
-  --border: #e7dff1;
-  --input: #c3b4d4;
-  --ring: #7c3aed;
+  --border: #e9e8f5;
+  --input: #ccc8e7;
+  --ring: #7100ff;
   --online: #15803d;
   --recent: #b45309;
   --offline: #756785;
-  --neon-magenta: #c026d3;
+  --neon-magenta: #c800de;
   /* Alias conservés pour les écrans migrés dans les prochains lots. */
   --neon-cyan: #7c3aed;
   --neon-lime: #6d28d9;
   --grid-color: rgba(124, 58, 237, 0.06);
   --overlay: rgba(32, 16, 57, 0.45);
-  --shadow-neon: 0 4px 18px rgba(124, 58, 237, 0.22);
+  --shadow-neon: 0 5px 16px rgba(112, 0, 250, 0.24);
   --shadow-surface: 0 12px 40px rgba(32, 16, 57, 0.08);
 }
 
@@ -120,11 +120,11 @@
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 44px; padding: 12px 24px; border-radius: 999px;
   font-weight: 600; font-size: 14px;
-  background: linear-gradient(110deg, var(--neon-magenta), var(--primary));
+  background: linear-gradient(105deg, #dc00ee, #9700f8 52%, #5b00fa);
   color: var(--primary-foreground); border: 1px solid transparent;
   font-family: var(--font-sans); cursor: pointer;
   transition: transform .15s, box-shadow .15s;
-  box-shadow: var(--shadow-neon);
+  box-shadow: inset 0 1px 5px rgba(255, 255, 255, 0.38), var(--shadow-neon);
 }
 .neon-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(124, 58, 237, 0.28); }
 .neon-btn:disabled { pointer-events: none; opacity: 0.5; }
