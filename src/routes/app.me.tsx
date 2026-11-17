@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { ArrowLeft, X, Crown, LogOut } from "lucide-react";
 import { PhotoUpload } from "@/components/photo-upload";
 import { DeleteAccountButton } from "@/components/delete-account-button";
+import { RELATIONSHIP_INTENTS } from "@/lib/relationship-intents";
 
 export const Route = createFileRoute("/app/me")({ component: Me });
 
@@ -56,6 +57,7 @@ function Me() {
       pseudo: form.pseudo, bio: form.bio, gender_identity: form.gender_identity,
       pronouns: form.pronouns, orientation: form.orientation, age: form.age ? Number(form.age) : null,
       city: form.city, photo_url: form.photo_url,
+      relationship_intent: form.relationship_intent ?? null,
       hide_status: form.hide_status, anonymous_mode: form.anonymous_mode,
     }).eq("id", user!.id);
     if (error) { toast.error(error.message); return; }
@@ -189,6 +191,16 @@ function Me() {
               <Select value={form.orientation ?? "gay"} onValueChange={(v) => set("orientation", v)}>
                 <SelectTrigger className="bg-neutral-900 border-neutral-700 text-white"><SelectValue /></SelectTrigger>
                 <SelectContent>{ORIENTATIONS.map((o) => <SelectItem key={o} value={o}>{o.replace("_", " ")}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
+            <div className="col-span-2">
+              <Label htmlFor="relationship-intent" className="text-neutral-300">Relation recherchée</Label>
+              <Select value={form.relationship_intent ?? "unset"} onValueChange={(value) => set("relationship_intent", value === "unset" ? null : value)}>
+                <SelectTrigger id="relationship-intent" className="bg-neutral-900 border-neutral-700 text-white"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="unset">Non renseignée</SelectItem>
+                  {Object.entries(RELATIONSHIP_INTENTS).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}
+                </SelectContent>
               </Select>
             </div>
           </div>

@@ -1,96 +1,139 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
 import { useSubscription } from "@/hooks/use-subscription";
 import { TIERS, type Tier } from "@/lib/subscriptions";
-import { ArrowLeft, Check, Crown } from "lucide-react";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { Check } from "lucide-react";
+import { BottomNav } from "@/components/bottom-nav";
+import { PremiumFeatureCard } from "@/components/premium-feature-card";
+import { revenueCatCheckoutUrl } from "@/lib/web-checkout";
 
-export const Route = createFileRoute("/app/subscribe")({ component: Subscribe });
+const isCheckoutConfigured = createServerFn({ method: "GET" }).handler(() =>
+  Boolean(
+    process.env.REVENUECAT_WEBHOOK_SECRET &&
+    process.env.REVENUECAT_PROJECT_ID &&
+    process.env.REVENUECAT_SECRET_API_KEY &&
+    process.env.SUPABASE_URL &&
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+  ),
+);
+
+export const Route = createFileRoute("/app/subscribe")({
+  loader: () => isCheckoutConfigured(),
+  component: Subscribe,
+});
+
+const packages: Partial<Record<Tier, string>> = {
+  basic_lite: import.meta.env.VITE_REVENUECAT_PACKAGE_BASIC_LITE,
+  monthly: import.meta.env.VITE_REVENUECAT_PACKAGE_MONTHLY,
+  premium: import.meta.env.VITE_REVENUECAT_PACKAGE_PREMIUM,
+  ultra: import.meta.env.VITE_REVENUECAT_PACKAGE_ULTRA,
+  day_pass: import.meta.env.VITE_REVENUECAT_PACKAGE_DAY_PASS,
+};
 
 function Subscribe() {
   const { user } = useAuth();
   const { tier: current } = useSubscription();
-  const qc = useQueryClient();
-  const navigate = useNavigate();
-
-  const choose = async (tier: Tier) => {
-    if (!user) return;
-    // Simulation: pas de paiement réel, on stocke juste le tier choisi
-    const expires = tier === "day_pass"
-      ? new Date(Date.now() + 24 * 3600 * 1000).toISOString()
-      : tier === "free" ? null
-      : new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();
-    const { error } = await supabase.from("subscriptions").upsert({
-      user_id: user.id, tier, expires_at: expires, updated_at: new Date().toISOString(),
-    }, { onConflict: "user_id" });
-    if (error) { toast.error(error.message); return; }
-    toast.success(`Abonnement ${tier} activé (démo)`);
-    qc.invalidateQueries({ queryKey: ["subscription", user.id] });
-    navigate({ to: "/app/grid" });
-  };
+  const checkoutConfigured = Route.useLoaderData();
+  const offers = TIERS.map((plan) => ({
+    plan,
+    checkout: checkoutConfigured
+      ? revenueCatCheckoutUrl(
+          import.meta.env.VITE_REVENUECAT_WEB_PURCHASE_LINK,
+          user?.id,
+          packages[plan.id],
+        )
+      : null,
+  }));
 
   return (
-    <main className="min-h-screen bg-black text-white flex justify-center">
-      <div className="w-full max-w-[420px] pb-12">
-        <header className="flex items-center gap-3 px-3 py-3 border-b border-neutral-800 sticky top-0 bg-black/95 backdrop-blur z-10">
-          <Link to="/app/grid" className="p-1"><ArrowLeft className="size-5" /></Link>
-          <h1 className="text-lg font-bold flex items-center gap-2"><Crown className="size-5 text-yellow-400" /> Abonnements</h1>
-        </header>
-
-        <div className="px-3 pt-4 space-y-3">
-          <p className="text-xs text-neutral-500 text-center">
-            ⚠️ Mode démo — paiement réel à brancher plus tard
-          </p>
-          {TIERS.map((t) => {
-            const isCurrent = current === t.id;
-            return (
-              <div key={t.id}
-                className={`rounded-2xl p-4 border ${
-                  t.highlight ? "border-yellow-400 bg-gradient-to-br from-yellow-400/15 to-pink-500/10"
-                  : "border-neutral-800 bg-neutral-950"
-                }`}>
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <h2 className="text-lg font-bold flex items-center gap-2">
-                      {t.name}
-                      {t.highlight && <span className="text-[10px] uppercase tracking-wider bg-yellow-400 text-black px-2 py-0.5 rounded-full">Populaire</span>}
-                    </h2>
-                    <p className="text-2xl font-bold mt-1">{t.price}<span className="text-sm text-neutral-400 font-normal">{t.period}</span></p>
+    <main className="min-h-screen bg-secondary/40 text-foreground">
+      <div className="mx-auto max-w-5xl px-4 pt-7 pb-24 sm:px-6 sm:pt-12">
+        <h1 className="mb-5 font-display text-3xl sm:text-4xl">Abonnements</h1>
+        <PremiumFeatureCard plansSection />
+        <div id="plans" className="mt-6 scroll-mt-24">
+          {offers.every(({ checkout }) => !checkout) && (
+            <p className="mb-4 rounded-xl border border-border bg-card p-3 text-sm text-muted-foreground">
+              Le paiement en ligne est actuellement indisponible.
+            </p>
+          )}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {offers.map(({ plan: t, checkout }) => {
+              const isCurrent = current === t.id;
+              return (
+                <div
+                  key={t.id}
+                  className={`flex flex-col rounded-3xl border p-5 ${
+                    t.highlight
+                      ? "border-violet-300 bg-linear-to-br from-white to-violet-100 shadow-[var(--shadow-neon)]"
+                      : "border-border bg-card shadow-sm"
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h2 className="text-lg font-bold flex items-center gap-2">
+                        {t.name}
+                        {t.highlight && (
+                          <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-primary-foreground">
+                            Populaire
+                          </span>
+                        )}
+                      </h2>
+                      <p className="mt-1 text-2xl font-bold">
+                        {t.price}
+                        <span className="text-sm font-normal text-muted-foreground">
+                          {t.period}
+                        </span>
+                      </p>
+                    </div>
+                    {isCurrent && (
+                      <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-xs text-emerald-800">
+                        Actif
+                      </span>
+                    )}
                   </div>
-                  {isCurrent && <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">Actif</span>}
-                </div>
-                <ul className="text-sm space-y-1 text-neutral-300">
-                  <Feature ok>{t.profileLimit === -1 ? "Profils illimités" : `Jusqu'à ${t.profileLimit} profils`}</Feature>
-                  <Feature ok={t.filtersAdvanced}>Filtres avancés</Feature>
-                  <Feature ok={t.noAds}>Sans publicité</Feature>
-                  <Feature ok={t.icebreakersAI}>Icebreakers IA</Feature>
-                  <Feature ok={t.incognito}>Mode invisible</Feature>
-                  <Feature ok={t.watermark}>Filigrane anti-réutilisation sur tes photos 💧</Feature>
-                </ul>
+                  <ul className="mb-5 grow space-y-2 text-sm">
+                    <Feature ok>
+                      {t.profileLimit === -1
+                        ? "Profils illimités"
+                        : `Jusqu'à ${t.profileLimit} profils`}
+                    </Feature>
+                    <Feature ok={t.icebreakersAI}>Icebreakers IA</Feature>
+                    <Feature ok={t.id === "premium" || t.id === "ultra"}>Voir qui t’aime</Feature>
+                    <Feature ok={t.watermark}>Filigrane sur tes photos</Feature>
+                  </ul>
 
-                <button onClick={() => choose(t.id)} disabled={isCurrent}
-                  className={`mt-3 w-full h-11 rounded-full font-bold ${
-                    isCurrent ? "bg-neutral-800 text-neutral-500"
-                    : t.highlight ? "bg-yellow-400 text-black"
-                    : "bg-white text-black"
-                  }`}>
-                  {isCurrent ? "Activé" : "Choisir"}
-                </button>
-              </div>
-            );
-          })}
+                  {checkout && !isCurrent ? (
+                    <a
+                      href={checkout}
+                      className={`neon-btn w-full ${t.highlight ? "" : "neon-btn-ghost"}`}
+                    >
+                      Choisir {t.name}
+                    </a>
+                  ) : (
+                    <button type="button" disabled className="neon-btn neon-btn-ghost w-full">
+                      {isCurrent ? "Activé" : t.id === "free" ? "Offre gratuite" : "Indisponible"}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
+      <BottomNav />
     </main>
   );
 }
 
 function Feature({ ok, children }: { ok?: boolean; children: React.ReactNode }) {
   return (
-    <li className={`flex items-center gap-2 ${ok ? "" : "text-neutral-600 line-through"}`}>
-      <Check className={`size-4 ${ok ? "text-green-400" : "text-neutral-700"}`} /> {children}
+    <li className={`flex items-center gap-2 ${ok ? "" : "text-muted-foreground line-through"}`}>
+      <Check
+        className={`size-4 shrink-0 ${ok ? "text-primary" : "text-muted-foreground"}`}
+        aria-hidden="true"
+      />{" "}
+      {children}
     </li>
   );
 }
